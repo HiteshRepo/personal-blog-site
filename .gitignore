@@ -1,0 +1,27 @@
+# Node modules (if you're using Node.js)
+node_modules/
+
+# Build output directory
+/public/
+
+# Local development files
+/.idea/
+/.vscode/
+/.DS_Store
+
+# Log files
+*.log
+
+# Environment variables (if applicable)
+.env
+
+# Backup files
+*.bak
+*.tmp
+
+# Hugo lock file
+.hugo_build.lock
+
+# Generated CSS and JSON files
+resources/_gen/assets/ananke/css/main.css_*
+resources/_gen/assets/ananke/css/main.css_*.json
