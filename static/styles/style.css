@@ -185,7 +185,7 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: #5a5a5a; /* Greyish color for links */
-    font-size: 1.8rem; /* Increased font size */
+    font-size: 1.6rem; /* Increased font size */
     font-weight: 700;
     transition: color 0.3s ease; /* Smooth transition on hover */
 }
