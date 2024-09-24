@@ -1,16 +1,8 @@
-baseURL = 'https://hitesh.pattanayak.me/'
+baseURL = 'http://localhost:1313/'
 languageCode = 'en-us'
-title = 'Geeky detox'
+title = 'geeky detox'
 theme = "gohugo-theme-ananke"
 
-[[menu.main]]
-name = "About Me"
-url = "/about/"
-title = 'Hitesh Kumar Pattanayak'
-weight = 2
-
-[[menu.main]]
-name = "Non Tech"
-url = "/nontech/"
-title = 'Diff Space'
-weight = 2
+[params]
+    github = "https://github.com/HiteshRepo"
+    linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"

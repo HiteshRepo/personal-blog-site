@@ -1,3 +1,9 @@
+---
+title: 'Fundamentally strong stocks to invest'
+date: 2023-11-14
+summary: 'Highlights steps to choose fundamentally strong stocks using TickerTape'
+---
+
 # Steps to choose fundamentally strong stocks to invest
 
 **Disclaimer**: This is not a stock recommendation or the process to choose is not full-proof and does not gurantee all-weather stocks. The idea is to understand the underlying concepts. Also this is based on experiences with Indian stock exchanges.

@@ -1,3 +1,9 @@
+---
+title: 'Tricky gRPC load balancing'
+date: 2023-05-24
+summary: 'Emulates and resolves load balancing problems with gRPC'
+---
+
 # Tricky gRPC load balancing
 
 gRPC has many benefits, like:
