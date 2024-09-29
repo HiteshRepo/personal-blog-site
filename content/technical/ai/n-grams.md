@@ -58,7 +58,7 @@ For now, just remember: **temperature governs the ‘creativity’ of the LLM mo
 
 ## LLMs: Auto-Complete on Steroids!
 
-So, in essence, LLMs can be referred to as **auto-complete on steroids**. But wait, you might be thinking, “What do you mean by the ‘base model’?” Yes, my friend, there are other models! Just like we have versions of our favorite apps, LLMs also have various models based on their capabilities. We’ll explore these in future posts. 
+So, in essence, LLMs base model(s) can be referred to as **auto-complete on steroids**. But wait, you might be thinking, “What do you mean by the ‘base model’?” Yes, my friend, there are other models! Just like we have versions of our favorite apps, LLMs also have various models based on their capabilities. We’ll explore these in future posts. 
 
 ## Understanding N-Grams and Their Role in Text Prediction
 
@@ -95,7 +95,7 @@ Unlike your browser, which uses only the first few words as context to suggest t
 
 Predicting the next word using a thousand-gram sequence would be incredibly compute-intensive if done purely with N-grams. The model would need to store and process a massive number of possible sequences, which would quickly become impractical as the sequence length increases.
 
-However, large language models (LLMs) don’t directly rely on such long N-gram sequences. Instead, they use techniques like **transformers**, which allow them to handle long-range dependencies more efficiently. Transformers employ attention mechanisms to focus on the most relevant parts of the context, making it much more efficient than trying to manage thousand-gram sequences through brute force.
+However, large language models (LLMs) don’t directly rely on such long N-gram sequences. Instead, they use techniques like **transformers**, which allow them to handle long-range dependencies more efficiently. Transformers employ **attention mechanisms** to focus on the most relevant parts of the context, making it much more efficient than trying to manage thousand-gram sequences through brute force.
 
 ---
 
@@ -104,10 +104,6 @@ And with that, dear readers, we’ll wrap up this blog post!
 Stay tuned to explore the world of **transformers** in our next exciting adventure! 
 
 ---
-
-## Join the Conversation!
-
-If you found this blog post helpful, please leave a comment below or share it with your friends! For more insights into AI and machine learning, don’t forget to check out my other posts.
 
 ### Share This Post!
 If you found this post helpful or entertaining, please share it with your friends!
