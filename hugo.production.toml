@@ -1,0 +1,8 @@
+baseURL = 'https://hitesh-pattanayak.netlify.app/'
+languageCode = 'en-us'
+title = 'geeky detox'
+theme = "gohugo-theme-ananke"
+
+[params]
+    github = "https://github.com/HiteshRepo"
+    linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
