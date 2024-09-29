@@ -4,7 +4,7 @@ date: 2022-04-23
 summary: 'Redirection to kubernetes concepts posts'
 ---
 
-Compiltation of blogs for CKAD preparation:
+Compiltation of already published blogs around basic kubernetes concepts:
 - [Resource quotas](https://blog.devgenius.io/managing-kubernetes-resources-with-resource-quotas-dbbe04fe43f6)
 - [Network policy](https://blog.devgenius.io/network-policy-in-k8s-14eeeb905bb)
 - [Ingress](https://blog.devgenius.io/ingress-in-kubernetes-67a4b843ea4e)
