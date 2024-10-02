@@ -7,7 +7,7 @@ node_modules/
 # Local development files
 /.idea/
 /.vscode/
-/.DS_Store
+.DS_Store
 
 # Log files
 *.log

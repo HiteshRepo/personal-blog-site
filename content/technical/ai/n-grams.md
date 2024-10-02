@@ -7,8 +7,6 @@ tags: ["ai", "machine learning", "tech", "LLMs", "AI resources", "n-grams", "tra
 
 # Understanding LLMs: How Large Language Models Use Auto-Completion to Predict Text
 
-## Why Am I Writing This Blog Post?
-
 - [Why](../first-ai-post/) am I writing this blog post?
 - [Where](../) do I find all the relevant blogs on AI grouped together?
 
