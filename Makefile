@@ -69,7 +69,7 @@ publish:
 		echo "Error: File $(FILE) does not exist."; \
 		exit 1; \
 	fi
-	@sed -i'' -e 's/draft: true/draft: false/' "$(FILE)"
+	@sed -i '' -e 's/draft: true/draft: false/' "$(FILE)"
 	@echo "Published $(FILE) (draft status set to false)"
 
 .PHONY: preview
