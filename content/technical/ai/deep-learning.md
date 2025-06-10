@@ -6,7 +6,7 @@ tags: ["Neural Networks", "Deep Learning", "Machine Learning", "AI", "Digit Reco
 ---
 
 
-# From Pixels to Predictions: Understanding Neural Networks by Recognizing Handwritten Digits
+## From Pixels to Predictions: Understanding Neural Networks by Recognizing Handwritten Digits
 
 - [Why](../first-ai-post/) am I writing this blog post?
 - [Where](../) do I find all the relevant blogs on AI grouped together?
@@ -41,7 +41,7 @@ We start with an image of a handwritten digit. Let’s assume this image is a 28
 
 Each pixel has a grayscale value between **0 (black)** and **1 (white)**. This grayscale value becomes the **activation** for each neuron in the **input layer**. So, the input layer has **784 neurons** (one for each pixel).
 
-### Example
+Example:
 
 - A white pixel (value = 1) might represent the background of the image.
 - A black pixel (value = 0) might represent the part of the digit itself.
@@ -56,9 +56,7 @@ Let’s say our first hidden layer has **16 neurons**. Each neuron in this layer
 
 Each neuron in the hidden layer is connected to every neuron in the input layer. That’s where the **weights** come in.
 
-### Example
-
-- One neuron in the hidden layer might learn to recognize vertical lines. This neuron will be highly “activated” when the input pixels form a vertical stroke (like in the digit “1” or “7”).
+Example: One neuron in the hidden layer might learn to recognize vertical lines. This neuron will be highly “activated” when the input pixels form a vertical stroke (like in the digit “1” or “7”).
 
 ### Step 3: The Hidden Layer2 – Building Complex Patterns
 
@@ -70,9 +68,7 @@ This layer helps put the small features together to form a larger picture of wha
 
 After passing through a few hidden layers, we arrive at the **output layer**. This layer has **10 neurons**, one for each digit (0-9). The network will compute which of these neurons has the highest activation value — essentially, which number the network thinks it’s looking at.
 
-### Example
-
-- If the network’s output neuron for “7” has the highest activation value, it predicts the input image is the number **7**.
+Example: If the network’s output neuron for “7” has the highest activation value, it predicts the input image is the number **7**.
 
 Now, let’s get to the math of how the network learns to make these predictions.
 

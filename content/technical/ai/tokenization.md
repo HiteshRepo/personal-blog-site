@@ -5,9 +5,6 @@ summary: "Take a detour before diving into transformers and explore sub-word tok
 tags: ["ai","tokenization", "sub-word", "BPE", "WordPiece", "Unigram Language Model", "NLP", "machine learning"]
 ---
 
-
-# Tokenization: Breaking Words Like a Pro (Sub-word Units Edition)
-
 - [Why](../first-ai-post/) am I writing this blog post?
 - [Where](../) do I find all the relevant blogs on AI grouped together?
 
@@ -75,7 +72,7 @@ Here’s how BPE works in four easy steps:
 **BPE in Action:**
 Let’s tokenize these words: *low*, *lower*, *newest*, *widest*.
 
-```
+```txt
 low -> ['l', 'o', 'w']
 lower -> ['l', 'o', 'w', 'e', 'r']
 newest -> ['n', 'e', 'w', 'e', 's', 't']
@@ -85,7 +82,7 @@ widest -> ['w', 'i', 'd', 'e', 's', 't']
 **Step 1: Initialize with individual characters.**
 The initial tokenization breaks each word into individual characters:
 
-```
+```txt
 low  -> ['l', 'o', 'w']
 lower  -> ['l', 'o', 'w', 'e', 'r']
 newest  -> ['n', 'e', 'w', 'e', 's', 't']
@@ -94,6 +91,7 @@ widest  -> ['w', 'i', 'd', 'e', 's', 't']
 
 **Step 2: Find the most frequent pair.**
 Let's count the pairs of consecutive tokens:
+
 - ('l', 'o'): 2 occurrences
 - ('o', 'w'): 2 occurrences
 - ('w', 'e'): 2 occurrences
@@ -108,7 +106,7 @@ The most frequent pair is ('l', 'o'), so we merge ‘l’ and ‘o’ into the t
 **Step 3: Merge the most frequent pair.**
 After merging, the tokens become:
 
-```
+```txt
 low  -> ['lo', 'w']
 lower  -> ['lo', 'w', 'e', 'r']
 newest  -> ['n', 'e', 'w', 'e', 's', 't']
@@ -117,6 +115,7 @@ widest  -> ['w', 'i', 'd', 'e', 's', 't']
 
 **Step 4: Repeat the process.**
 Now we find the most frequent pair again. The new counts are:
+
 - ('lo', 'w'): 2 occurrences
 - ('w', 'e'): 2 occurrences
 - ('e', 's'): 2 occurrences
@@ -126,7 +125,7 @@ The most frequent pair is (‘lo’, ‘w’), so we merge ‘lo’ and ‘w’ 
 
 The tokens now look like:
 
-```
+```txt
 low  -> ['low']
 lower  -> ['low', 'e', 'r']
 newest  -> ['n', 'e', 'w', 'e', 's', 't']
@@ -155,7 +154,7 @@ WordPiece is the overachiever in the room. It doesn’t just merge tokens blindl
 **Example:**
 Let’s assume we have the word *unhappiness* and a pre-defined vocabulary with the following tokens:
 
-```
+```txt
 ["un", "happy", "##ness", "##p", "##i", "##ness"]
 ```
 
@@ -168,12 +167,14 @@ We start by checking if the word *unhappiness* exists as a whole in the vocabula
 
 **Step 2: Split the word from left to right.**
 WordPiece breaks the word from left to right, trying to find the longest match in the vocabulary.
+
 - The first match from the left is *un*, which is in the vocabulary.
 - We split the word into *un* and *happiness*.
 Now the remaining part of the word is *happiness*.
 
 **Step 3: Continue breaking down the remaining part.**
 Since *happiness* is not in the vocabulary, WordPiece will try to split it further:
+
 - It finds that *happy* is in the vocabulary.
 - So, happiness is split into *happy* and *ness*.
 Next, we check the remaining part of the word, which is *ness*.
@@ -184,7 +185,7 @@ The subword *ness* is not in the vocabulary as a standalone token, but *##ness* 
 **Result:**
 The word unhappiness is tokenized as:
 
-```
+```txt
 ["un", "happy", "##ness"]
 ```
 
@@ -204,14 +205,14 @@ This is the final tokenization because the word has been completely broken into 
 
 Final tokens:
 
-```
+```txt
 ["un", "happy", "##ness"]
 ```
 
 **Another Example:**
 Let’s consider a different word, *unpredictably*, with the following vocabulary:
 
-```
+```txt
 ["un", "predict", "##able", "##ly"]
 ```
 
@@ -220,22 +221,25 @@ We start with the word *unpredictably*. It is not in the vocabulary, so we need 
 
 **Step 2: Split the word from left to right.**
 From left to right, we first find *un* in the vocabulary:
+
 - The word is split into *un* and *predictably*.
 
 **Step 3: Continue breaking the remaining part.**
 Next, the remaining word is *predictably*.
+
 - We find that *predict* is in the vocabulary, so we split *predictably* into *predict* and *ably*.
 Now we need to tokenize the remaining *part*, *ably*.
 
 **Step 4: Continue splitting the rest.**
 The subword *ably* is not in the vocabulary, but WordPiece finds the longest match, which is *##able*.
+
 - We split ably into *##able* and *ly*.
 Finally, the subword *ly* is matched with *##ly* in the vocabulary.
 
 **Result:**
 The word *unpredictably* is tokenized as:
 
-```
+```txt
 ["un", "predict", "##able", "##ly"]
 ```
 
@@ -262,20 +266,21 @@ Let’s walk through a simplified example of how a Unigram model works.
 **Corpus:**
 Suppose we have a very small corpus:
 
-```
+```txt
 [‘low’, ‘lower’, ‘newest’, ‘widest’]
 ```
 
 **Step 1: Initialize the Vocabulary**
 The model starts with a large set of subword candidates. This could include the full words, characters, and fragments:
 
-```
+```txt
 Vocabulary: ["l", "lo", "low", "o", "e", "r", "er", "new", "newest", "wide", "wid", "est", "t"]
 ```
 
 **Step 2: Compute the Likelihood**
 For each word in the corpus, we compute the likelihood of the word being generated by different combinations of subwords.
 For example:
+
 - "low" can be represented by:
   - "low" (as a whole word)
   - or by the subwords: "lo" + "w"
@@ -292,7 +297,7 @@ After pruning, the vocabulary might look like this:
 
 Pruned Vocabulary:
 
-```
+```txt
 ["low", "new", "est", "wid", "er"]
 ```
 
@@ -300,6 +305,7 @@ Pruned Vocabulary:
 For a new word, the Unigram model selects the sequence of subwords from the final pruned vocabulary that maximizes the likelihood of the word.
 
 For instance:
+
 - **Tokenizing "lower"**:
   - The Unigram model can represent it as ["low", "er"] because "low" and "er" are in the pruned vocabulary.
 - **Tokenizing "newest"**:
@@ -313,7 +319,9 @@ Let’s tokenize the word "lower" with the pruned vocabulary:
         - "low" + "er" (both in the pruned vocabulary)
 2. **Result**:
     - The tokenized output is ["low", "er"].
+
 Similarly, for "newest":
+
 1. **Word**: "newest"
     - The possible subword sequence is "new" + "est", both of which are in the vocabulary.
 2. **Result**:
@@ -346,7 +354,7 @@ Stay tuned for the next post, where we’ll (hopefully) actually get to Transfor
 
 Until then, happy tokenizing! Or at least, happy reading about tokenizing.
 
-If you're a Gopher, be sure to check out the Golang implementation of these tokenization techniques [here](https://github.com/HiteshRepo/tokenization-techniques).
+If you're a Gopher, be sure to check out the [Golang implementation of these tokenization techniques](https://github.com/HiteshRepo/tokenization-techniques).
 
 ---
 

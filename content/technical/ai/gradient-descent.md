@@ -5,8 +5,6 @@ summary: "Learn how Gradient Descent helps neural networks improve predictions t
 tags: ["Gradient Descent", "neural network learning", "machine learning optimization", "cost function in neural networks"]
 ---
 
-# Understanding Gradient Descent: How Neural Networks Learn
-
 - [Why](../first-ai-post/) am I writing this blog post?
 - [Where](../) do I find all the relevant blogs on AI grouped together?
 

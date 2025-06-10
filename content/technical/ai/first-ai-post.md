@@ -5,8 +5,6 @@ summary: 'Why am I writing these AI blogs? Discover my journey into AI and LLMs!
 tags: ["ai", "machine learning", "tech", "LLMs", "AI resources"]
 ---
 
-# Adventures in AI: My Journey into the World of Large Language Models (LLMs)
-
 Hi there! I’m **Hitesh Pattanayak**, and I currently work in the engineering vertical at [InfraCloud](https://www.infracloud.io/). As of this moment, you're reading the very blog I’m writing. So meta, right?
 
 ## The Start of Something LLM-azing

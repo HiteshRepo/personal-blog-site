@@ -6,8 +6,6 @@ tags: ["AI", "machine learning", "deep learning"]
 draft: true
 ---
 
-# {{ replace .File.ContentBaseName "-" " " | title }}
-
 ## Introduction
 
 Introduce the AI concept or technology you'll be discussing. Explain why it's important or interesting.

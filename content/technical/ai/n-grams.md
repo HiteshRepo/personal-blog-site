@@ -5,8 +5,6 @@ summary: 'Decoding N-Grams: The Heart of Large Language Models'
 tags: ["ai", "machine learning", "tech", "LLMs", "AI resources", "n-grams", "transformer"]
 ---
 
-# Understanding LLMs: How Large Language Models Use Auto-Completion to Predict Text
-
 - [Why](../first-ai-post/) am I writing this blog post?
 - [Where](../) do I find all the relevant blogs on AI grouped together?
 

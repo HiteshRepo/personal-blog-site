@@ -6,8 +6,6 @@ tags: ["tag1", "tag2"]
 draft: true
 ---
 
-# {{ replace .File.ContentBaseName "-" " " | title }}
-
 Write your content here. You can use Markdown formatting:
 
 ## Headings
