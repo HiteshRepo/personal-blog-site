@@ -25,3 +25,5 @@ node_modules/
 # Generated CSS and JSON files
 resources/_gen/assets/ananke/css/main.css_*
 resources/_gen/assets/ananke/css/main.css_*.json
+
+prompts/
