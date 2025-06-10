@@ -34,6 +34,7 @@ Not only can we reduce the number of words, but we can also shrink individual wo
 Sub-word units are magical little chunks smaller than a word but bigger than a character. They're perfect for dealing with languages that like to complicate things (looking at you, German) or for when your model can't find a word in its vocabulary. Think of them as backup units for rare words, superheroes in their own right.
 
 **For example:** The word *unhappiness* becomes:
+
 - un
 - happi
 - ness
@@ -59,6 +60,7 @@ Ready to meet the big three? These are the all-stars of sub-word tokenization te
 3. **Unigram Language Model**: The probability pro, cutting down words like a math whiz.
 
 ## Byte-Pair Encoding (BPE): The Merger King
+
 Byte-Pair Encoding (BPE) is like a matchmaker. It looks for the most common pairs of characters in a text and merges them until you get a nice, compact set of sub-word tokens. It’s frequency-driven and loves to merge.
 
 Here’s how BPE works in four easy steps:
@@ -82,6 +84,7 @@ widest -> ['w', 'i', 'd', 'e', 's', 't']
 
 **Step 1: Initialize with individual characters.**
 The initial tokenization breaks each word into individual characters:
+
 ```
 low  -> ['l', 'o', 'w']
 lower  -> ['l', 'o', 'w', 'e', 'r']
@@ -91,19 +94,20 @@ widest  -> ['w', 'i', 'd', 'e', 's', 't']
 
 **Step 2: Find the most frequent pair.**
 Let's count the pairs of consecutive tokens:
-* ('l', 'o'): 2 occurrences
-* ('o', 'w'): 2 occurrences
-* ('w', 'e'): 2 occurrences
-* ('e', 's'): 2 occurrences
-* ('s', 't'): 2 occurrences
-* ('n', 'e'): 1 occurrence
-* ('i', 'd'): 1 occurrence
-* ('d', 'e'): 1 occurrence
+- ('l', 'o'): 2 occurrences
+- ('o', 'w'): 2 occurrences
+- ('w', 'e'): 2 occurrences
+- ('e', 's'): 2 occurrences
+- ('s', 't'): 2 occurrences
+- ('n', 'e'): 1 occurrence
+- ('i', 'd'): 1 occurrence
+- ('d', 'e'): 1 occurrence
 
 The most frequent pair is ('l', 'o'), so we merge ‘l’ and ‘o’ into the token ‘lo’.
 
 **Step 3: Merge the most frequent pair.**
 After merging, the tokens become:
+
 ```
 low  -> ['lo', 'w']
 lower  -> ['lo', 'w', 'e', 'r']
@@ -113,14 +117,15 @@ widest  -> ['w', 'i', 'd', 'e', 's', 't']
 
 **Step 4: Repeat the process.**
 Now we find the most frequent pair again. The new counts are:
-* ('lo', 'w'): 2 occurrences
-* ('w', 'e'): 2 occurrences
-* ('e', 's'): 2 occurrences
-* ('s', 't'): 2 occurrences
+- ('lo', 'w'): 2 occurrences
+- ('w', 'e'): 2 occurrences
+- ('e', 's'): 2 occurrences
+- ('s', 't'): 2 occurrences
 
 The most frequent pair is (‘lo’, ‘w’), so we merge ‘lo’ and ‘w’ into ‘low’.
 
 The tokens now look like:
+
 ```
 low  -> ['low']
 lower  -> ['low', 'e', 'r']
@@ -139,7 +144,6 @@ WordPiece is the overachiever in the room. It doesn’t just merge tokens blindl
 
 **BPE** is a frequency-driven tokenization technique, while **WordPiece** focuses on improving the likelihood of the model by optimizing token selections. WordPiece is often more flexible and conservative in merging subwords, which tends to perform better in tasks like language modeling and classification, where prediction accuracy is critical.
 
-
 **How it works**:
 
 - Start with a whole word.
@@ -149,7 +153,8 @@ WordPiece is the overachiever in the room. It doesn’t just merge tokens blindl
 ![WordPiece flow](/images/WordPiece.png)
 
 **Example:**
-Let’s assume we have the word *unhappiness* and a pre-defined vocabulary with the following tokens: 
+Let’s assume we have the word *unhappiness* and a pre-defined vocabulary with the following tokens:
+
 ```
 ["un", "happy", "##ness", "##p", "##i", "##ness"]
 ```
@@ -163,21 +168,22 @@ We start by checking if the word *unhappiness* exists as a whole in the vocabula
 
 **Step 2: Split the word from left to right.**
 WordPiece breaks the word from left to right, trying to find the longest match in the vocabulary.
-* The first match from the left is *un*, which is in the vocabulary.
-* We split the word into *un* and *happiness*.
+- The first match from the left is *un*, which is in the vocabulary.
+- We split the word into *un* and *happiness*.
 Now the remaining part of the word is *happiness*.
 
 **Step 3: Continue breaking down the remaining part.**
 Since *happiness* is not in the vocabulary, WordPiece will try to split it further:
-* It finds that *happy* is in the vocabulary.
-* So, happiness is split into *happy* and *ness*.
+- It finds that *happy* is in the vocabulary.
+- So, happiness is split into *happy* and *ness*.
 Next, we check the remaining part of the word, which is *ness*.
 
 **Step 4: Final match for the remaining part.**
 The subword *ness* is not in the vocabulary as a standalone token, but *##ness* (as a suffix) is in the vocabulary. So, WordPiece uses *##ness*.
 
 **Result:**
-The word unhappiness is tokenized as: 
+The word unhappiness is tokenized as:
+
 ```
 ["un", "happy", "##ness"]
 ```
@@ -185,23 +191,26 @@ The word unhappiness is tokenized as:
 This is the final tokenization because the word has been completely broken into subwords, all of which exist in the vocabulary.
 
 **Visualization of the Process:**
-1. unhappiness
-    * **Unmatched**: Not in vocabulary
-    * Split into un + happiness
-2. happiness
-    * **Unmatched**: Not in vocabulary
-    * Split into happy + ness
-3. ness
-    * **Unmatched**: Not in vocabulary
-    * Found matching subword: ##ness
 
-Final tokens: 
+1. unhappiness
+    - **Unmatched**: Not in vocabulary
+    - Split into un + happiness
+2. happiness
+    - **Unmatched**: Not in vocabulary
+    - Split into happy + ness
+3. ness
+    - **Unmatched**: Not in vocabulary
+    - Found matching subword: ##ness
+
+Final tokens:
+
 ```
 ["un", "happy", "##ness"]
 ```
 
 **Another Example:**
-Let’s consider a different word, *unpredictably*, with the following vocabulary: 
+Let’s consider a different word, *unpredictably*, with the following vocabulary:
+
 ```
 ["un", "predict", "##able", "##ly"]
 ```
@@ -211,20 +220,21 @@ We start with the word *unpredictably*. It is not in the vocabulary, so we need 
 
 **Step 2: Split the word from left to right.**
 From left to right, we first find *un* in the vocabulary:
-* The word is split into *un* and *predictably*.
+- The word is split into *un* and *predictably*.
 
 **Step 3: Continue breaking the remaining part.**
 Next, the remaining word is *predictably*.
-* We find that *predict* is in the vocabulary, so we split *predictably* into *predict* and *ably*.
+- We find that *predict* is in the vocabulary, so we split *predictably* into *predict* and *ably*.
 Now we need to tokenize the remaining *part*, *ably*.
 
 **Step 4: Continue splitting the rest.**
 The subword *ably* is not in the vocabulary, but WordPiece finds the longest match, which is *##able*.
-* We split ably into *##able* and *ly*.
+- We split ably into *##able* and *ly*.
 Finally, the subword *ly* is matched with *##ly* in the vocabulary.
 
 **Result:**
-The word *unpredictably* is tokenized as: 
+The word *unpredictably* is tokenized as:
+
 ```
 ["un", "predict", "##able", "##ly"]
 ```
@@ -250,13 +260,15 @@ Steps:
 Let’s walk through a simplified example of how a Unigram model works.
 
 **Corpus:**
-Suppose we have a very small corpus: 
+Suppose we have a very small corpus:
+
 ```
 [‘low’, ‘lower’, ‘newest’, ‘widest’]
 ```
 
 **Step 1: Initialize the Vocabulary**
 The model starts with a large set of subword candidates. This could include the full words, characters, and fragments:
+
 ```
 Vocabulary: ["l", "lo", "low", "o", "e", "r", "er", "new", "newest", "wide", "wid", "est", "t"]
 ```
@@ -264,12 +276,12 @@ Vocabulary: ["l", "lo", "low", "o", "e", "r", "er", "new", "newest", "wide", "wi
 **Step 2: Compute the Likelihood**
 For each word in the corpus, we compute the likelihood of the word being generated by different combinations of subwords.
 For example:
-* "low" can be represented by:
-    * "low" (as a whole word)
-    * or by the subwords: "lo" + "w"
-* "newest" can be represented by:
-    * "new" + "est"
-    * or by "newest" as a whole word.
+- "low" can be represented by:
+  - "low" (as a whole word)
+  - or by the subwords: "lo" + "w"
+- "newest" can be represented by:
+  - "new" + "est"
+  - or by "newest" as a whole word.
 The likelihood for each representation is calculated using probabilities associated with the subwords.
 
 **Step 3: Prune the Vocabulary**
@@ -278,7 +290,8 @@ Let’s say the subword "lo" is rarely used, and thus its probability is very lo
 
 After pruning, the vocabulary might look like this:
 
-Pruned Vocabulary: 
+Pruned Vocabulary:
+
 ```
 ["low", "new", "est", "wid", "er"]
 ```
@@ -287,23 +300,24 @@ Pruned Vocabulary:
 For a new word, the Unigram model selects the sequence of subwords from the final pruned vocabulary that maximizes the likelihood of the word.
 
 For instance:
-* **Tokenizing "lower"**:
-    * The Unigram model can represent it as ["low", "er"] because "low" and "er" are in the pruned vocabulary.
-* **Tokenizing "newest"**:
-    * The model splits "newest" into ["new", "est"].
+- **Tokenizing "lower"**:
+  - The Unigram model can represent it as ["low", "er"] because "low" and "er" are in the pruned vocabulary.
+- **Tokenizing "newest"**:
+  - The model splits "newest" into ["new", "est"].
 
 **Example of Tokenization:**
 Let’s tokenize the word "lower" with the pruned vocabulary:
+
 1. **Word**: "lower"
-    * The model looks at possible subword sequences:
-        * "low" + "er" (both in the pruned vocabulary)
+    - The model looks at possible subword sequences:
+        - "low" + "er" (both in the pruned vocabulary)
 2. **Result**:
-    * The tokenized output is ["low", "er"].
+    - The tokenized output is ["low", "er"].
 Similarly, for "newest":
 1. **Word**: "newest"
-    * The possible subword sequence is "new" + "est", both of which are in the vocabulary.
+    - The possible subword sequence is "new" + "est", both of which are in the vocabulary.
 2. **Result**:
-    * The tokenized output is ["new", "est"].
+    - The tokenized output is ["new", "est"].
 
 ---
 
@@ -322,7 +336,6 @@ If we were to throw these tokenization techniques into a friendly comparison are
 | **Key Advantage**                  | Simple to implement and efficient                                    | Produces tokens that maximize model accuracy                     | More flexible in token segmentation with a probabilistic approach  |
 | **Key Drawback**                   | May not always select the most optimal tokens for all tasks           | More complex to implement than BPE                               | Requires larger initial vocabulary and more complex calculations   |
 
-
 ---
 
 Well, if you want your LLM to handle rare or unknown words like a champ, tokenize your text efficiently, or even work with languages that have rich structures, sub-word tokenization is the way to go. Plus, when we finally dive into Transformers, you'll see how all this fits together to create that "auto-complete on steroids" magic.
@@ -337,7 +350,8 @@ If you're a Gopher, be sure to check out the Golang implementation of these toke
 
 ---
 
-### Share This Post!
+### Share This Post
+
 If you found this post helpful or entertaining, please share it with your friends!
 
 [Share on Twitter](https://twitter.com/intent/tweet?text=I%20just%20read%20this%20great%20blog%20about%20AI%20and%20LLMs!%20Check%20it%20out:%20[https://hitesh-pattanayak.netlify.app/technical/ai/tokenization/])  

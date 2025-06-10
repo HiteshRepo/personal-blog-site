@@ -11,6 +11,7 @@ summary: 'Highlights steps to choose safer stocks using TickerTape'
 This document focusses on finding out stocks that are safe to invest. Safe-ness is about mitigating risks.
 
 There are various categories of risks:
+
 - Market risk
 - Valuation risk
 - Profitability risk

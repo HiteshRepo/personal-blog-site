@@ -24,6 +24,7 @@ At its core, a **neural network** is a series of layers made up of neurons (math
 But neural networks aren’t limited to digit recognition. They power everything from **image recognition** (hello, face filters) to **speech recognition** (looking at you, Siri) and **language models** (like the **Transformers** we’ll eventually get to).
 
 ### Types of Neural Networks
+
 - **Convolutional Neural Networks (CNN)**: These are great for images. CNNs are used in things like facial recognition, where the network needs to detect patterns and features like eyes, nose, or ears.
 - **Long Short Term Memory (LSTM)**: Perfect for sequential data, like speech or time series. Think of them as neural networks with memory, which helps them understand the context in a sequence of words or sounds.
 - **Multilayer Perceptron (MLP)**: These are your “basic” neural networks and great for simpler tasks, like recognizing digits. This is where we’ll start.
@@ -36,11 +37,12 @@ Imagine you have a picture of a digit. How can a machine look at it and decide w
 
 ### Step 1: The Input Layer – Where Pixels Meet Neurons
 
-We start with an image of a handwritten digit. Let’s assume this image is a 28x28 grid of pixels (standard for the **MNIST** dataset used in digit recognition). That’s **784 pixels** in total. 
+We start with an image of a handwritten digit. Let’s assume this image is a 28x28 grid of pixels (standard for the **MNIST** dataset used in digit recognition). That’s **784 pixels** in total.
 
 Each pixel has a grayscale value between **0 (black)** and **1 (white)**. This grayscale value becomes the **activation** for each neuron in the **input layer**. So, the input layer has **784 neurons** (one for each pixel).
 
-### Example:
+### Example
+
 - A white pixel (value = 1) might represent the background of the image.
 - A black pixel (value = 0) might represent the part of the digit itself.
 
@@ -50,11 +52,12 @@ In essence, the input layer is nothing more than a storage of the pixel values �
 
 After the input layer, we pass the data into **hidden layers**. These layers perform the heavy lifting: they learn to detect patterns like edges, curves, and corners — the building blocks of digits.
 
-Let’s say our first hidden layer has **16 neurons**. Each neuron in this layer will look at a combination of pixels from the input layer and learn to recognize small features, like vertical or horizontal lines (essential to recognizing digits). 
+Let’s say our first hidden layer has **16 neurons**. Each neuron in this layer will look at a combination of pixels from the input layer and learn to recognize small features, like vertical or horizontal lines (essential to recognizing digits).
 
-Each neuron in the hidden layer is connected to every neuron in the input layer. That’s where the **weights** come in. 
+Each neuron in the hidden layer is connected to every neuron in the input layer. That’s where the **weights** come in.
 
-### Example:
+### Example
+
 - One neuron in the hidden layer might learn to recognize vertical lines. This neuron will be highly “activated” when the input pixels form a vertical stroke (like in the digit “1” or “7”).
 
 ### Step 3: The Hidden Layer2 – Building Complex Patterns
@@ -67,7 +70,8 @@ This layer helps put the small features together to form a larger picture of wha
 
 After passing through a few hidden layers, we arrive at the **output layer**. This layer has **10 neurons**, one for each digit (0-9). The network will compute which of these neurons has the highest activation value — essentially, which number the network thinks it’s looking at.
 
-### Example:
+### Example
+
 - If the network’s output neuron for “7” has the highest activation value, it predicts the input image is the number **7**.
 
 Now, let’s get to the math of how the network learns to make these predictions.
@@ -78,7 +82,8 @@ Now, let’s get to the math of how the network learns to make these predictions
 
 To understand how information is transmitted and how learning happens in a neural network, let’s break down the mathematics behind the process step by step, using the example of the handwritten digit recognition network.
 
-### The Key Ingredients:
+### The Key Ingredients
+
 1. **Input Values (Activations)**: The values passed from neurons in one layer to the next.
 2. **Weights**: Numbers that adjust the importance of each input when passed to the next layer.
 3. **Biases**: Extra numbers added to the result to ensure the neuron can activate even if the weighted inputs are small.
@@ -86,13 +91,15 @@ To understand how information is transmitted and how learning happens in a neura
 
 ![neural network maths](/images/neural-network-maths.png)
 
-### Step-by-Step Math:
+### Step-by-Step Math
 
 #### 1. Neurons in the Input Layer
+
 - For simplicity, assume the input is a **28x28 grayscale image** (784 pixels), where each pixel value is between 0 and 1.
 - These pixel values are called **activations** in the input layer and are denoted by \( $a_1, a_2, \ldots, a_{784}$ \).
 
 #### 2. Weights: Connecting Neurons Between Layers
+
 - Every neuron in the hidden layer receives input from every neuron in the previous layer (the input layer in this case). The connection between each input neuron and a hidden layer neuron is assigned a weight.
 - If the first neuron in the hidden layer is connected to every neuron in the input layer, then the weights associated with this neuron can be represented as \( $w_{1,1}, w_{1,2}, w_{1,3}, \ldots, w_{1,784}$ \).
 - Here, \( $w_{1,1}$ \) represents the weight connecting input neuron 1 to the first neuron in the hidden layer, \( $w_{1,2}$ \) for input neuron 2, and so on.
@@ -103,6 +110,7 @@ $z_j = w_{j,1} a_1 + w_{j,2} a_2 + \ldots + w_{j,784} a_{784}$
 This is a dot product of the input activations and the weights connecting to that neuron.
 
 #### 3. Bias: Shifting the Weighted Sum
+
 - After calculating the weighted sum for a neuron, a bias is added to this value:
 
 $z_j = w_{j,1} a_1 + w_{j,2} a_2 + \ldots + w_{j,784} a_{784} + b_j$
@@ -175,6 +183,7 @@ $$ -->
 ![Calculation Vector](/images/multiplication-matrixes.png)
 
 #### 4. Activation Function: Making the Neuron "Fire"
+
 - Once the weighted sum + bias is computed, the result is passed through an **activation function** to introduce non-linearity into the model.
 - A commonly used activation function is the **sigmoid function**:
 
@@ -191,6 +200,7 @@ This value, \( $a_j$ \), is passed to the next layer as an input.
 ![sigmoid function](/images/sigmoid-function.png)
 
 #### 5. Moving to the Next Layer: Repeating the Process
+
 - In the next layer (another hidden layer or the output layer), the process is repeated:
     1. Take the activations from the previous layer as inputs.
     2. Multiply them by weights specific to the connections between the current and next layers.
@@ -199,6 +209,7 @@ This value, \( $a_j$ \), is passed to the next layer as an input.
 - This process continues until the final output layer.
 
 #### 6. Output Layer: Making the Prediction
+
 - In the output layer, let’s say we have **10 neurons** (representing digits 0-9). The output for each neuron is calculated similarly:
 
 $z_k = w_{k,1} a_1 + w_{k,2} a_2 + \ldots + w_{k,n} a_n + b_k$
@@ -210,12 +221,15 @@ $\text{softmax}(z_k) = \frac{e^{z_k}}{\sum_{i=1}^{10} e^{z_i}}$
 - The neuron with the highest probability is chosen as the network’s prediction of the digit.
 
 ### A Complete Example
+
 Let’s walk through a simplified example with just a few neurons:
 
-#### Input Layer (3 pixels for simplicity):
+#### Input Layer (3 pixels for simplicity)
+
 - Assume we have three input pixels with activations \( $a_1 = 0.8$ \), \( $a_2 = 0.4$ \), \( $a_3 = 0.6$ \).
 
-#### Hidden Layer (2 neurons):
+#### Hidden Layer (2 neurons)
+
 - For the first neuron in the hidden layer, the weights are \( $w_{1,1} = 0.5$ \), \( $w_{1,2} = 0.3$ \), \( $w_{1,3} = -0.2$ \), and the bias is \( $b_1 = 0.1$ \).
 
 **The weighted sum:**
@@ -236,7 +250,8 @@ $z_2 = (-0.3 \times 0.8) + (0.7 \times 0.4) + (0.4 \times 0.6) - 0.2 = -0.24 + 0
 
 $a_2 = \sigma(0.08) = \frac{1}{1 + e^{-0.08}} \approx 0.52$
 
-#### Output Layer (2 neurons for a simple binary classification):
+#### Output Layer (2 neurons for a simple binary classification)
+
 - Now, these activations \( $a_1 \approx 0.622$ \) and \( $a_2 \approx 0.52$ \) are passed to the output layer.
 - Let’s assume the output neuron weights and biases are such that the final outputs get processed, and through the softmax function, the network predicts either a '0' or '1'.
 
@@ -263,6 +278,7 @@ No need to panic! We’ll dive into these concepts in detail after we tackle Tra
 ## Why Do We Care About Neural Networks for LLMs and Transformers?
 
 So, why the detour into neural networks? Because neural networks are the building blocks of **transformers** — the architecture that powers LLMs. While transformers use a more sophisticated mechanism (attention), they share many concepts with neural networks, including:
+
 - **Layer-based processing** (data passes through multiple layers).
 - **Weights** and **activations** (used to adjust how data is processed).
 - **Learning** via training data.
@@ -274,6 +290,7 @@ Understanding neural networks gives us a solid foundation to dive into **attenti
 ## Wrapping Up: From Digits to Deep Learning
 
 To summarize:
+
 - **Neural networks** process data layer by layer, using **weights** and **biases** to compute results.
 - **Hidden layers** extract features (like edges or curves) that help the network recognize patterns.
 - Through **training**, the network adjusts its weights and biases to make better predictions.
@@ -286,7 +303,8 @@ Until next time, keep those neurons firing!
 
 ---
 
-### Share This Post!
+### Share This Post
+
 If you found this post helpful or entertaining, please share it with your friends!
 
 [Share on Twitter](https://twitter.com/intent/tweet?text=I%20just%20read%20this%20great%20blog%20about%20AI%20and%20LLMs!%20Check%20it%20out:%20[https://hitesh-pattanayak.netlify.app/technical/ai/deep-learning/])  

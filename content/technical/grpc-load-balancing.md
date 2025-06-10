@@ -7,6 +7,7 @@ summary: 'Emulates and resolves load balancing problems with gRPC'
 # Tricky gRPC load balancing
 
 gRPC has many benefits, like:
+
 1. Multiplexes many requests using same connection.
 2. Support for typical client-server request-response as well as duplex streaming.
 3. Usage of a fast, very light, binary protocol with structured data as the communication medium among services.
@@ -20,6 +21,7 @@ All above make gRPC a very attractive deal but there is some consideration with 
 Lets delve deep into the issue.
 
 For this we will require a setup. The setup includes below:
+
 - a gRPC server, we call it `Greet Server`.
 - a client that acts as a REST gateway and internally it is a gRPC client as well. We call it `Greet Client`.
 
@@ -58,6 +60,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
 ```
+
 </details>
 
 The above is a deployment mainfest of `Greet Server`, that spins up 3 replicas of `Greet Server`.
@@ -96,7 +99,7 @@ The above is a service manifest of `Greet server service`. This basically acts a
 
 The `selector` section of the service matches with the `labels` section of each pod.
 
-greetclient-deploy.yaml 
+greetclient-deploy.yaml
 
 ```yml
 apiVersion: apps/v1
@@ -162,7 +165,7 @@ spec:
 
 The above service is just to redirect traffic to the `Greet Client` pods.
 
-greet-ingress.yaml 
+greet-ingress.yaml
 
 ```yml
 apiVersion: networking.k8s.io/v1
@@ -190,10 +193,11 @@ The above ingress is to expose `Greet Client Service` to outside of the cluster.
 
 Note:
 `minikube` by default does not have ingress enabled by default
+
 - check enabled or not: `minikube addons list`
 - enable ingress addon: `minikube addons enable ingress`
 
-greet-clusterrole.yaml 
+greet-clusterrole.yaml
 
 ```yml
 kind: ClusterRole
@@ -207,7 +211,7 @@ rules:
     verbs: ["get", "watch", "list"]
 ```
 
-greet-clusterrolebinding.yaml 
+greet-clusterrolebinding.yaml
 
 ```yml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -278,15 +282,15 @@ com
 since we have exposed the `Greet Client` to outside of cluster via `greet-ingress`, the endpoint can be accessed on: `http://greet.com/greet`.
 so when we make a curl request:
 
-Request#1 
+Request#1
 
 ```bash
 curl --request POST \
   --url http://greet.com/greet \
   --header 'Content-Type: application/json' \
   --data '{
-	"first_name": "Hitesh",
-	"last_name": "Pattanayak"
+ "first_name": "Hitesh",
+ "last_name": "Pattanayak"
 }'
 
 <<com
@@ -296,15 +300,15 @@ reponse from Greet rpc: Hello, Hitesh Pattanayak from pod: name(greetserver-depl
 com
 ```
 
-Request#2 
+Request#2
 
 ```bash
 curl --request POST \
   --url http://greet.com/greet \
   --header 'Content-Type: application/json' \
   --data '{
-	"first_name": "Hitesh",
-	"last_name": "Pattanayak"
+ "first_name": "Hitesh",
+ "last_name": "Pattanayak"
 }'
 
 <<com
@@ -314,15 +318,15 @@ reponse from Greet rpc: Hello, Hitesh Pattanayak from pod: name(greetserver-depl
 com
 ```
 
-Request#3 
+Request#3
 
 ```bash
 curl --request POST \
   --url http://greet.com/greet \
   --header 'Content-Type: application/json' \
   --data '{
-	"first_name": "Hitesh",
-	"last_name": "Pattanayak"
+ "first_name": "Hitesh",
+ "last_name": "Pattanayak"
 }'
 
 <<com
@@ -353,7 +357,7 @@ To be particular, client does not mean end user. All gRPC servers have a REST ga
 
 This is because HTTP2, which is the protocol used by gRPC, is yet to have browser support.
 
-Hence the REST gateway acts as a gRPC client to gRPC servers. And thats why gRPC is mostly used for internal communications. 
+Hence the REST gateway acts as a gRPC client to gRPC servers. And thats why gRPC is mostly used for internal communications.
 
 Earlier we had used `hiteshpattanayak/greet-client:4.0` image for `Greet Client` which had the normal gRPC setup without client side load balancing.
 The code can be referred [here](https://github.com/HiteshRepo/grpc-loadbalancing/commit/dd31d2628d4ee1e47b07b5737ff51cfc43c76d4e).
@@ -400,11 +404,11 @@ spec:
 
 ```go
 a.conn, err = grpc.Dial(
-		servAddr,
-		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`),
-		grpc.WithBlock(),
-		opts,
-	)
+  servAddr,
+  grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robin"}`),
+  grpc.WithBlock(),
+  opts,
+ )
 ```
 
 - the server address used while dialing needs to the dns address of the server.
@@ -412,8 +416,8 @@ a.conn, err = grpc.Dial(
 ```go
 var serverHost string
 if host := kubernetes.GetServiceDnsName(client, os.Getenv("GRPC_SVC"), os.Getenv("POD_NAMESPACE")); len(host) > 0 {
-		serverHost = host
-	}
+  serverHost = host
+ }
 
 servAddr := fmt.Sprintf("%s:%s", serverHost, serverPort)
 ```
@@ -447,7 +451,7 @@ In this `service` kind, the type of service is not specified. By default the typ
 
 You can set `.spec.clusterIP`, if you already have an existing DNS entry that you wish to reuse.
 
-In case you set `.spec.clusterIP` to `None`, it makes the service `headless`, which means when a client sends a request to a headless Service, it will get back a list of all Pods that this Service represents (in this case, the ones with the label `run: greetserver`). 
+In case you set `.spec.clusterIP` to `None`, it makes the service `headless`, which means when a client sends a request to a headless Service, it will get back a list of all Pods that this Service represents (in this case, the ones with the label `run: greetserver`).
 
 Kubernetes allows clients to discover pod IPs through DNS lookups. Usually, when you perform a DNS lookup for a service, the DNS server returns a single IP — the service’s cluster IP. But if you tell Kubernetes you don’t need a cluster IP for your service (you do this by setting the clusterIP field to None in the service specification ), the DNS server will return the pod IPs instead of the single service IP. Instead of returning a single DNS A record, the DNS server will return multiple A records for the service, each pointing to the IP of an individual pod backing the service at that moment. Clients can therefore do a simple DNS A record lookup and get the IPs of all the pods that are part of the service. The client can then use that information to connect to one, many, or all of them.
 
@@ -456,16 +460,19 @@ Basically, the Service now lets the client decide on how it wants to connect to 
 #### Verify headless service DNS lookup
 
 create the headless service:
+
 ```bash
 kubectl create -f greet.svc.yaml
 ```
 
 create an utility pod:
+
 ```bash
 kubectl run dnsutils --image=tutum/dnsutils --command -- sleep infinity
 ```
 
 verify by running `nslookup` command on the pod
+
 ```bash
 kubectl exec dnsutils --  nslookup greetserver
 
@@ -482,7 +489,7 @@ Name:   greetserver.default.svc.cluster.local
 Address: 172.17.0.2
 ```
 
-As you can see headless service resolves into the IP address of all pods connected through service. 
+As you can see headless service resolves into the IP address of all pods connected through service.
 
 Contrast this with the output returned for non-headless service.
 
@@ -490,25 +497,25 @@ Contrast this with the output returned for non-headless service.
 kubectl exec dnsutils --  nslookup greetclient
 
 <<com
-Server:		10.96.0.10
-Address:	10.96.0.10#53
+Server:  10.96.0.10
+Address: 10.96.0.10#53
 
-Name:	greetclient.default.svc.cluster.local
+Name: greetclient.default.svc.cluster.local
 Address: 10.110.255.115
 com
 ```
 
 Now lets test the changes by making curl requests to the exposed ingress.
 
-Request#1 
+Request#1
 
 ```bash
 curl --request POST \
   --url http://greet.com/greet \
   --header 'Content-Type: application/json' \
   --data '{
-	"first_name": "Hitesh",
-	"last_name": "Pattanayak"
+ "first_name": "Hitesh",
+ "last_name": "Pattanayak"
 }'
 
 <<com
@@ -518,15 +525,15 @@ reponse from Greet rpc: Hello, Hitesh Pattanayak from pod: name(greetserver-depl
 com
 ```
 
-Request#2 
+Request#2
 
 ```bash
 curl --request POST \
   --url http://greet.com/greet \
   --header 'Content-Type: application/json' \
   --data '{
-	"first_name": "Hitesh",
-	"last_name": "Pattanayak"
+ "first_name": "Hitesh",
+ "last_name": "Pattanayak"
 }'
 
 <<com
@@ -536,15 +543,15 @@ reponse from Greet rpc: Hello, Hitesh Pattanayak from pod: name(greetserver-depl
 com
 ```
 
-Request#3 
+Request#3
 
 ```bash
 curl --request POST \
   --url http://greet.com/greet \
   --header 'Content-Type: application/json' \
   --data '{
-	"first_name": "Hitesh",
-	"last_name": "Pattanayak"
+ "first_name": "Hitesh",
+ "last_name": "Pattanayak"
 }'
 
 <<com
@@ -561,6 +568,7 @@ But what we are losing here is the capability of gRPC to retain connections for 
 ## gRPC lookaside load balancing
 
 Earlier we discussed about:
+
 - Load balancing challenge with gRPC
 - How to address the above challenge via client side load balancing
 
@@ -655,6 +663,7 @@ The client is [set](https://github.com/HiteshRepo/grpc-loadbalancing/blob/177c0f
 Removed setting `load-balancing` policy and forcefully terminating connection by setting `WithBlock` option while dialing.
 
 from
+
 ```go
 conn, err := grpc.Dial(
     servAddr,
@@ -665,6 +674,7 @@ conn, err := grpc.Dial(
 ```
 
 to
+
 ```go
 conn, err := grpc.Dial(
     servAddr,

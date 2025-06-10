@@ -37,7 +37,7 @@ func example() {
 
 ---
 
-## Share This Post!
+## Share This Post
 
 [Share on Twitter](https://twitter.com/intent/tweet?text=I%20just%20read%20this%20great%20blog%20post!%20Check%20it%20out:%20[URL])  
-[Share on LinkedIn](https://www.linkedin.com/shareArticle?mini=true&url=[URL]&title={{ replace .File.ContentBaseName "-" " " | title }})
+[Share on LinkedIn](<https://www.linkedin.com/shareArticle?mini=true&url=[URL]&title={{> replace .File.ContentBaseName "-" " " | title }})

@@ -12,15 +12,15 @@ tags: ["ai", "machine learning", "tech", "LLMs", "AI resources", "n-grams", "tra
 
 ---
 
-Alright, folks! For this blog post and the upcoming ones, let’s think of **Large Language Models (LLMs)** as your friendly neighborhood *auto-complete* feature. You know, that delightful little tool that pops up suggestions when you start typing in your browser? Isn’t it fascinating how it guesses what you’re about to say next? 
+Alright, folks! For this blog post and the upcoming ones, let’s think of **Large Language Models (LLMs)** as your friendly neighborhood *auto-complete* feature. You know, that delightful little tool that pops up suggestions when you start typing in your browser? Isn’t it fascinating how it guesses what you’re about to say next?
 
 But how does it do that? *Cue the suspenseful music...*
 
 ## The Art of Guessing in AI
 
-Before diving into the *how*, let’s establish one thing: **auto-complete is basically guessing**. And guess what? We can all play this guessing game too! But here’s the catch—we don’t just throw words at random; we base our guesses on something. In the world of **LLMs** and AI, that something is called **context**. Sounds fancy, right? 
+Before diving into the *how*, let’s establish one thing: **auto-complete is basically guessing**. And guess what? We can all play this guessing game too! But here’s the catch—we don’t just throw words at random; we base our guesses on something. In the world of **LLMs** and AI, that something is called **context**. Sounds fancy, right?
 
-So, what does this “context” mean? It means that any tool, be it an AI or your chatty friend, uses the previously typed words or sentences to predict the next most probable words. 
+So, what does this “context” mean? It means that any tool, be it an AI or your chatty friend, uses the previously typed words or sentences to predict the next most probable words.
 
 ### What Do I Mean by “Most Probable Words”?
 
@@ -48,15 +48,15 @@ Ah, now we’re getting to the juicy part! Let’s say they refer to a **lookup 
 
 And just to clarify, the weights are assigned based on how frequently these word combinations occur. For example, if “I love” pops up more often than “I like” in the training data, the model will prioritize “love” when we type “I.”
 
-### But Wait, There’s More!
+### But Wait, There’s More
 
 You might be wondering, “How can I make it choose the 2nd or 3rd most probable guess instead of just the top one?” Well, hold on to your hats! We can achieve this by tweaking something called the **temperature parameter**. We’ll dive deeper into that in a future blog post (yep, consider this your little teaser!).
 
-For now, just remember: **temperature governs the ‘creativity’ of the LLM model.** 
+For now, just remember: **temperature governs the ‘creativity’ of the LLM model.**
 
-## LLMs: Auto-Complete on Steroids!
+## LLMs: Auto-Complete on Steroids
 
-So, in essence, LLMs base model(s) can be referred to as **auto-complete on steroids**. But wait, you might be thinking, “What do you mean by the ‘base model’?” Yes, my friend, there are other models! Just like we have versions of our favorite apps, LLMs also have various models based on their capabilities. We’ll explore these in future posts. 
+So, in essence, LLMs base model(s) can be referred to as **auto-complete on steroids**. But wait, you might be thinking, “What do you mean by the ‘base model’?” Yes, my friend, there are other models! Just like we have versions of our favorite apps, LLMs also have various models based on their capabilities. We’ll explore these in future posts.
 
 ## Understanding N-Grams and Their Role in Text Prediction
 
@@ -72,14 +72,14 @@ In general, N-grams help in analyzing patterns and context in language. The larg
 
 ### Example of N-grams
 
-Take the phrase, “I love artificial intelligence.” 
+Take the phrase, “I love artificial intelligence.”
 
 - **1-gram (unigram)**: Each word individually: `["I", "love", "artificial", "intelligence"]`
 - **2-gram (bigram)**: Pairs of two words: `["I love", "love artificial", "artificial intelligence"]`
 - **3-gram (trigram)**: Groups of three words: `["I love artificial", "love artificial intelligence"]`
 - **4-gram**: Groups of four words: `["I love artificial intelligence"]`
 
-The more words you combine (higher N), the more specific the context becomes. For instance, “artificial intelligence” as a 2-gram holds more meaning together than just “artificial” and “intelligence” as separate words. 
+The more words you combine (higher N), the more specific the context becomes. For instance, “artificial intelligence” as a 2-gram holds more meaning together than just “artificial” and “intelligence” as separate words.
 
 ## Why Are LLMs More Advanced?
 
@@ -87,7 +87,7 @@ Base model LLMs predict the next word based on context. However, they don’t re
 
 So, while N-grams capture short-term context, LLMs consider much broader and deeper context for better predictions.
 
-### Let’s Get Technical!
+### Let’s Get Technical
 
 Unlike your browser, which uses only the first few words as context to suggest the next words, LLMs use a wealth of context (possibly *thousands of grams*) to make predictions. We’ve seen how ChatGPT interacts with us based on historical conversations in a single chat—now that’s some serious memory!
 
@@ -99,15 +99,15 @@ However, large language models (LLMs) don’t directly rely on such long N-gram 
 
 And with that, dear readers, we’ll wrap up this blog post!
 
-Stay tuned to explore the world of **transformers** in our next exciting adventure! 
+Stay tuned to explore the world of **transformers** in our next exciting adventure!
 
 ---
 
-### Share This Post!
+### Share This Post
+
 If you found this post helpful or entertaining, please share it with your friends!
 
 [Share on Twitter](https://twitter.com/intent/tweet?text=I%20just%20read%20this%20great%20blog%20about%20AI%20and%20LLMs!%20Check%20it%20out:%20[https://hitesh-pattanayak.netlify.app/technical/ai/n-grams/])  
 [Share on Facebook](https://www.facebook.com/sharer/sharer.php?u=[https://hitesh-pattanayak.netlify.app/technical/ai/n-grams/])  
 [Share on LinkedIn](https://www.linkedin.com/shareArticle?mini=true&url=[https://hitesh-pattanayak.netlify.app/technical/ai/n-grams/]&title=Adventures%20in%20AI:%20My%20Journey%20into%20the%20World%20of%20LLMs&summary=Why%20am%20I%20writing%20these%20AI%20blogs?&source=)  
 [Share on Reddit](https://reddit.com/submit?url=[https://hitesh-pattanayak.netlify.app/technical/ai/n-grams/]&title=Adventures%20in%20AI:%20My%20Journey%20into%20the%20World%20of%20LLMs)  
-
