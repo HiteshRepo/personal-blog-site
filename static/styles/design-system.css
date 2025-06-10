@@ -684,6 +684,151 @@ blockquote p {
 }
 
 /* ==========================================================================
+   DARK MODE COMPONENT OVERRIDES
+   ========================================================================== */
+
+/* Ensure smooth transitions for all theme changes */
+html {
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+body {
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* Dark mode overrides for theme components */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] .bg-near-white {
+  background-color: var(--color-background) !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--color-surface) !important;
+}
+
+[data-theme="dark"] .bg-black {
+  background-color: var(--color-surface-secondary) !important;
+}
+
+[data-theme="dark"] .near-black {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .dark-gray {
+  color: var(--color-text-secondary) !important;
+}
+
+[data-theme="dark"] .mid-gray {
+  color: var(--color-text-tertiary) !important;
+}
+
+[data-theme="dark"] .white-90 {
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] .white-80 {
+  color: var(--color-text-secondary) !important;
+}
+
+[data-theme="dark"] .light-silver {
+  color: var(--color-text-primary) !important;
+}
+
+/* Dark mode for code blocks */
+[data-theme="dark"] pre {
+  background-color: var(--color-neutral-900) !important;
+  border-color: var(--color-border) !important;
+}
+
+[data-theme="dark"] code {
+  background-color: var(--color-neutral-800) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Dark mode for forms */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+  border-color: var(--color-border) !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* Dark mode for borders */
+[data-theme="dark"] .b--light-gray {
+  border-color: var(--color-border) !important;
+}
+
+[data-theme="dark"] .b--moon-gray {
+  border-color: var(--color-border-secondary) !important;
+}
+
+/* Dark mode for shadows - reduce opacity in dark mode */
+[data-theme="dark"] .shadow-1,
+[data-theme="dark"] .shadow-2,
+[data-theme="dark"] .shadow-3,
+[data-theme="dark"] .shadow-4,
+[data-theme="dark"] .shadow-5 {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Ensure images don't become too bright in dark mode */
+[data-theme="dark"] img {
+  opacity: 0.9;
+  transition: opacity var(--transition-base);
+}
+
+[data-theme="dark"] img:hover {
+  opacity: 1;
+}
+
+/* Dark mode for navigation and header elements */
+[data-theme="dark"] nav {
+  background-color: var(--color-surface-secondary) !important;
+}
+
+[data-theme="dark"] header {
+  background-color: var(--color-surface-secondary) !important;
+}
+
+/* Dark mode for article content */
+[data-theme="dark"] article {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Dark mode for tables */
+[data-theme="dark"] table {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+}
+
+[data-theme="dark"] th {
+  background-color: var(--color-surface-secondary) !important;
+  color: var(--color-text-primary) !important;
+  border-color: var(--color-border) !important;
+}
+
+[data-theme="dark"] td {
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+}
+
+/* Dark mode for blockquotes */
+[data-theme="dark"] blockquote {
+  background-color: var(--color-surface-secondary) !important;
+  border-left-color: var(--color-primary-400) !important;
+}
+
+/* ==========================================================================
    PRINT STYLES
    ========================================================================== */
 
