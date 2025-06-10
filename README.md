@@ -53,6 +53,7 @@ Additionally, a GitHub Actions workflow is set up to build the site on every pus
 ## Content Creation Workflow
 
 1. Create a new post using the Makefile:
+
    ```bash
    # For a technical post
    make new-tech TITLE='My New Technical Post'
@@ -67,21 +68,25 @@ Additionally, a GitHub Actions workflow is set up to build the site on every pus
 2. Edit the generated Markdown file in the content directory.
 
 3. Preview your changes locally:
+
    ```bash
    make serve
    ```
 
 4. When ready to publish, change the draft status:
+
    ```bash
    make publish FILE=content/technical/my-new-technical-post.md
    ```
 
 5. Preview the production version of the site:
+
    ```bash
    make preview
    ```
 
 6. Commit and push your changes to GitHub:
+
    ```bash
    git add .
    git commit -m "Add new post: My New Technical Post"

@@ -5,6 +5,7 @@ summary: 'Redirection to older blogs'
 ---
 
 Compiltation of blogs for CKAD preparation:
+
 - [Crypto - Is it a bubble?](https://blog.cryptostars.is/crypto-is-it-a-bubble-e8e9a8539885)
 - [Intrinsic Value of Crypto Assets](https://blog.cryptostars.is/intrinsic-value-of-crypto-assets-2f004e6a308f)
 - [Entrepreneur vs Academician](https://hitesh-pattanayak.medium.com/entrepreneur-vs-academician-5ca18eefabd8)

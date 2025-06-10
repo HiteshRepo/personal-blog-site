@@ -17,6 +17,8 @@ help:
 	@echo "  make publish      - Publish a draft post (usage: make publish FILE=path/to/post.md)"
 	@echo "  make preview      - Build and serve the production site locally"
 	@echo "  make check        - Check for common issues"
+	@echo "  make lint-md      - Run markdownlint on all markdown files"
+	@echo "  make lint-md-fix  - Run markdownlint and fix all auto-fixable issues"
 
 .PHONY: serve
 serve:
@@ -83,3 +85,43 @@ check:
 	@grep -r "draft: true" content/ || echo "No draft posts found."
 	@echo "Checking for broken links..."
 	$(HUGO) --baseURL="http://localhost" && echo "Site built successfully. To check for broken links, install htmlproofer."
+
+.PHONY: lint-md
+lint-md:
+	@echo "Running markdownlint on all markdown files..."
+	@if ! command -v markdownlint >/dev/null 2>&1; then \
+		echo "markdownlint-cli not found. Installing globally..."; \
+		npm install -g markdownlint-cli; \
+	fi
+	@if [ ! -f .markdownlint.json ]; then \
+		echo "Creating markdownlint configuration..."; \
+		echo '{"default":true,"MD013":{"line_length":120,"code_blocks":false,"tables":false},"MD033":{"allowed_elements":["br","img","a","div","span","details","summary"]},"MD041":false}' > .markdownlint.json; \
+	fi
+	markdownlint \
+		--config .markdownlint.json \
+		--ignore node_modules \
+		--ignore themes \
+		--ignore public \
+		--ignore resources \
+		'**/*.md'
+
+.PHONY: lint-md-fix
+lint-md-fix:
+	@echo "Running markdownlint with auto-fix on all markdown files..."
+	@if ! command -v markdownlint >/dev/null 2>&1; then \
+		echo "markdownlint-cli not found. Installing globally..."; \
+		npm install -g markdownlint-cli; \
+	fi
+	@if [ ! -f .markdownlint.json ]; then \
+		echo "Creating markdownlint configuration..."; \
+		echo '{"default":true,"MD013":{"line_length":120,"code_blocks":false,"tables":false},"MD033":{"allowed_elements":["br","img","a","div","span","details","summary"]},"MD041":false}' > .markdownlint.json; \
+	fi
+	markdownlint \
+		--config .markdownlint.json \
+		--ignore node_modules \
+		--ignore themes \
+		--ignore public \
+		--ignore resources \
+		--fix \
+		'**/*.md'
+	@echo "Auto-fixable markdown issues have been resolved."

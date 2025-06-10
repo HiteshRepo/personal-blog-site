@@ -11,16 +11,18 @@ In the world of cloud computing, orchestrating workflows can feel a bit like try
 
 ## AWS Step Functions: The Maestro of Workflows
 
-AWS Step Functions is like the well-trained conductor who knows exactly how to keep everything in sync. It allows you to build complex workflows by defining state machines using JSON. Think of it as creating a playlist for your cloud operations—each step leads seamlessly into the next, just like your favorite songs. 
+AWS Step Functions is like the well-trained conductor who knows exactly how to keep everything in sync. It allows you to build complex workflows by defining state machines using JSON. Think of it as creating a playlist for your cloud operations—each step leads seamlessly into the next, just like your favorite songs.
 
 ![AWS step functions](/images/AWS-step-functions.png)
 
-### Pros:
+### Pros
+
 - **Visual Workflow Design**: You can visually design your workflows, which is great for those who prefer pictures over text—no judgment here!
 - **Seamless Integration**: It integrates nicely with other AWS services, making it easy to orchestrate everything from Lambda functions to S3 buckets.
 - **Fault Tolerance**: It automatically handles retries and error handling, so you can focus on composing your cloud symphony without worrying about missed notes.
 
-### Cons:
+### Cons
+
 - **JSON Overload**: Writing your workflow in JSON can feel like trying to write a symphony using only drum beats. It’s not always the most intuitive for complex logic.
 - **Limited Language Support**: You’re essentially bound to the AWS ecosystem, which can feel like playing in a one-instrument band.
 
@@ -30,12 +32,14 @@ Azure Logic Apps is like that friend who insists on using low-code solutions for
 
 ![Azure logic apps](/images/Azure-logic-apps.png)
 
-### Pros:
+### Pros
+
 - **User-Friendly**: With its drag-and-drop interface, even your tech-averse uncle can create workflows in no time.
 - **Rich Connectors**: Logic Apps come with a plethora of connectors for various services, so you can easily integrate with third-party applications.
 - **Event-Driven**: Perfect for handling events, it responds to triggers without breaking a sweat.
 
-### Cons:
+### Cons
+
 - **Limited Control**: If you want to define complex logic, be prepared to wrestle with JSON or ARM templates.
 - **Less Flexibility**: As a no-code solution, it may not provide the fine-grained control some developers crave—kind of like trying to conduct a full orchestra with just a kazoo.
 
@@ -45,27 +49,31 @@ If AWS Step Functions is the conductor and Azure Logic Apps is the enthusiastic 
 
 ![Azure durable functions](/images/Azure-durable-functions.png)
 
-### Pros:
+### Pros
+
 - **Code First**: You can write your workflows in your preferred programming language, making it easy to test and maintain.
 - **Long-Running Workflows**: Perfect for handling complex, long-running operations without losing track of state. It’s like ensuring the concert goes on without any intermissions.
 - **Durable State Management**: Automatically manages state and handles failures gracefully.
 
-### Cons:
+### Cons
+
 - **Learning Curve**: If you’re not familiar with the Azure ecosystem, it might feel like learning a new musical scale—frustrating at first but rewarding once you get it.
 - **Limited Language Support**: It primarily supports a few programming languages, which might not include your favorite.
 
 ## Temporal: The New Kid on the Block
 
-Temporal is like the new virtuoso who shows up with a unique style and a lot of potential. It’s an open-source workflow orchestration platform that lets you define workflows in code (like Durable Functions) but aims to provide more flexibility and robustness. 
+Temporal is like the new virtuoso who shows up with a unique style and a lot of potential. It’s an open-source workflow orchestration platform that lets you define workflows in code (like Durable Functions) but aims to provide more flexibility and robustness.
 
 ![Temporal worklow & activities](/images/temporal.png)
 
-### Pros:
+### Pros
+
 - **Decoupled Workflows and Activities**: You can easily separate the orchestration logic from the business logic, making it easier to update your workflows without messing with the underlying activities—think of it as rearranging the chairs without disrupting the concert.
 - **Fault Tolerance and Reliability**: Temporal automatically handles retries and state management, so you don’t have to sweat the small stuff.
 - **Multi-Language Support**: With support for languages like Go, Java, and TypeScript, it caters to a wide range of developer preferences.
 
-### Cons:
+### Cons
+
 - **Complexity**: Being a newer player, it might require a bit more setup and configuration, which could feel like tuning a new instrument—some fiddling may be needed.
 - **Community and Documentation**: As an emerging platform, its community and documentation may not be as robust as the established giants—kind of like searching for sheet music in a deserted library.
 
@@ -89,7 +97,8 @@ Ultimately, the best choice depends on your specific needs, the complexity of yo
 
 ---
 
-### Share This Post!
+### Share This Post
+
 If you found this post helpful or entertaining, please share it with your friends!
 
 [Share on Twitter](https://twitter.com/intent/tweet?text=I%20just%20read%20this%20great%20blog%20about%20AI%20and%20LLMs!%20Check%20it%20out:%20[https://hitesh-pattanayak.netlify.app/technical/workflow-orchestration/])  

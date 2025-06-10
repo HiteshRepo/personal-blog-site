@@ -18,7 +18,7 @@ When I first dipped my toes into the vast ocean of **Large Language Models (LLMs
 - How in the world do they get trained? Is there a gym for models? 🏋️‍♂️
 - And what exactly is "fine-tuning"? Is it like tuning a guitar, but with data?
 
-I had all these questions swirling around in my head. The problem? I had no idea where to start. Every time I searched for resources, I felt like I was playing a game of "information scavenger hunt" – bits and pieces scattered all over the internet. Oh, and did I mention, I was looking for **free resources**? 
+I had all these questions swirling around in my head. The problem? I had no idea where to start. Every time I searched for resources, I felt like I was playing a game of "information scavenger hunt" – bits and pieces scattered all over the internet. Oh, and did I mention, I was looking for **free resources**?
 
 Not that I’m cheap, especially when it comes to learning! It’s just... why spend money on something when I’m not even sure it’s useful yet? For example, if I want to master **Kubernetes**, I’ll head straight to [Kodekloud](https://kodekloud.com/) – it’s a reliable platform. But for AI? It was a whole new ballgame.
 
@@ -60,13 +60,14 @@ Let’s take a brief stroll down memory lane, shall we?
 
 So, basically, I’m starting from scratch. 🫠 But hey, that’s okay! This time, I’m going to take a top-down approach to learning AI. Why? Because starting from the bottom just feels like too much work.
 
-## Stay Tuned for More AI Insights!
+## Stay Tuned for More AI Insights
 
 So that’s where I am right now – at the beginning of a new AI journey. Stick around, and I’ll share everything I learn along the way. Let’s see if I can retain it this time... fingers crossed! 🤞
 
 Until next time!
 
-### Share This Post!
+### Share This Post
+
 If you found this post helpful or entertaining, please share it with your friends!
 
 [Share on Twitter](https://twitter.com/intent/tweet?text=I%20just%20read%20this%20great%20blog%20about%20AI%20and%20LLMs!%20Check%20it%20out:%20[https://hitesh-pattanayak.netlify.app/technical/ai/first-ai-post/])  
