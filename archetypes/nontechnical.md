@@ -6,8 +6,6 @@ tags: ["non-technical", "opinion"]
 draft: true
 ---
 
-# {{ replace .File.ContentBaseName "-" " " | title }}
-
 ## Introduction
 
 Introduce the topic and why it's interesting or relevant to your readers.

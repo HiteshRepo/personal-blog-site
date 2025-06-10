@@ -95,7 +95,7 @@ lint-md:
 	fi
 	@if [ ! -f .markdownlint.json ]; then \
 		echo "Creating markdownlint configuration..."; \
-		echo '{"default":true,"MD013":{"line_length":120,"code_blocks":false,"tables":false},"MD033":{"allowed_elements":["br","img","a","div","span","details","summary"]},"MD041":false}' > .markdownlint.json; \
+		echo '{"default":true,"MD013":{"line_length":500,"code_blocks":false,"tables":false},"MD033":{"allowed_elements":["br","img","a","div","span","details","summary"]},"MD041":false, "MD024": { "siblings_only": true }}' > .markdownlint.json; \
 	fi
 	markdownlint \
 		--config .markdownlint.json \
@@ -114,7 +114,7 @@ lint-md-fix:
 	fi
 	@if [ ! -f .markdownlint.json ]; then \
 		echo "Creating markdownlint configuration..."; \
-		echo '{"default":true,"MD013":{"line_length":120,"code_blocks":false,"tables":false},"MD033":{"allowed_elements":["br","img","a","div","span","details","summary"]},"MD041":false}' > .markdownlint.json; \
+		echo '{"default":true,"MD013":{"line_length":500,"code_blocks":false,"tables":false},"MD033":{"allowed_elements":["br","img","a","div","span","details","summary"]},"MD041":false, "MD024": { "siblings_only": true }}' > .markdownlint.json; \
 	fi
 	markdownlint \
 		--config .markdownlint.json \

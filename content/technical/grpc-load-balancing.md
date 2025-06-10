@@ -4,8 +4,6 @@ date: 2023-05-24
 summary: 'Emulates and resolves load balancing problems with gRPC'
 ---
 
-# Tricky gRPC load balancing
-
 gRPC has many benefits, like:
 
 1. Multiplexes many requests using same connection.
@@ -339,7 +337,7 @@ com
 So the ISSUE is no matter hw many request I make, the request lands up in the same server. This is happending because of sticky nature of HTTP/2.
 The advantage of gRPC becomes it own peril.
 
-The codebase to replicate the issue can be found [here](https://github.com/HiteshRepo/grpc-loadbalancing/commit/dd31d2628d4ee1e47b07b5737ff51cfc43c76d4e).
+The codebase to replicate the issue can be found [in this commit](https://github.com/HiteshRepo/grpc-loadbalancing/commit/dd31d2628d4ee1e47b07b5737ff51cfc43c76d4e).
 
 ## gRPC Client side load balancing
 
@@ -360,7 +358,7 @@ This is because HTTP2, which is the protocol used by gRPC, is yet to have browse
 Hence the REST gateway acts as a gRPC client to gRPC servers. And thats why gRPC is mostly used for internal communications.
 
 Earlier we had used `hiteshpattanayak/greet-client:4.0` image for `Greet Client` which had the normal gRPC setup without client side load balancing.
-The code can be referred [here](https://github.com/HiteshRepo/grpc-loadbalancing/commit/dd31d2628d4ee1e47b07b5737ff51cfc43c76d4e).
+The code can be referred [in this commit](https://github.com/HiteshRepo/grpc-loadbalancing/commit/dd31d2628d4ee1e47b07b5737ff51cfc43c76d4e).
 
 ## Changes
 
@@ -453,7 +451,8 @@ You can set `.spec.clusterIP`, if you already have an existing DNS entry that yo
 
 In case you set `.spec.clusterIP` to `None`, it makes the service `headless`, which means when a client sends a request to a headless Service, it will get back a list of all Pods that this Service represents (in this case, the ones with the label `run: greetserver`).
 
-Kubernetes allows clients to discover pod IPs through DNS lookups. Usually, when you perform a DNS lookup for a service, the DNS server returns a single IP — the service’s cluster IP. But if you tell Kubernetes you don’t need a cluster IP for your service (you do this by setting the clusterIP field to None in the service specification ), the DNS server will return the pod IPs instead of the single service IP. Instead of returning a single DNS A record, the DNS server will return multiple A records for the service, each pointing to the IP of an individual pod backing the service at that moment. Clients can therefore do a simple DNS A record lookup and get the IPs of all the pods that are part of the service. The client can then use that information to connect to one, many, or all of them.
+Kubernetes allows clients to discover pod IPs through DNS lookups. Usually, when you perform a DNS lookup for a service, the DNS server returns a single IP — the service’s cluster IP. But if you tell Kubernetes you don’t need a cluster IP for your service (you do this by setting the clusterIP field to None in the service specification ), the DNS server will return the pod IPs instead of the single service IP.
+Instead of returning a single DNS A record, the DNS server will return multiple A records for the service, each pointing to the IP of an individual pod backing the service at that moment. Clients can therefore do a simple DNS A record lookup and get the IPs of all the pods that are part of the service. The client can then use that information to connect to one, many, or all of them.
 
 Basically, the Service now lets the client decide on how it wants to connect to the Pods.
 
@@ -591,7 +590,7 @@ It exposes a service called `lookaside` and an rpc called `Resolve` which expect
 Using the service name and namespace, it is going to fetch kubernetes endpoints object associated with it. From the endpoint object server IPs can be found.
 Those IPs are going to be stored in memory. Every now and then those IPs would be refreshed based on interval set. For every request to resolve IP, it is going to rotate the IPs based on the routing type in the request.
 
-Code for lookaside load balancer can be found [here](https://github.com/HiteshRepo/grpc-loadbalancing/tree/lookaside/internal/app/lookaside).
+Code for lookaside load balancer can be found [in this branch](https://github.com/HiteshRepo/grpc-loadbalancing/tree/lookaside/internal/app/lookaside).
 
 We are using the image `hiteshpattanayak/lookaside:9.0` for lookaside pod.
 

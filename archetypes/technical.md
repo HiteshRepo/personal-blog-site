@@ -6,8 +6,6 @@ tags: ["technical", "tutorial"]
 draft: true
 ---
 
-# {{ replace .File.ContentBaseName "-" " " | title }}
-
 ## Introduction
 
 Briefly introduce the technical topic and why it's important or interesting.
