@@ -1,0 +1,131 @@
+<nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="{{ .Site.Home.RelPermalink }}" class="f3 fw2 hover-white no-underline white-90 dib">
+      {{ with .Site.Params.site_logo }}
+        <img src="{{ relURL . }}" class="w100 mw5-ns" alt="{{ $.Site.Title }}" />
+      {{ else }}
+        {{ .Site.Title }}
+      {{ end }}
+    </a>
+    <div class="flex-l items-center">
+      {{ partial "i18nlist.html" . }}
+      {{ if .Site.Menus.main }}
+        <ul class="{{ cond (eq $.Site.Language.LanguageDirection "rtl") "pr0 ml3" "pl0 mr3" }}">
+          {{ range .Site.Menus.main }}
+          <li class="list f5 f4-ns fw4 dib {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl3" "pr3" }}">
+            <a class="hover-white no-underline white-90" href="{{ .URL }}" title="{{ i18n "pageTitle" . }}">
+              {{ .Name }}
+            </a>
+          </li>
+          {{ end }}
+        </ul>
+      {{ end }}
+      
+      <!-- Theme Toggle Button -->
+      <div class="theme-toggle-container {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl3" "pr3" }}">
+        <button 
+          id="theme-toggle" 
+          class="theme-toggle-btn"
+          aria-label="Toggle theme"
+          title="Toggle between light, dark, and auto themes"
+        >
+          <span class="theme-icon" aria-hidden="true">🌙</span>
+          <span class="theme-label sr-only">Auto</span>
+        </button>
+      </div>
+      
+      {{ partialCached "social-follow.html" . }}
+    </div>
+  </div>
+</nav>
+
+<style>
+/* Theme Toggle Styles */
+.theme-toggle-container {
+  display: inline-block;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-full, 50%);
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.2rem;
+  transition: all var(--transition-fast, 150ms ease-in-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.theme-toggle-btn:focus {
+  outline: 2px solid var(--color-focus-ring, #0ea5e9);
+  outline-offset: 2px;
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.theme-icon {
+  transition: transform var(--transition-fast, 150ms ease-in-out);
+}
+
+.theme-toggle-btn:hover .theme-icon {
+  transform: rotate(15deg);
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Dark mode adjustments for the toggle button */
+[data-theme="dark"] .theme-toggle-btn {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 30em) {
+  .theme-toggle-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Animation for theme changes */
+@keyframes themeChange {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(180deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+.theme-toggle-btn.changing .theme-icon {
+  animation: themeChange 0.3s ease-in-out;
+}
+</style>
