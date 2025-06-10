@@ -1,0 +1,55 @@
+name: Link Checker
+
+on:
+  pull_request:
+    paths:
+      - 'content/**/*.md'
+      - 'archetypes/**/*.md'
+      - '*.md'
+  workflow_dispatch:
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install markdown-link-check
+        run: npm install -g markdown-link-check
+        
+      - name: Check links in markdown files
+        run: |
+          # Find all markdown files in content directory and check links
+          find content/ -name "*.md" -exec markdown-link-check {} \;
+        continue-on-error: false
+        
+      - name: Check links with custom config
+        run: |
+          # Create a config file for markdown-link-check
+          cat > .mlc_config.json << 'EOF'
+          {
+            "ignorePatterns": [
+              {
+                "pattern": "^http://localhost"
+              },
+              {
+                "pattern": "^https://localhost"
+              }
+            ],
+            "timeout": "20s",
+            "retryOn429": true,
+            "retryCount": 3,
+            "fallbackRetryDelay": "30s",
+            "aliveStatusCodes": [200, 206]
+          }
+          EOF
+          
+          # Check links with config
+          find content/ -name "*.md" -exec markdown-link-check --config .mlc_config.json {} \;
