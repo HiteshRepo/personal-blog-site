@@ -6,3 +6,4 @@ theme = "gohugo-theme-ananke"
 [params]
     github = "https://github.com/HiteshRepo"
     linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
+    custom_css = ["styles/design-system.css"]

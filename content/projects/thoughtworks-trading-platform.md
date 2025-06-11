@@ -6,7 +6,7 @@ startDate: "2021-10-01"
 endDate: "2022-07-01"
 techStack: ["Golang", "TimescaleDB", "PostgreSQL", "Apache Kafka", "gRPC", "REST", "Datadog", "Kubernetes"]
 featured: true
-weight: 4
+description: "Architected and delivered microservices-based cryptocurrency trading platform for Voyager Inc., building scalable backend infrastructure to handle high-frequency trading operations and real-time market data processing."
 ---
 
 ## Project Overview
