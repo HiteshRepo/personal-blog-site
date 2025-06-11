@@ -7,3 +7,7 @@ theme = "gohugo-theme-ananke"
     github = "https://github.com/HiteshRepo"
     linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
     custom_css = ["styles/design-system.css"]
+
+[services]
+  [services.googleAnalytics]
+    id = 'G-SSRQWT3E10'
