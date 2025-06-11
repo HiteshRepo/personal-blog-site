@@ -6,7 +6,7 @@ startDate: "2020-12-01"
 endDate: "2021-09-01"
 techStack: ["React", "Golang", "MySQL", "Redis", "GraphQL", "RabbitMQ", "Kubernetes"]
 featured: true
-weight: 5
+description: "Architected and built comprehensive no-code/low-code platform enabling non-technical users to create enterprise applications through intuitive drag-and-drop interface, democratizing software development across organizations."
 ---
 
 ## Project Overview

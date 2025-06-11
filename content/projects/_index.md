@@ -1,7 +1,6 @@
 ---
 title: "Projects"
 description: "Professional projects and work experience"
-layout: "list"
 type: "projects"
 ---
 

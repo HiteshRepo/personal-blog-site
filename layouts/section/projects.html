@@ -1,10 +1,5 @@
 {{ define "main" }}
 <div class="projects-container">
-  <header class="projects-header">
-    <h1>{{ .Title }}</h1>
-    <div class="projects-description">{{ .Content }}</div>
-  </header>
-
   <div class="projects-grid">
     {{ range .Pages.ByWeight }}
     <article class="project-card {{ if .Params.featured }}featured{{ end }}">
