@@ -6,7 +6,7 @@ startDate: "2019-02-01"
 endDate: "2020-12-01"
 techStack: ["Python", "Selenium", "C#", "RPA", "Banking Systems"]
 featured: false
-description: "Automated redundant processes for a banking client using Python, Selenium, and C#, improving operational efficiency and reducing manual intervention in critical banking workflows."
+description: "Banking process automation"
 ---
 
 ## Project Overview

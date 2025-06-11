@@ -6,7 +6,7 @@ startDate: "2024-10-01"
 endDate: "2025-06-11"
 techStack: ["Golang", "Auth0", "Azure", "Pulumi", "RBAC", "Infrastructure-as-Code"]
 featured: true
-description: "Led development of comprehensive authentication and authorization platform for Veeam's Backup-as-a-Service offering, supporting complex multi-organizational user management scenarios."
+description: "Authentication, authorization and user management platform"
 ---
 
 ## Project Overview

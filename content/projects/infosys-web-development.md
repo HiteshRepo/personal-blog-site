@@ -6,7 +6,7 @@ startDate: "2015-10-01"
 endDate: "2019-01-01"
 techStack: ["ASP.NET MVC", "C#", ".NET Framework", "SQL Server", "JavaScript", "HTML/CSS"]
 featured: false
-description: "Developed web pages as part of a monolithic application using ASP.NET MVC and C#, contributing to large-scale enterprise web applications with complex business requirements."
+description: "Enterprise web development"
 ---
 
 ## Project Overview
