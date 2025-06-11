@@ -1127,6 +1127,19 @@ section.animate-in {
     transform: scale(1.05);
 }
 
+/* Dark mode tech tags with better contrast */
+[data-theme="dark"] .tech-tag {
+    background-color: var(--color-primary-900);
+    color: var(--color-primary-100);
+    border-color: var(--color-primary-700);
+}
+
+[data-theme="dark"] .tech-tag:hover {
+    background-color: var(--color-primary-800);
+    color: var(--color-primary-50);
+    border-color: var(--color-primary-600);
+}
+
 .project-card-footer {
     margin-top: auto;
 }
@@ -1269,7 +1282,7 @@ section.animate-in {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-6);
     flex-wrap: wrap;
 }
 
