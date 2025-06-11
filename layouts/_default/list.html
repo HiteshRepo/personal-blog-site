@@ -38,18 +38,29 @@
   </div>
 </div>
 {{ else }}
-  <article class="pa3 pa4-ns nested-copy-line-height">
-    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy {{ $.Param "text_color" | default "mid-gray" }}">
-      {{- .Content -}}
-    </section>
-    <section class="flex-ns flex-wrap justify-around mt5">
-      {{ range .Paginator.Pages }}
-        <div class="relative w-100 w-30-l mb4 bg-white">
-          {{ .Render "summary" }}
-        </div>
-      {{ end }}
-    </section>
-    {{- template "_internal/pagination.html" . -}}
-  </article>
+  <div class="post-list"></div>
+    {{ $currentYear := "" }} <!-- Initialize an empty variable for current year -->
+    {{ range .Paginator.Pages }}
+        {{ $year := .Date.Format "2006" }} <!-- Get the year of the current post -->
+        <!-- Check if the current post's year is different from the last one displayed -->
+        {{ if ne $year $currentYear }}
+            {{ if ne $currentYear "" }} <!-- Close previous year section if not the first year -->
+                </ul>
+            {{ end }}
+            <h2>{{ $year }}</h2> <!-- Display the year -->
+            <ul>
+            {{ $currentYear = $year }} <!-- Update current year to the new one -->
+        {{ end }}
+        
+        <li>
+            <a href="{{ .Permalink }}">{{ .Title }}</a> <!-- Link to the post -->
+            <small>{{ .Date.Format "Jan 2, 2006" }}</small> <!-- Display the date -->
+        </li>
+    {{ end }}
+    {{ if ne $currentYear "" }} <!-- Close the last year section -->
+        </ul>
+    {{ end }}
+  </div>
+  {{- template "_internal/pagination.html" . -}}
 {{ end }}
 {{ end }}
