@@ -18,17 +18,6 @@
         {{ if eq .Params.endDate "2025-01-01" }}Present{{ else }}{{ dateFormat "Jan 2006" .Params.endDate }}{{ end }}
       </div>
     </div>
-    
-    {{ if .Params.techStack }}
-    <div class="project-tech-stack">
-      <h3>Technologies Used</h3>
-      <div class="tech-tags">
-        {{ range .Params.techStack }}
-        <span class="tech-tag">{{ . }}</span>
-        {{ end }}
-      </div>
-    </div>
-    {{ end }}
   </header>
 
   <div class="project-detail-content">
