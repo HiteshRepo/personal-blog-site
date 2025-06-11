@@ -1,6 +1,6 @@
 baseURL = '/'
 languageCode = 'en-us'
-title = 'geeky detox'
+title = 'Hitesh Pattanayak'
 theme = "gohugo-theme-ananke"
 
 [params]
