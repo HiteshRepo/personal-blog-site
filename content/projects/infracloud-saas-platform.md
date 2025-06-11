@@ -6,7 +6,7 @@ startDate: "2023-02-01"
 endDate: "2024-09-30"
 techStack: ["Golang", "AWS", "Microsoft 365 APIs", "CLI", "Multi-tenant Architecture", "CI/CD"]
 featured: true
-description: "Engineered end-to-end Microsoft 365 data protection solution for Alcion Inc., developing CLI tools for automated backup and restoration across Exchange, SharePoint, OneDrive, and Teams environments."
+description: "Microsoft 365 backup solution - CLI tools, data protection"
 ---
 
 ## Project Overview

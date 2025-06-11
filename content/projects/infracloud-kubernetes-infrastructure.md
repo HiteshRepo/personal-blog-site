@@ -6,7 +6,7 @@ startDate: "2022-08-01"
 endDate: "2023-01-31"
 techStack: ["Golang", "Kubernetes", "AWS EKS Anywhere", "gRPC", "REST", "Docker", "Terraform"]
 featured: true
-description: "Architected and developed comprehensive bare-metal Kubernetes cluster provisioning solution for Rafay Systems using AWS EKS Anywhere, delivering full lifecycle management capabilities including automated provisioning, scaling, backup/restore, and rollback functionality."
+description: "Kubernetes cluster provisioning - AWS EKS Anywhere"
 ---
 
 ## Project Overview
