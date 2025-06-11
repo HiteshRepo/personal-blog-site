@@ -1,24 +1,37 @@
 {{ define "main" }}
+
 <div class="project-detail-container">
-  <header class="project-detail-header">
-    <nav class="breadcrumb">
-      <a href="/">Home</a> / <a href="/projects/">Projects</a> / {{ .Title }}
-    </nav>
-    
-    <div class="project-detail-meta">
-      <div class="meta-item">
-        <strong>Organization:</strong> {{ .Params.organization }}
-      </div>
-      <div class="meta-item">
-        <strong>Role:</strong> {{ .Params.role }}
-      </div>
-      <div class="meta-item">
-        <strong>Duration:</strong> 
-        {{ dateFormat "Jan 2006" .Params.startDate }} - 
-        {{ if eq .Params.endDate "2025-01-01" }}Present{{ else }}{{ dateFormat "Jan 2006" .Params.endDate }}{{ end }}
-      </div>
+  <div class="project-detail-meta">
+    <div class="meta-item">
+        <div class="meta-icon org">🏢</div>
+        <div class="meta-content">
+            <div class="meta-label">Organization</div>
+            <div class="meta-value">Tech Innovations Inc.</div>
+        </div>
     </div>
-  </header>
+    
+    <div class="meta-item">
+        <div class="meta-icon role">👤</div>
+        <div class="meta-content">
+            <div class="meta-label">Role</div>
+            <div class="meta-value">Senior Software Engineer</div>
+        </div>
+    </div>
+    
+    <div class="meta-item">
+        <div class="meta-icon duration">📅</div>
+        <div class="meta-content">
+            <div class="meta-label">Duration</div>
+            <div class="meta-value">
+                Jan 2023 - Present
+                <span class="current-badge">
+                    <span class="pulse-dot"></span>
+                    Current
+                </span>
+            </div>
+        </div>
+    </div>
+  </div>
 
   <div class="project-detail-content">
     {{ .Content }}
@@ -31,10 +44,14 @@
         ← {{ .Title }}
       </a>
       {{ end }}
+
+      <br/>
       
       <a href="/projects/" class="nav-link back">
         Back to Projects
       </a>
+
+      <br/>
       
       {{ with .NextInSection }}
       <a href="{{ .Permalink }}" class="nav-link next">
