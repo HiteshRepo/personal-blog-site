@@ -22,7 +22,7 @@
       {{ end }}
       
       <!-- Theme Toggle Button -->
-      <div class="theme-toggle-container {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl3" "pr3" }}">
+      <!-- <div class="theme-toggle-container {{ cond (eq $.Site.Language.LanguageDirection "rtl") "pl3" "pr3" }}">
         <button 
           id="theme-toggle" 
           class="theme-toggle-btn"
@@ -32,7 +32,7 @@
           <span class="theme-icon" aria-hidden="true">🌙</span>
           <span class="theme-label sr-only">Auto</span>
         </button>
-      </div>
+      </div> -->
       
       {{ partialCached "social-follow.html" . }}
     </div>
