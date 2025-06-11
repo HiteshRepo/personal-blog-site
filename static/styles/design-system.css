@@ -741,11 +741,13 @@ body {
 [data-theme="dark"] pre {
   background-color: var(--color-neutral-900) !important;
   border-color: var(--color-border) !important;
+  color: var(--color-text-primary) !important;
 }
 
 [data-theme="dark"] code {
   background-color: var(--color-neutral-800) !important;
   border-color: var(--color-border) !important;
+  color: var(--color-text-primary) !important;
 }
 
 /* Dark mode for forms */
