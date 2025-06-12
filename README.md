@@ -103,3 +103,8 @@ This project includes custom archetypes (templates) for different types of conte
 - **Technical**: Template for technical posts with sections for code examples and troubleshooting
 - **Non-technical**: Template for opinion pieces and non-technical content
 - **AI**: Specialized template for AI-related posts with sections for technical details and mathematical formulas
+
+
+## Shoutouts
+
+- This [post](https://stackoverflow.com/questions/76232752/how-to-get-google-analytics-ga4-to-work-with-hugo) helped me kick-staring Google analytics setup.
