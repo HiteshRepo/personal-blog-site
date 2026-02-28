@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "About"
 description: "Software Engineer and Technical Writer"
 ---
 
