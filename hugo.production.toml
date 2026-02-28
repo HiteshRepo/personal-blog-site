@@ -20,8 +20,8 @@ url = "/about/"
 weight = 20
 
 [params]
-pagetitle = "Hitesh Pattanayak"
-copyright = "© 2024 Hitesh Pattanayak"
+pagetitle = "Portfolio"
+copyright = "© 2024-2026"
 copyrightUrl = "https://hitesh-pattanayak.netlify.app/"
 faviconfile = "image/favicon.png"
 logofile = "image/avatar.png"
@@ -33,5 +33,6 @@ github = "https://github.com/HiteshRepo"
 linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
 custom_css = ["styles/design-system.css"]
 recent_posts_number = 0
+site_logo = "HP"
 
 googleAnalytics ='G-SSRQWT3E10'
