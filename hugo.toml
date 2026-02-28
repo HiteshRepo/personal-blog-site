@@ -16,3 +16,5 @@ weight = 20
 [params]
 github = "https://github.com/HiteshRepo"
 linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
+show_reading_time = false
+recent_posts_number = 0
