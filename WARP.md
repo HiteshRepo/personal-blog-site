@@ -9,56 +9,53 @@ This is a personal blog site built with Hugo static site generator, deployed aut
 ## Essential Commands
 
 ### Development Server
-```bash
-# Start local development server with drafts enabled
-make serve
 
-# Preview production build locally
-make preview
-```
+    # Start local development server with drafts enabled
+    make serve
+
+    # Preview production build locally
+    make preview
 
 ### Content Creation
-```bash
-# Create technical posts (most common)
-make new-tech TITLE='Your Technical Post Title'
 
-# Create AI-related posts (special technical category)
-make new-ai TITLE='Your AI Post Title'
+    # Create technical posts (most common)
+    make new-tech TITLE='Your Technical Post Title'
 
-# Create non-technical posts
-make new-nontech TITLE='Your Opinion Post Title'
+    # Create AI-related posts (special technical category)
+    make new-ai TITLE='Your AI Post Title'
 
-# Generic post creation (specify section manually)
-make new-post TITLE='Post Title' SECTION=technical
-```
+    # Create non-technical posts
+    make new-nontech TITLE='Your Opinion Post Title'
+
+    # Generic post creation (specify section manually)
+    make new-post TITLE='Post Title' SECTION=technical
 
 ### Publishing Workflow
-```bash
-# Publish a draft (changes draft: true to draft: false)
-make publish FILE=content/technical/your-post.md
 
-# Build site locally
-make build
+    # Publish a draft (changes draft: true to draft: false)
+    make publish FILE=content/technical/your-post.md
 
-# Check for draft posts and validate build
-make check
-```
+    # Build site locally
+    make build
+
+    # Check for draft posts and validate build
+    make check
 
 ### Linting and Quality
-```bash
-# Lint all markdown files
-make lint-md
 
-# Lint and auto-fix markdown issues
-make lint-md-fix
+    # Lint all markdown files
+    make lint-md
 
-# See all available commands
-make help
-```
+    # Lint and auto-fix markdown issues
+    make lint-md-fix
+
+    # See all available commands
+    make help
 
 ## Architecture and Structure
 
 ### Content Architecture
+
 The site uses Hugo's content organization with custom archetypes for different post types:
 
 - **Technical posts**: Located in `content/technical/` with structured templates for code examples, prerequisites, and troubleshooting sections
@@ -66,17 +63,20 @@ The site uses Hugo's content organization with custom archetypes for different p
 - **Non-technical posts**: Located in `content/nontechnical/` for opinion pieces and general content
 
 ### Hugo Configuration
+
 - **Development config**: `hugo.toml` (local development with relative baseURL)
 - **Production config**: `hugo.production.toml` (includes Google Analytics and production baseURL)
 - **Build settings**: `netlify.toml` defines Hugo version (0.134.3) and build commands
 
 ### Theme and Customization
+
 - Uses `gohugo-theme-ananke` as a Git submodule
 - Custom CSS via `styles/design-system.css`
 - LaTeX support enabled (`uselatex = true`)
 - Syntax highlighting enabled (`highlightjs = true`)
 
 ### Deployment Pipeline
+
 1. **Local Development**: Use `make serve` for development with draft content
 2. **Content Creation**: Use Makefile commands to generate posts from archetypes
 3. **Publishing**: Use `make publish` to mark drafts as ready
@@ -84,6 +84,7 @@ The site uses Hugo's content organization with custom archetypes for different p
 5. **Quality Assurance**: GitHub Actions run markdown linting, spell checking, and link validation
 
 ### GitHub Actions Workflows
+
 - **PR Review**: Automated code review using GPTScript integration
 - **Markdown Linting**: Validates markdown formatting
 - **Spell Checking**: Uses CSpell with extensive technical vocabulary
@@ -92,18 +93,23 @@ The site uses Hugo's content organization with custom archetypes for different p
 ## Content Guidelines
 
 ### Archetype Usage
+
 Each content type has a specific archetype with predefined structure:
+
 - **Technical**: Includes prerequisites, code examples, troubleshooting sections
 - **AI**: Includes background, technical details, applications, challenges, future directions
 - **Non-technical**: Focuses on main points, personal reflections, and conclusions
 
 ### Markdown Configuration
+
 - Line length limit: 500 characters (configured in `.markdownlint.json`)
 - Allows HTML elements: `br`, `img`, `a`, `div`, `span`, `details`, `summary`
 - Duplicate headers allowed within same section (`siblings_only: true`)
 
 ### Spell Check Integration
+
 Comprehensive technical vocabulary in `.cspell.json` includes:
+
 - Programming languages and frameworks
 - Cloud platforms and DevOps tools
 - AI/ML terminology
