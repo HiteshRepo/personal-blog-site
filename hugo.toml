@@ -4,15 +4,5 @@ title = 'Hitesh Pattanayak'
 theme = "gohugo-theme-ananke"
 
 [params]
-pagetitle = "Hitesh Pattanayak"
-copyright = "© 2024 Hitesh Pattanayak"
-copyrightUrl = "https://hitesh-pattanayak.netlify.app/"
-faviconfile = "image/favicon.png"
-logofile = "image/avatar.png"
-posts_navigation = true
-uselatex = true
-highlightjs = true
-progressively = false
 github = "https://github.com/HiteshRepo"
 linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
-custom_css = ["styles/design-system.css"]

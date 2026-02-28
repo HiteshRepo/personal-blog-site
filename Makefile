@@ -1,53 +1,13 @@
-HUGO_VERSION := 0.134.3
-HUGO := hugo
-HUGO_OPTS := --gc --minify
-PORT := 1313
+.PHONY: serve build clean
 
-# Default target
-.PHONY: help
-help:
-	@echo "Available commands:"
-	@echo "  make serve        - Start local development server"
-	@echo "  make build        - Build site locally"
-	@echo "  make clean        - Clean build artifacts"
-	@echo "  make new-post     - Create a new post (usage: make new-post TITLE='My Post Title' SECTION=technical)"
-	@echo "  make new-tech     - Create a new technical post (usage: make new-tech TITLE='My Tech Post')"
-	@echo "  make new-nontech  - Create a new non-technical post (usage: make new-nontech TITLE='My Non-Tech Post')"
-	@echo "  make new-ai       - Create a new AI-related post (usage: make new-ai TITLE='My AI Post')"
-	@echo "  make publish      - Publish a draft post (usage: make publish FILE=path/to/post.md)"
-	@echo "  make preview      - Build and serve the production site locally"
-	@echo "  make check        - Check for common issues"
-	@echo "  make lint-md      - Run markdownlint on all markdown files"
-	@echo "  make lint-md-fix  - Run markdownlint and fix all auto-fixable issues"
-
-.PHONY: serve
 serve:
-	$(HUGO) server -D -p $(PORT)
+	hugo server -D
 
-.PHONY: build
 build:
-	$(HUGO) $(HUGO_OPTS)
+	hugo --gc --minify
 
-.PHONY: clean
 clean:
 	rm -rf public/
-	rm -f .hugo_build.lock
-
-.PHONY: new-post
-new-post:
-	@[ "${TITLE}" ] || ( echo "Error: TITLE is required. Usage: make new-post TITLE='My Post Title' SECTION=technical"; exit 1 )
-	@[ "${SECTION}" ] || ( echo "Error: SECTION is required. Usage: make new-post TITLE='My Post Title' SECTION=technical"; exit 1 )
-	@if [ "$(SECTION)" = "technical" ]; then \
-		$(HUGO) new --kind technical content/$(SECTION)/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md; \
-	elif [ "$(SECTION)" = "nontechnical" ]; then \
-		$(HUGO) new --kind nontechnical content/$(SECTION)/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md; \
-	else \
-		$(HUGO) new content/$(SECTION)/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md; \
-	fi
-	@echo "Created new post: content/$(SECTION)/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md"
-
-.PHONY: new-tech
-new-tech:
 	@[ "${TITLE}" ] || ( echo "Error: TITLE is required. Usage: make new-tech TITLE='My Tech Post'"; exit 1 )
 	$(HUGO) new --kind technical content/technical/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md
 	@echo "Created new technical post: content/technical/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md"
