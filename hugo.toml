@@ -3,6 +3,16 @@ languageCode = 'en-us'
 title = 'Hitesh Pattanayak'
 theme = "gohugo-theme-ananke"
 
+[[menu.main]]
+name = "Posts"
+url = "/posts/"
+weight = 10
+
+[[menu.main]]
+name = "About"
+url = "/about/"
+weight = 20
+
 [params]
 github = "https://github.com/HiteshRepo"
 linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
