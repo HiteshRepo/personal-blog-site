@@ -5,40 +5,17 @@ description: "Software Engineer and Technical Writer"
 
 I'm a Software Engineer with experience building scalable systems, microservices architectures, and high-performance applications. I enjoy writing about technology and sharing insights from my professional projects.
 
-## Featured Projects
+## Background
 
-### High-Performance Financial Trading Platform
+With experience across various organizations including Thoughtworks, Infracloud Technologies, Sureify, Cognizant, and Infosys, I've worked on diverse projects ranging from high-performance financial trading platforms to cloud-native infrastructure solutions.
 
-#### Thoughtworks (2021-2022)
+## Expertise
 
-- Architected cryptocurrency trading platform with microservices
-- Engineered time-series data management with TimescaleDB
-- Built event-driven architecture with Apache Kafka for real-time market data
-- Technologies: Golang, TimescaleDB, PostgreSQL, Apache Kafka, gRPC, Kubernetes
-
-### Kubernetes Infrastructure & Platform Engineering
-
-#### Infracloud Technologies
-
-- Built cloud-native platforms on Kubernetes and OpenShift
-- Implemented identity management solutions and SaaS platforms
-- Developed automated deployment pipelines
-- Technologies: Kubernetes, OpenShift, Go, Python, Terraform
-
-### Visual Platform Development
-
-#### Sureify
-
-- Developed visual configuration platform for insurance workflows
-- Built responsive frontend interfaces and backend APIs
-- Technologies: React, Node.js, microservices architecture
-
-### Process Automation Solutions
-
-#### Cognizant & Infosys
-
-- Implemented RPA solutions and web development projects
-- Built automated workflow and business process optimization tools
+- **Backend Development**: Golang, Node.js, Python
+- **Cloud & Infrastructure**: Kubernetes, Docker, Microservices
+- **Databases**: PostgreSQL, TimescaleDB, time-series data
+- **Frontend**: React, modern JavaScript
+- **DevOps**: CI/CD, Infrastructure as Code
 
 ## Get in Touch
 
