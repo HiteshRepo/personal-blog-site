@@ -2,8 +2,11 @@
 title: "Visual Platform Development"
 organization: "Sureify"
 role: "Software Engineer"
+startDate: "2020-08-01"
+endDate: "2021-09-01"
 techStack: ["React", "Node.js", "Microservices"]
 description: "Insurance workflow configuration platform"
+weight: 5
 ---
 
 ## Project Overview

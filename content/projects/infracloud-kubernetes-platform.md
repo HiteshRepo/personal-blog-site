@@ -2,8 +2,11 @@
 title: "Kubernetes Infrastructure & Platform Engineering"
 organization: "Infracloud Technologies"
 role: "Software Engineer"
+startDate: "2022-08-01"
+endDate: "2023-12-01"
 techStack: ["Kubernetes", "OpenShift", "Go", "Python", "Terraform"]
 description: "Cloud-native platforms and infrastructure solutions"
+weight: 3
 ---
 
 ## Project Overview

@@ -2,8 +2,11 @@
 title: "Process Automation Solutions"
 organization: "Cognizant & Infosys"
 role: "Software Developer"
+startDate: "2018-01-01"
+endDate: "2020-07-01"
 techStack: ["RPA", "Web Development", "Automation Tools"]
 description: "Robotic Process Automation and business process optimization"
+weight: 6
 ---
 
 ## Project Overview
