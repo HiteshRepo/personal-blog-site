@@ -4,6 +4,16 @@ title = 'Hitesh Pattanayak'
 author = 'Hitesh Pattanayak'
 theme = "gohugo-theme-ananke"
 
+[[menu.main]]
+name = "Posts"
+url = "/posts/"
+weight = 10
+
+[[menu.main]]
+name = "About"
+url = "/about/"
+weight = 20
+
 [params]
 pagetitle = "Hitesh Pattanayak"
 copyright = "© 2024 Hitesh Pattanayak"
@@ -17,5 +27,6 @@ progressively = false
 github = "https://github.com/HiteshRepo"
 linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
 custom_css = ["styles/design-system.css"]
+recent_posts_number = 0
 
 googleAnalytics ='G-SSRQWT3E10'
