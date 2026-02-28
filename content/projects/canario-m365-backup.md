@@ -8,7 +8,7 @@ techStack: ["Go", "Microsoft Graph API", "CLI", "AWS S3", "Docker", "Microsoft 3
 featured: true
 description: "Open-source data protection engine for Microsoft 365 environments"
 githubUrl: "https://github.com/alcionai/corso"
-weight: 2
+weight: 3
 ---
 
 ## Project Overview

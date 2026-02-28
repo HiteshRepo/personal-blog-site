@@ -6,7 +6,7 @@ startDate: "2025-07-01"
 techStack: ["Databricks", "Apache Spark", "Delta Lake", "Azure Event Hubs", "Go", "Python", "PySpark", "CosmosDB", "Azure Container Apps", "Elasticsearch", "Kibana", "TypeScript", "Node.js", "Pulumi"]
 featured: true
 description: "End-to-end data pipeline infrastructure for M365 workload events processing"
-weight: 0
+weight: 1
 ---
 
 ## Project Overview

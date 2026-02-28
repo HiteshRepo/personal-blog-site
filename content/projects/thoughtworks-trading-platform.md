@@ -6,7 +6,7 @@ startDate: "2021-10-01"
 endDate: "2022-07-01"
 techStack: ["Golang", "TimescaleDB", "PostgreSQL", "Apache Kafka", "gRPC", "Kubernetes"]
 description: "Cryptocurrency trading platform with microservices architecture"
-weight: 4
+weight: 5
 ---
 
 ## Project Overview

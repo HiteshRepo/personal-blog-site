@@ -6,7 +6,7 @@ startDate: "2022-08-01"
 endDate: "2023-12-01"
 techStack: ["Kubernetes", "OpenShift", "Go", "Python", "Terraform"]
 description: "Cloud-native platforms and infrastructure solutions"
-weight: 3
+weight: 4
 ---
 
 ## Project Overview

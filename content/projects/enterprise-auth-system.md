@@ -7,7 +7,7 @@ endDate: "2025-06-01"
 techStack: ["Go", "Chi Router", "OpenAPI", "CosmosDB", "Auth0", "Azure Key Vault", "EventHub", "Azure Data Explorer", "OpenTelemetry", "Docker"]
 featured: true
 description: "Comprehensive user management microservice for enterprise-scale multi-tenant SaaS platform"
-weight: 1
+weight: 2
 ---
 
 ## Project Overview

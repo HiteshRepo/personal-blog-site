@@ -1,0 +1,40 @@
+{{ define "main" }}
+  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
+    {{ .Content }}
+  </article>
+  
+  <div class="ph3 ph5-l pb5">
+    <div class="flex flex-wrap">
+      {{ range .Pages.ByWeight }}
+        <div class="w-100 w-50-m w-third-l pa3">
+          <article class="bb b--black-10 pb3 mb3">
+            <div class="flex flex-column flex-row-ns">
+              <div class="w-100">
+                <h3 class="f4 fw6 mt0 lh-title">
+                  <a href="{{ .Permalink }}" class="link dim black">
+                    {{ .Title }}
+                  </a>
+                </h3>
+                {{ with .Params.organization }}
+                  <p class="f6 fw4 mt2 mb2 black-60">{{ . }}</p>
+                {{ end }}
+                {{ with .Params.description }}
+                  <p class="f6 lh-copy mv0 black-60">{{ . }}</p>
+                {{ end }}
+                {{ if .Params.startDate }}
+                  <p class="f7 ttu tracked black-40 mv2">
+                    {{ dateFormat "Jan 2006" .Params.startDate }}
+                    {{ with .Params.endDate }} - {{ dateFormat "Jan 2006" . }}{{ else }} - Present{{ end }}
+                  </p>
+                {{ end }}
+                {{ with .Params.githubUrl }}
+                  <a href="{{ . }}" target="_blank" class="f7 link dim blue db mt2">View on GitHub →</a>
+                {{ end }}
+              </div>
+            </div>
+          </article>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
