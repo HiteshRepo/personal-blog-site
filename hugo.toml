@@ -13,11 +13,6 @@ name = "Projects"
 url = "/projects/"
 weight = 15
 
-[[menu.main]]
-name = "About"
-url = "/about/"
-weight = 20
-
 [params]
 github = "https://github.com/HiteshRepo"
 linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"

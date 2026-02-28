@@ -5,16 +5,21 @@ description: "Software Engineer and Technical Writer"
 
 # Hi, I'm Hitesh
 
-I'm a **Software Engineer** with expertise in building scalable systems, data pipelines, and enterprise applications. I specialize in **Go**, **cloud-native architectures**, and **data engineering**.
+I'm a Software Engineer with experience building scalable systems, microservices architectures, and high-performance applications. I enjoy writing about technology and sharing insights from my professional projects.
 
-## What I Do
+## Background
 
-I work on high-impact projects ranging from **petabyte-scale data pipelines** to **enterprise authentication systems**. My experience spans across **microservices architecture**, **real-time processing**, and **cloud infrastructure**.
+With experience across various organizations including Thoughtworks, Infracloud Technologies, Sureify, Cognizant, and Infosys, I've worked on diverse projects ranging from high-performance financial trading platforms to cloud-native infrastructure solutions.
 
-## Latest Work
+## Expertise
 
-Currently building systems that **index and search petabytes of data** using modern data engineering technologies like Databricks, Apache Spark, and Azure services.
+- **Backend Development**: Golang, Node.js, Python
+- **Cloud & Infrastructure**: Kubernetes, Docker, Microservices
+- **Databases**: PostgreSQL, TimescaleDB, time-series data
+- **Frontend**: React, modern JavaScript
+- **DevOps**: CI/CD, Infrastructure as Code
 
-## Connect
+## Get in Touch
 
-Find my technical articles in [Posts](/posts/) and explore my professional projects in [Projects](/projects/).
+- **GitHub**: [HiteshRepo](https://github.com/HiteshRepo)
+- **LinkedIn**: [hitesh-pattanayak](https://www.linkedin.com/in/hitesh-pattanayak/)
