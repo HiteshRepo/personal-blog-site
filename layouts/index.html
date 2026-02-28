@@ -1,16 +1,7 @@
 {{ define "main" }}
-  <article class="flex-l mt2 mw8 center">
-    <header class="mt4 w-100 w-70-l ph3 ph5-l">
-      <h1 class="f1 lh-title measure mt0">
-        {{ .Title }}
-      </h1>
-    </header>
-    <div class="pa3 pa5-l">
-      <section class="fn fl-l w-50-l pr4-l">
-        <div class="fn fl-l w-100">
-          {{ .Content }}
-        </div>
-      </section>
+  <article class="pa3 pa5-l mw7 center">
+    <div class="measure-wide lh-copy">
+      {{ .Content }}
     </div>
   </article>
 {{ end }}
