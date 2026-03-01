@@ -29,4 +29,7 @@ resources/_gen/assets/ananke/css/main.css_*.json
 # Archive directory for removed content
 archive/
 
+# Requirements and future development planning
+requirements/
+
 prompts/
