@@ -35,7 +35,6 @@ Developed and maintained a comprehensive user management microservice handling a
 
 ### Platform Integration
 - Integrated Azure Key Vault for secrets management
-- Connected EventHub for event streaming and Azure Data Explorer (ADX) for analytics
 - Built automated organization onboarding with Auth0 integration and custom domain validation
 - Implemented Microsoft tenant discovery capabilities
 
@@ -47,17 +46,16 @@ Developed and maintained a comprehensive user management microservice handling a
 
 ## Technical Highlights
 
-- **Authorization Matrix**: Supporting 100+ permissions across different workload types (Azure, Kasten/Kubernetes)
+- **Authorization Matrix**: Supporting 100+ permissions across different workload types
 - **Multi-tenant Architecture**: Scalable design serving thousands of users across multiple organizations
-- **Performance**: Sub-second response times with optimized CosmosDB queries
 - **Testing Excellence**: Comprehensive unit and integration testing with GoMock
 
 ## Technologies Used
 
 - **Backend**: Go, Chi Router, OpenAPI/Swagger code generation
 - **Authentication**: Auth0, RBAC, policy-based authorization
-- **Database**: Azure CosmosDB, NoSQL, complex queries, partitioning
-- **Cloud Services**: Azure Key Vault, EventHub, Azure Data Explorer (ADX)
+- **Database**: Azure CosmosDB
+- **Cloud Services**: Azure Key Vault, EventHub
 - **Architecture**: Microservices, multi-tenant SaaS, event-driven architecture
 - **Observability**: OpenTelemetry, structured logging, comprehensive error handling
 - **Testing**: Unit tests, integration tests, table-driven patterns, GoMock

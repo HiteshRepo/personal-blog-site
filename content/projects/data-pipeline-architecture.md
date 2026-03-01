@@ -21,10 +21,9 @@ Architected and implemented comprehensive end-to-end data pipeline infrastructur
 - Developed complex Databricks jobs for event processing, indexing, and content enrichment
 - Implemented SCD2 (Slowly Changing Dimension Type 2) algorithms for historical data tracking and temporal data management
 
-### Microservices Architecture
-- **Discovery Service**: Go-based REST API for browsing indexed metadata across workload tenants, integrating with Databricks Unity Catalog and CosmosDB
-- **Raw Data Ingestion Service**: Event processing service publishing to multiple Event Hubs (backup, backfill, retention, recovery points, threats) with tenant resolution and validation  
-- **Workload Data Discovery Service**: RESTful APIs for data item discovery with filtering capabilities and AI-enhanced natural language search
+### Pipeline Services
+- **Data Ingestion Service**: Event processing service publishing to multiple Event Hubs (backup, backfill, retention, recovery points, threats) with tenant resolution and validation  
+- **Data Discovery Service**: Go-based REST API for browsing indexed metadata and data discovery with filtering capabilities and AI-enhanced natural language search
 
 ### Observability & Monitoring
 - Implemented comprehensive monitoring solutions using Elastic Stack (Elasticsearch, Kibana)
