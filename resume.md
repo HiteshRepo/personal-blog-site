@@ -104,7 +104,7 @@ Biju Patnaik University of Technology (BPUT), Bhubaneswar
 ## Publications & Speaking
 
 ### **Book**
-- **"Modern API Design with gRPC"** - [Amazon](https://www.amazon.in/Modern-API-Design-gRPC-Distributed/dp/8197081832)
+- **"Modern API Design with gRPC"** - [OrangeAva](https://orangeava.com/products/modern-api-design-with-grpc)
 
 ### **Conference Talks**
 - **"gRPC Load Balancing"** - GopherCon 2023 - [YouTube](https://www.youtube.com/watch?v=X8b-cxR-FxY)
