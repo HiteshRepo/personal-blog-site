@@ -5,3 +5,4 @@ TZ = "America/Los_Angeles"
 [build]
 publish = "public"
 command = "hugo --gc --minify"
+ignore = "exit 1"
