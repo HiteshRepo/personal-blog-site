@@ -3,7 +3,7 @@ title: "About"
 description: "Software Engineer and Technical Writer"
 ---
 
-# Hi, I'm Hitesh
+## Hi, I'm Hitesh
 
 I'm a Software Engineer with experience building scalable systems, microservices architectures, and high-performance applications. I enjoy writing about technology and sharing insights from my professional projects.
 

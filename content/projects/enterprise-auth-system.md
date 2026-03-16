@@ -17,28 +17,33 @@ Developed and maintained a comprehensive user management microservice handling a
 ## Key Achievements
 
 ### Authentication & Authorization System
+
 - Built robust REST APIs for user management, role-based access control (RBAC), and organization onboarding using Go, Chi router, and OpenAPI specifications
 - Integrated Auth0 authentication platform with custom role and permission management
 - Supported social connections, machine-to-machine authentication, and enterprise identity providers
 - Developed sophisticated authorization system with hierarchical permissions and policy-based access control
 
 ### Database & Data Architecture
+
 - Designed and implemented CosmosDB data layer with optimized queries for user, role, and organization management
 - Implemented proper partitioning strategies across multiple containers for sub-second response times
 - Built efficient data models with optimized partition keys and query patterns
 
 ### Enterprise Features
+
 - Implemented fine-grained workload tenant permissions for Azure and Kubernetes services
 - Built organization lifecycle management including automated onboarding and user invitations
 - Developed group management and complete organization deletion workflows
 - Created service account management with client credentials flow for machine-to-machine authentication
 
 ### Platform Integration
+
 - Integrated Azure Key Vault for secrets management
 - Built automated organization onboarding with Auth0 integration and custom domain validation
 - Implemented Microsoft tenant discovery capabilities
 
 ### Quality & Observability
+
 - Implemented comprehensive testing suite including unit tests, integration tests with CosmosDB
 - Developed table-driven test patterns achieving high code coverage
 - Established observability patterns using OpenTelemetry and structured logging with Clues

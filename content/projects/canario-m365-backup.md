@@ -18,12 +18,14 @@ Developed an enterprise-grade, open-source data protection engine for Microsoft 
 ## Key Technical Achievements
 
 ### Backend Development
+
 - Developed enterprise-grade backup and restore system for Microsoft 365 services (Exchange, OneDrive, SharePoint, Teams)
 - Implemented CLI interface with comprehensive command structure supporting backup, restore, export, and debug operations
 - Built modular architecture with clear separation between API layer (`/pkg`), CLI controller, and internal services
 - Designed repository abstraction layer supporting multiple storage backends (S3, filesystem)
 
 ### Microsoft 365 Integration
+
 - Integrated with Microsoft Graph API for seamless access to M365 data
 - Implemented service-specific backup handlers for:
   - **Exchange**: Email backup and restore
@@ -33,6 +35,7 @@ Developed an enterprise-grade, open-source data protection engine for Microsoft 
 - Built robust authentication and authorization flows for Microsoft 365 environments
 
 ### Enterprise Features
+
 - Developed comprehensive backup lifecycle management (create, list, delete, restore)
 - Implemented data export functionality with multiple format support
 - Built advanced debugging tools for troubleshooting backup operations
@@ -40,6 +43,7 @@ Developed an enterprise-grade, open-source data protection engine for Microsoft 
 - Designed for enterprise scalability and security requirements
 
 ### Production Readiness
+
 - Currently in Beta with active community engagement
 - Built production-ready architecture with enterprise security standards
 - Implemented comprehensive error handling and logging
