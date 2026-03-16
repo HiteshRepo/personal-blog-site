@@ -1,0 +1,63 @@
+name: Generate Blog Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "Path to ideas file (e.g. ideas/my-topic.md)"
+        required: true
+        type: string
+      provider:
+        description: "AI provider"
+        required: false
+        default: "claude"
+        type: choice
+        options:
+          - claude
+          - openai
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install AI dependencies
+        run: pip install anthropic openai
+
+      - name: Generate post
+        id: generate
+        env:
+          AI_PROVIDER: ${{ inputs.provider }}
+          DRAFT: "false"
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          output=$(python scripts/generate_post.py "${{ inputs.file }}")
+          echo "$output"
+          slug=$(echo "$output" | grep '^SLUG=' | cut -d= -f2)
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+
+      - name: Commit generated post
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/posts/
+          git commit -m "chore: ai-generate post from ${{ inputs.file }} [skip ci]"
+
+      - name: Create tag and push
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          TAG="v${DATE}-${{ steps.generate.outputs.slug }}"
+          git tag "$TAG"
+          git push origin main
+          git push origin "$TAG"
