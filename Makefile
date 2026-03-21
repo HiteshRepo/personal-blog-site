@@ -7,7 +7,7 @@ serve:
 	hugo server -D
 
 build:
-	hugo --gc --minify
+	hugo --gc --minify --buildFuture
 
 clean:
 	rm -rf public/
