@@ -46,7 +46,7 @@ Notice `d_ff=2048` — the inner dimension is four times the model dimension `d_
 
 Every sub-layer is wrapped in a residual connection:
 
-```
+```text
 output = LayerNorm(x + Sublayer(x))
 ```
 
@@ -77,7 +77,7 @@ The solution is **positional encoding** — a set of signals added to the word e
 
 The formulas from the paper:
 
-```
+```text
 PE(pos, 2i)   = sin(pos / 10000^(2i / d_model))
 PE(pos, 2i+1) = cos(pos / 10000^(2i / d_model))
 ```
@@ -116,7 +116,7 @@ The decoder is also 6 layers, but each layer has **three** sub-layers instead of
 
 Same residual + LayerNorm wrapping applies to all three. The decoder is **auto-regressive**: it generates one token at a time, and each output token gets fed back in as input for the next step.
 
-```
+```text
 Input:  "The dog"          → Decoder predicts "sat"
 Input:  "The dog sat"      → Decoder predicts "on"
 Input:  "The dog sat on"   → Decoder predicts "the"
@@ -132,7 +132,7 @@ During **training**, we have the full target sequence available. It would be com
 
 The mask looks like this for a sequence of length 4:
 
-```
+```text
      t=0  t=1  t=2  t=3
 t=0 [  1    0    0    0 ]
 t=1 [  1    1    0    0 ]
@@ -183,7 +183,11 @@ class CrossAttention(nn.Module):
         return attn_output
 ```
 
-Here's a concrete example. Say you're translating "The dog ran fast" into German. While generating the word "Hund" (dog), the decoder's cross-attention layer fires a query that looks something like "what animal concept am I generating right now?" The encoder has already built a rich representation of every English word. The cross-attention mechanism will score the encoder's representation of "dog" very highly, and "ran" and "fast" much lower. That focused signal is what steers the decoder toward outputting "Hund" at the right moment.
+Here's a concrete example. Say you're translating "The dog ran fast" into German.
+While generating the word "Hund" (dog), the decoder's cross-attention layer fires a query that looks something like "what animal concept am I generating right now?"
+The encoder has already built a rich representation of every English word.
+The cross-attention mechanism will score the encoder's representation of "dog" very highly, and "ran" and "fast" much lower.
+That focused signal is what steers the decoder toward outputting "Hund" at the right moment.
 
 This is the mechanism that makes translation — and more broadly, any sequence-to-sequence task — work. The decoder doesn't have to independently reconstruct what the input meant; it can continuously query the encoder's representations throughout the generation process.
 
@@ -203,4 +207,8 @@ The encoder does its work **once**, upfront. The decoder runs **N times**, where
 
 ## Conclusion
 
-The encoder/decoder split is elegant precisely because each half does one job well. The encoder is a parallel machine for building deep contextual representations. The decoder is a careful, step-by-step generator that respects causality through masking and stays grounded in the source through cross-attention. Residual connections and layer norm keep the whole stack trainable at depth, and positional encodings give a fundamentally order-agnostic architecture the information it needs to reason about sequence structure. Once you see how these pieces fit together, the rest of the Transformer — and most of what's been built on top of it — starts to make a lot more sense.
+The encoder/decoder split is elegant precisely because each half does one job well.
+The encoder is a parallel machine for building deep contextual representations.
+The decoder is a careful, step-by-step generator that respects causality through masking and stays grounded in the source through cross-attention.
+Residual connections and layer norm keep the whole stack trainable at depth, and positional encodings give a fundamentally order-agnostic architecture the information it needs to reason about sequence structure.
+Once you see how these pieces fit together, the rest of the Transformer — and most of what's been built on top of it — starts to make a lot more sense.

@@ -77,6 +77,7 @@ lint-md:
 		--ignore themes \
 		--ignore public \
 		--ignore resources \
+		--ignore ideas \
 		'**/*.md'
 
 .PHONY: lint-md-fix

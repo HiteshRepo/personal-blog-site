@@ -56,6 +56,7 @@ lrate = d_model**(-0.5) * min(step**(-0.5), step * warmup_steps**(-1.5))
 This schedule warms up linearly for the first `warmup_steps` (set to 4000), then decays proportionally to the inverse square root of the step number. The warmup is important — jumping straight to a high learning rate early in training destabilizes things.
 
 **Regularization**:
+
 - Dropout with P = 0.1 applied to the output of each sub-layer before it's added to the residual
 - **Label smoothing** with ε = 0.1 — instead of training the model to output a hard 1.0 for the correct token, you smooth the target distribution slightly
 
@@ -75,6 +76,7 @@ Small change. Meaningful impact on BLEU.
 Translation quality is measured by BLEU score — higher is better, and gains of even 0.5 points are typically considered significant.
 
 **English-to-German**:
+
 - Transformer (big): **28.4 BLEU**
 - Previous best: ~26.4 BLEU
 - Improvement: **more than 2.0 BLEU points**
@@ -82,6 +84,7 @@ Translation quality is measured by BLEU score — higher is better, and gains of
 That's not a marginal win. In competitive MT benchmarks, 2 BLEU points is a substantial jump.
 
 **English-to-French**:
+
 - Transformer (big): **41.0 BLEU**
 - This single model outperformed **all previous ensemble models**
 
@@ -98,7 +101,7 @@ length_penalty_alpha = 0.6
 
 Beam search keeps the top-k candidate sequences at each step instead of just the single best token. The length penalty prevents the model from favoring shorter sequences (which tend to score higher under raw log-probability):
 
-```
+```text
 score(Y, X) = log P(Y|X) / length_penalty(|Y|)
 length_penalty(length) = ((5 + length) / (5 + 1)) ** alpha
 ```

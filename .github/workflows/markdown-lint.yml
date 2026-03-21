@@ -52,4 +52,5 @@ jobs:
           --ignore themes \
           --ignore public \
           --ignore resources \
+          --ignore ideas \
           '**/*.md'

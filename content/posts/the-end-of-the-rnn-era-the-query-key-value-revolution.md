@@ -79,7 +79,7 @@ Raw scores: `The` = 1.5, `dog` = 4.0, `barked` = 0.5. The model is already point
 
 ## The Full Formula: Scaled Dot-Product Attention
 
-```
+```text
 Attention(Q, K, V) = softmax(Q · Kᵀ / √d_k) · V
 ```
 
