@@ -1,4 +1,7 @@
-.PHONY: serve build clean generate
+VENV := .venv
+PYTHON := $(VENV)/bin/python3
+
+.PHONY: serve build clean generate diagrams venv
 
 serve:
 	hugo server -D
@@ -9,15 +12,19 @@ build:
 clean:
 	rm -rf public/
 
-generate:
+venv:
+	@command -v python3 >/dev/null 2>&1 || ( echo "Error: python3 is required"; exit 1 )
+	@[ -d $(VENV) ] || python3 -m venv $(VENV)
+
+diagrams: venv
+	$(PYTHON) -m pip install -q matplotlib numpy
+	$(PYTHON) scripts/generate_diagrams.py $(FILE)
+
+generate: venv
 	@[ "${FILE}" ] || ( echo "Error: FILE is required. Usage: make generate FILE=ideas/my-topic.md"; exit 1 )
 	@[ -f "${FILE}" ] || ( echo "Error: File '${FILE}' does not exist."; exit 1 )
-	@command -v python3 >/dev/null 2>&1 || ( echo "Error: python3 is required"; exit 1 )
-	@pip3 install -q anthropic openai 2>/dev/null || true
-	AI_PROVIDER=$${AI_PROVIDER:-claude} DRAFT=true python3 scripts/generate_post.py "$(FILE)"
-	@[ "${TITLE}" ] || ( echo "Error: TITLE is required. Usage: make new-tech TITLE='My Tech Post'"; exit 1 )
-	$(HUGO) new --kind technical content/technical/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md
-	@echo "Created new technical post: content/technical/$(shell echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-').md"
+	$(PYTHON) -m pip install -q anthropic openai
+	AI_PROVIDER=$${AI_PROVIDER:-claude} DRAFT=true $(PYTHON) scripts/generate_post.py "$(FILE)"
 
 .PHONY: new-nontech
 new-nontech:

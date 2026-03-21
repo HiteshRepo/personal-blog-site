@@ -14,13 +14,14 @@ AI_DISCLAIMER = (
 
 
 def parse_ideas_file(filepath):
-    """Parse an ideas file and extract title, type, tags, and bullets."""
+    """Parse an ideas file and extract title, type, tags, images, and bullets."""
     content = Path(filepath).read_text()
     lines = content.strip().split("\n")
 
     title = None
     post_type = "technical"
     tags = []
+    images = []
     bullets = []
 
     for line in lines:
@@ -32,6 +33,9 @@ def parse_ideas_file(filepath):
         elif re.match(r"^[-*]\s+tags\s*:", stripped, re.IGNORECASE):
             tags_str = stripped.split(":", 1)[1].strip()
             tags = [t.strip() for t in tags_str.split(",") if t.strip()]
+        elif re.match(r"^[-*]\s+images\s*:", stripped, re.IGNORECASE):
+            images_str = stripped.split(":", 1)[1].strip()
+            images = [i.strip() for i in images_str.split(",") if i.strip()]
         elif re.match(r"^[-*]\s+", stripped):
             bullet = re.sub(r"^[-*]\s+", "", stripped)
             if bullet:
@@ -40,7 +44,7 @@ def parse_ideas_file(filepath):
     if not title:
         title = Path(filepath).stem.replace("-", " ").title()
 
-    return title, post_type, tags, bullets
+    return title, post_type, tags, images, bullets
 
 
 def slugify(text):
@@ -51,7 +55,7 @@ def slugify(text):
     return text.strip("-")
 
 
-def build_prompt(title, post_type, bullets):
+def build_prompt(title, post_type, bullets, images=None):
     type_desc = {
         "technical": "technical engineering",
         "ai": "AI/ML",
@@ -60,6 +64,15 @@ def build_prompt(title, post_type, bullets):
 
     bullets_text = "\n".join(f"- {b}" for b in bullets)
 
+    images_section = ""
+    if images:
+        image_list = "\n".join(f"  ![descriptive alt text]({img})" for img in images)
+        images_section = f"""
+Available images — embed these inline where they best illustrate the surrounding text.
+Use descriptive alt text. Place each image immediately after the paragraph it supports.
+{image_list}
+"""
+
     return f"""You are writing a {type_desc} blog post titled "{title}".
 
 The author is a software engineer. Write in their voice: clear, direct, practical.
@@ -67,7 +80,7 @@ Use real examples and code where relevant.
 
 Rough ideas/outline to cover:
 {bullets_text}
-
+{images_section}
 Format your response EXACTLY as follows (no extra text before or after):
 
 SUMMARY: <one sentence describing the post>
@@ -149,18 +162,19 @@ def main():
     # draft=true locally, false in GH workflow (set via env DRAFT=false)
     is_draft = os.environ.get("DRAFT", "true").lower() != "false"
 
-    title, post_type, tags, bullets = parse_ideas_file(ideas_file)
+    title, post_type, tags, images, bullets = parse_ideas_file(ideas_file)
     slug = slugify(title)
     output_path = Path("content/posts") / f"{slug}.md"
 
     print(f"Title:    {title}")
     print(f"Type:     {post_type}")
     print(f"Tags:     {tags}")
+    print(f"Images:   {images}")
     print(f"Provider: {provider}")
     print(f"Draft:    {is_draft}")
     print(f"Output:   {output_path}")
 
-    prompt = build_prompt(title, post_type, bullets)
+    prompt = build_prompt(title, post_type, bullets, images)
 
     if provider == "claude":
         api_key = os.environ.get("ANTHROPIC_API_KEY")

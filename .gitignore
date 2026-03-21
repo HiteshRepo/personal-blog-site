@@ -9,6 +9,9 @@ node_modules/
 /.vscode/
 .DS_Store
 
+# Python virtual environment
+.venv/
+
 # Log files
 *.log
 

@@ -1,0 +1,23 @@
+# Inside the Machine: Encoders, Decoders, and Masking
+
+- type: ai
+- tags: transformers, encoder, decoder, masking, positional-encoding, architecture, nlp
+- images: /images/llm-foundation/encoder-stack.png, /images/llm-foundation/decoder-stack.png, /images/llm-foundation/positional-encoding.png, /images/llm-foundation/masking-matrix.png
+- Transformer architecture has two halves: Encoder (left, understands input) and Decoder (right, generates output)
+- Encoder: stack of 6 identical layers — the number 6 is a hyperparameter chosen by the authors
+- Each encoder layer has two sub-layers: multi-head self-attention followed by a position-wise feed-forward network (FFN)
+- FFN is two linear transformations with ReLU in between, inner dimension d_ff=2048 — applied identically at every position
+- Residual connections wrap every sub-layer: output = LayerNorm(x + Sublayer(x)) — the shortcut prevents vanishing gradients during deep training
+- Problem: Transformers process all words simultaneously and have no inherent sense of word order (unlike RNNs that read left to right)
+- Positional Encoding injects order information by adding sinusoidal signals to word embeddings before they enter the encoder/decoder
+- Formula: PE(pos, 2i) = sin(pos / 10000^(2i/d_model)) and PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
+- Why sine and cosine: any relative offset in position can be expressed as a linear transformation of the encoding — the model can learn to compute relative distances
+- Decoder: also 6 identical layers but with 3 sub-layers — adds a cross-attention layer between self-attention and the FFN
+- Decoder is auto-regressive: it predicts one token at a time, feeding each output back as input for the next step
+- Masked Self-Attention: during training, a mask zeroes out all attention scores for future positions — position t can only see positions 0 through t-1
+- Without masking the decoder would "cheat" by looking at the correct answer before generating it, producing a model that fails at inference time
+- Masking preserves the causal property: the prediction at each step depends only on previously generated tokens
+- Encoder-Decoder Cross-Attention (the bridge): Queries come from the decoder's current state; Keys and Values come from the encoder's final output
+- This lets the decoder ask "which parts of the English input should I focus on right now?" while generating each German word
+- Example: while generating "Hund" (dog in German), the decoder's cross-attention strongly weights the encoder's representation of "dog"
+- Encoder stack processes the full input in parallel; decoder stack generates output one token at a time attending back to encoder

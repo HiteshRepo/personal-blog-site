@@ -1,0 +1,22 @@
+# The End of the RNN Era & The Query, Key, Value Revolution
+
+- type: ai
+- tags: transformers, attention, rnn, nlp, llm, deep-learning
+- images: /images/llm-foundation/qkv.png, /images/llm-foundation/self-attention.png, /images/llm-foundation/softmax-weights.png, /images/llm-foundation/scaling-comparison.png, /images/llm-foundation/head-1.png, /images/llm-foundation/head-2.png, /images/llm-foundation/head-3.png, /images/llm-foundation/head-4.png
+- RNNs process tokens sequentially — one at a time, left to right — creating a hard parallelization bottleneck that cannot be solved by throwing more hardware at it
+- RNN long-range dependency problem: the signal from "dog" must travel through every intermediate word before it reaches "barked" — path length is O(n), signal degrades with distance
+- Vanishing gradients compound the problem: the further back a dependency, the weaker the gradient, the less the model learns from it
+- Transformers solve long-range dependencies in O(1): any two words in the sentence connect directly, regardless of distance between them
+- Attention mechanism assigns every word three vectors: Query (Q) = what am I looking for, Key (K) = what do I advertise, Value (V) = what do I actually give
+- Library search analogy: Q is your search query, K is the label on each book's spine, V is the book's actual content — the library never has to walk the shelves in order
+- Compatibility score = dot product of Query with every Key; if Q for "barked" aligns with K for "dog", the score is high
+- Step-by-step example with "The dog barked": raw scores "The"=1.5, "dog"=4.0, "barked"=0.5
+- Scaled Dot-Product Attention formula: Attention(Q,K,V) = softmax(Q · K^T / sqrt(d_k)) · V
+- Why divide by sqrt(d_k): for large dimensions dot products explode, pushing softmax into near-zero gradient regions — learning effectively stops ("dead softmax" problem)
+- Concrete scaling example: d_k=4 gives scaled score of 5; d_k=100 gives 25 without scaling — manageable with it
+- Softmax converts raw scores to attention weights summing to 1.0: "The" 7%, "dog" 90%, "barked" 3% — clear instruction to attend mostly to "dog"
+- Multi-head attention: 8 independent attention heads run in parallel, each with its own learned weight matrices WQ_i, WK_i, WV_i
+- Each head projects the input into a different representation subspace — no human tells Head 1 to learn syntax or Head 2 to learn coreference, these roles emerge from training
+- Single-head attention would be forced to average all relationship types into one blurry signal — multi-head avoids this
+- All 8 head outputs are concatenated then projected back to d_model=512 via a final weight matrix W^O
+- The result: "Attention Is All You Need" — no recurrence, no convolution required
