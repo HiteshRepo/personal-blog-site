@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Generate diagram PNGs for blog posts.
 
+Source images are copied from  ideas/<subdir>/
+Generated images are written to static/images/<subdir>/
+The subdir is derived from the image path declared in the ideas file
+(e.g. /images/llm-foundation/foo.png  →  subdir = llm-foundation).
+
 Usage:
     # Generate ALL diagrams (first-time setup or full refresh)
     python3 scripts/generate_diagrams.py
@@ -9,11 +14,11 @@ Usage:
     python3 scripts/generate_diagrams.py ideas/llm-foundation/blog-1-rnn-era-qkv.md
 
     # Generate for multiple ideas files at once
-    python3 scripts/generate_diagrams.py ideas/llm-foundation/blog-1-rnn-era-qkv.md ideas/llm-foundation/blog-2-encoder-decoder-masking.md
+    python3 scripts/generate_diagrams.py ideas/llm-foundation/blog-1-rnn-era-qkv.md ideas/ai-prompting-techniques/blog.md
 
 Via make:
-    make diagrams                                          # all
-    make diagrams FILE=ideas/llm-foundation/blog-1-rnn-era-qkv.md  # targeted
+    make diagrams                                                    # all
+    make diagrams FILE=ideas/llm-foundation/blog-1-rnn-era-qkv.md   # targeted
 """
 
 import re
@@ -24,17 +29,35 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-OUTPUT_DIR = Path("static/images/llm-foundation")
-SOURCE_DIR = Path("ideas/llm-foundation")
+IDEAS_DIR = Path("ideas")
+STATIC_IMAGES_DIR = Path("static/images")
 
 
 # ---------------------------------------------------------------------------
-# Diagram generators
-# Each function writes one PNG to OUTPUT_DIR and returns nothing.
-# Register new diagrams in GENERATORS at the bottom of this file.
+# Path helpers
 # ---------------------------------------------------------------------------
 
-def plot_softmax_weights():
+def get_dirs_for_image(img_path: str):
+    """Return (source_dir, output_dir) derived from an image path.
+
+    e.g. /images/llm-foundation/foo.png
+         → ideas/llm-foundation/, static/images/llm-foundation/
+    """
+    parts = Path(img_path).parts
+    # Expected: ('/', 'images', '<subdir>', 'filename.png')
+    if len(parts) >= 3 and parts[1] == "images":
+        subdir = parts[2]
+    else:
+        subdir = Path(img_path).parent.name or "llm-foundation"
+    return IDEAS_DIR / subdir, STATIC_IMAGES_DIR / subdir
+
+
+# ---------------------------------------------------------------------------
+# Diagram generators  (each accepts output_dir so they're portable)
+# Register new generators in GENERATORS at the bottom of this file.
+# ---------------------------------------------------------------------------
+
+def plot_softmax_weights(output_dir: Path):
     words = ["The", "dog", "barked"]
     weights = [0.07, 0.90, 0.03]
     colors = ["#5b9bd5", "#ff7043", "#5b9bd5"]
@@ -63,10 +86,10 @@ def plot_softmax_weights():
     ax.tick_params(labelsize=13)
 
     plt.tight_layout()
-    _save("softmax-weights.png")
+    _save("softmax-weights.png", output_dir)
 
 
-def plot_scaling_comparison():
+def plot_scaling_comparison(output_dir: Path):
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.5))
 
     scenarios = [
@@ -102,10 +125,10 @@ def plot_scaling_comparison():
     )
     fig.patch.set_facecolor("white")
     plt.tight_layout()
-    _save("scaling-comparison.png")
+    _save("scaling-comparison.png", output_dir)
 
 
-def plot_positional_encoding():
+def plot_positional_encoding(output_dir: Path):
     positions = np.arange(0, 60)
     d_model = 512
 
@@ -145,10 +168,10 @@ def plot_positional_encoding():
 
     fig.patch.set_facecolor("white")
     plt.tight_layout()
-    _save("positional-encoding.png")
+    _save("positional-encoding.png", output_dir)
 
 
-def plot_masking_matrix():
+def plot_masking_matrix(output_dir: Path):
     labels = ["<start>", "The", "dog", "barked", "loudly", "<end>"]
     n = len(labels)
     mask = np.tril(np.ones((n, n)))
@@ -176,18 +199,18 @@ def plot_masking_matrix():
     )
     fig.patch.set_facecolor("white")
     plt.tight_layout()
-    _save("masking-matrix.png")
+    _save("masking-matrix.png", output_dir)
 
 
 # ---------------------------------------------------------------------------
-# Registry — add new diagram generators here as {filename: function}
+# Registry — add new generators here as {filename: function}
 # ---------------------------------------------------------------------------
 
 GENERATORS = {
-    "softmax-weights.png":    plot_softmax_weights,
-    "scaling-comparison.png": plot_scaling_comparison,
+    "softmax-weights.png":     plot_softmax_weights,
+    "scaling-comparison.png":  plot_scaling_comparison,
     "positional-encoding.png": plot_positional_encoding,
-    "masking-matrix.png":     plot_masking_matrix,
+    "masking-matrix.png":      plot_masking_matrix,
 }
 
 
@@ -195,20 +218,8 @@ GENERATORS = {
 # Core logic
 # ---------------------------------------------------------------------------
 
-def ensure_output_dir():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-
-def copy_existing_images():
-    """Copy all PNGs from the ideas source dir to static/images/."""
-    for img in sorted(SOURCE_DIR.glob("*.png")):
-        dest = OUTPUT_DIR / img.name
-        shutil.copy2(img, dest)
-        print(f"  copied  {img.name}")
-
-
-def get_images_from_ideas_file(filepath):
-    """Return the list of image paths declared in a `- images:` bullet."""
+def get_images_from_ideas_file(filepath: str):
+    """Return image paths declared in a `- images:` bullet."""
     content = Path(filepath).read_text()
     for line in content.strip().split("\n"):
         stripped = line.strip()
@@ -218,22 +229,23 @@ def get_images_from_ideas_file(filepath):
     return []
 
 
-def process_image(img_path):
-    """Generate or copy a single image, identified by its URL path."""
+def process_image(img_path: str):
+    """Copy or generate a single image based on its declared path."""
+    source_dir, output_dir = get_dirs_for_image(img_path)
     filename = Path(img_path).name
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     if filename in GENERATORS:
-        GENERATORS[filename]()
+        GENERATORS[filename](output_dir)
         return
 
-    # Fall back: try copying from the source ideas directory
-    src = SOURCE_DIR / filename
+    src = source_dir / filename
     if src.exists():
-        dest = OUTPUT_DIR / filename
-        shutil.copy2(src, dest)
+        shutil.copy2(src, output_dir / filename)
         print(f"  copied  {filename}")
     else:
         print(f"  WARNING: no generator or source file found for {filename}")
+        print(f"           looked in {source_dir}")
 
 
 def run_targeted(ideas_files):
@@ -252,29 +264,44 @@ def run_targeted(ideas_files):
 
 
 def run_all():
-    print("Copying existing images …")
-    copy_existing_images()
-    print("Generating all programmatic diagrams …")
-    for fn in GENERATORS.values():
-        fn()
+    # Copy all PNGs from every ideas/* subdirectory
+    print("Copying existing images from all ideas subdirectories …")
+    for subdir in sorted(IDEAS_DIR.iterdir()):
+        if not subdir.is_dir():
+            continue
+        pngs = sorted(subdir.glob("*.png"))
+        if not pngs:
+            continue
+        output_dir = STATIC_IMAGES_DIR / subdir.name
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for img in pngs:
+            shutil.copy2(img, output_dir / img.name)
+            print(f"  copied  {subdir.name}/{img.name}")
+
+    # Run all programmatic generators into their target directories
+    print("\nGenerating all programmatic diagrams …")
+    for filename, fn in GENERATORS.items():
+        # Derive the output dir from the generator's registered filename
+        # All current generators belong to llm-foundation
+        output_dir = STATIC_IMAGES_DIR / "llm-foundation"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        fn(output_dir)
 
 
-def _save(filename):
-    out = OUTPUT_DIR / filename
+def _save(filename: str, output_dir: Path):
+    out = output_dir / filename
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"  created {filename}")
 
 
 def main():
-    ensure_output_dir()
-
     if len(sys.argv) > 1:
         run_targeted(sys.argv[1:])
     else:
         run_all()
 
-    print(f"\nDone. Assets in {OUTPUT_DIR}/")
+    print(f"\nDone. Assets in {STATIC_IMAGES_DIR}/")
 
 
 if __name__ == "__main__":
