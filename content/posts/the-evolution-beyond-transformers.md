@@ -2,7 +2,7 @@
 title: "The Evolution: Beyond Transformers"
 date: 2026-03-22T11:43:37-07:00
 summary: "A practical walkthrough of how the Transformer architecture evolved from encoder-decoder to decoder-only models, why attention's quadratic scaling became a hard wall, and how Mamba's state space machines are being absorbed into hybrid architectures that dominate production today."
-draft: true
+draft: false
 ai_generated: true
 tags: ["transformers", "mamba", "ssm", "state-space-models", "architecture", "llm", "deep-learning", "attention"]
 categories: []
