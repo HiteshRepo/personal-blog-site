@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       file:
-        description: "Path to ideas file (e.g. ideas/my-topic.md)"
+        description: "Path to ideas/notes file (e.g. ideas/my-topic/blog-1-my-post.md)"
         required: true
         type: string
       provider:
@@ -15,6 +15,11 @@ on:
         options:
           - claude
           - openai
+      convert:
+        description: "Convert raw notes to ideas format first"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   generate:
@@ -31,8 +36,19 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install AI dependencies
-        run: pip install anthropic openai
+      - name: Install dependencies
+        run: pip install anthropic openai matplotlib numpy
+
+      - name: Convert notes to ideas format
+        if: ${{ inputs.convert }}
+        env:
+          AI_PROVIDER: ${{ inputs.provider }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/convert_to_ideas.py "${{ inputs.file }}" "${{ inputs.file }}"
+
+      - name: Generate diagrams
+        run: python scripts/generate_diagrams.py "${{ inputs.file }}"
 
       - name: Generate post
         id: generate
@@ -47,11 +63,14 @@ jobs:
           slug=$(echo "$output" | grep '^SLUG=' | cut -d= -f2)
           echo "slug=$slug" >> "$GITHUB_OUTPUT"
 
-      - name: Commit generated post
+      - name: Commit generated artifacts
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content/posts/
+          git add content/posts/ static/images/
+          if [[ "${{ inputs.convert }}" == "true" ]]; then
+            git add "${{ inputs.file }}"
+          fi
           git commit -m "chore: ai-generate post from ${{ inputs.file }} [skip ci]"
 
       - name: Create tag and push

@@ -1,7 +1,7 @@
 VENV := .venv
 PYTHON := $(VENV)/bin/python3
 
-.PHONY: serve build clean generate diagrams venv
+.PHONY: serve build clean generate diagrams convert venv
 
 serve:
 	hugo server -D
@@ -19,6 +19,12 @@ venv:
 diagrams: venv
 	$(PYTHON) -m pip install -q matplotlib numpy
 	$(PYTHON) scripts/generate_diagrams.py $(FILE)
+
+convert: venv
+	@[ "${FILE}" ] || ( echo "Error: FILE is required. Usage: make convert FILE=ideas/my-notes.md [OUTPUT=ideas/blog-1-my-post.md]"; exit 1 )
+	@[ -f "${FILE}" ] || ( echo "Error: File '${FILE}' does not exist."; exit 1 )
+	$(PYTHON) -m pip install -q anthropic openai
+	AI_PROVIDER=$${AI_PROVIDER:-claude} $(PYTHON) scripts/convert_to_ideas.py "$(FILE)" "$(OUTPUT)"
 
 generate: venv
 	@[ "${FILE}" ] || ( echo "Error: FILE is required. Usage: make generate FILE=ideas/my-topic.md"; exit 1 )
@@ -41,12 +47,17 @@ new-ai:
 .PHONY: publish
 publish:
 	@[ "${FILE}" ] || ( echo "Error: FILE is required. Usage: make publish FILE=path/to/post.md"; exit 1 )
-	@if [ ! -f "$(FILE)" ]; then \
-		echo "Error: File $(FILE) does not exist."; \
-		exit 1; \
-	fi
+	@[ -f "$(FILE)" ] || ( echo "Error: File $(FILE) does not exist."; exit 1 )
 	@sed -i '' -e 's/draft: true/draft: false/' "$(FILE)"
-	@echo "Published $(FILE) (draft status set to false)"
+	@SLUG=$$(basename "$(FILE)" .md) && \
+	DATE=$$(date +%Y-%m-%d) && \
+	TAG="v$${DATE}-$${SLUG}" && \
+	git add "$(FILE)" && \
+	git commit -m "feat: publish $${SLUG}" && \
+	git tag "$${TAG}" && \
+	git push origin main && \
+	git push origin "$${TAG}" && \
+	echo "Deployed with tag: $${TAG}"
 
 .PHONY: preview
 preview:
