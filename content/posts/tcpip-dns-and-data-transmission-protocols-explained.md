@@ -2,7 +2,7 @@
 title: "TCP/IP, DNS, and Data Transmission Protocols Explained"
 date: 2026-03-22T17:22:27-07:00
 summary: "A practical, code-illustrated guide to how TCP/IP, DNS, and modern data transmission protocols work under the hood — from handshakes and packet routing to WebSockets, gRPC, and QUIC."
-draft: true
+draft: false
 ai_generated: true
 tags: ["tcp-ip", "networking", "dns", "udp", "websockets", "grpc", "http", "protocols"]
 categories: []
