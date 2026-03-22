@@ -14,9 +14,17 @@ AI_DISCLAIMER = (
 
 
 def parse_ideas_file(filepath):
-    """Parse an ideas file and extract title, type, tags, images, and bullets."""
+    """Parse an ideas file and extract title, type, tags, images, bullets, and raw diagrams."""
     content = Path(filepath).read_text()
-    lines = content.strip().split("\n")
+
+    # Split off the ## Raw Diagrams section before parsing bullets
+    raw_diagrams = []
+    main_content = content
+    if "## Raw Diagrams" in content:
+        main_content, diagrams_section = content.split("## Raw Diagrams", 1)
+        raw_diagrams = re.findall(r'(```[^\n]*\n.*?```)', diagrams_section, re.DOTALL)
+
+    lines = main_content.strip().split("\n")
 
     title = None
     post_type = "technical"
@@ -44,7 +52,7 @@ def parse_ideas_file(filepath):
     if not title:
         title = Path(filepath).stem.replace("-", " ").title()
 
-    return title, post_type, tags, images, bullets
+    return title, post_type, tags, images, bullets, raw_diagrams
 
 
 def slugify(text):
@@ -55,7 +63,7 @@ def slugify(text):
     return text.strip("-")
 
 
-def build_prompt(title, post_type, bullets, images=None):
+def build_prompt(title, post_type, bullets, images=None, raw_diagrams=None):
     type_desc = {
         "technical": "technical engineering",
         "ai": "AI/ML",
@@ -73,6 +81,15 @@ Use descriptive alt text. Place each image immediately after the paragraph it su
 {image_list}
 """
 
+    diagrams_section = ""
+    if raw_diagrams:
+        diagrams_text = "\n\n".join(raw_diagrams)
+        diagrams_section = f"""
+Verbatim diagrams — embed these inline where they best illustrate the surrounding text.
+Include them EXACTLY as shown (do not modify the content inside the code fences).
+{diagrams_text}
+"""
+
     return f"""You are writing a {type_desc} blog post titled "{title}".
 
 The author is a software engineer. Write in their voice: clear, direct, practical.
@@ -80,7 +97,7 @@ Use real examples and code where relevant.
 
 Rough ideas/outline to cover:
 {bullets_text}
-{images_section}
+{images_section}{diagrams_section}
 Format your response EXACTLY as follows (no extra text before or after):
 
 SUMMARY: <one sentence describing the post>
@@ -129,7 +146,7 @@ def generate_with_claude(prompt, api_key):
     client = anthropic.Anthropic(api_key=api_key)
     message = client.messages.create(
         model=model,
-        max_tokens=4096,
+        max_tokens=8192,
         messages=[{"role": "user", "content": prompt}],
     )
     return message.content[0].text
@@ -146,7 +163,7 @@ def generate_with_openai(prompt, api_key):
     client = OpenAI(api_key=api_key)
     response = client.chat.completions.create(
         model=model,
-        max_tokens=4096,
+        max_tokens=8192,
         messages=[{"role": "user", "content": prompt}],
     )
     return response.choices[0].message.content
@@ -162,7 +179,7 @@ def main():
     # draft=true locally, false in GH workflow (set via env DRAFT=false)
     is_draft = os.environ.get("DRAFT", "true").lower() != "false"
 
-    title, post_type, tags, images, bullets = parse_ideas_file(ideas_file)
+    title, post_type, tags, images, bullets, raw_diagrams = parse_ideas_file(ideas_file)
     slug = slugify(title)
     output_path = Path("content/posts") / f"{slug}.md"
 
@@ -170,11 +187,12 @@ def main():
     print(f"Type:     {post_type}")
     print(f"Tags:     {tags}")
     print(f"Images:   {images}")
+    print(f"Diagrams: {len(raw_diagrams)} code block(s)")
     print(f"Provider: {provider}")
     print(f"Draft:    {is_draft}")
     print(f"Output:   {output_path}")
 
-    prompt = build_prompt(title, post_type, bullets, images)
+    prompt = build_prompt(title, post_type, bullets, images, raw_diagrams)
 
     if provider == "claude":
         api_key = os.environ.get("ANTHROPIC_API_KEY")

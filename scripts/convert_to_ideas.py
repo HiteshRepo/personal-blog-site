@@ -61,6 +61,16 @@ Convert the raw notes below into a structured ideas file.
 """
 
 
+def extract_code_blocks(content):
+    """Extract all fenced code blocks from raw content, preserving their fences."""
+    blocks = []
+    for match in re.finditer(r'(```[^\n]*\n.*?```)', content, re.DOTALL):
+        block = match.group(1).strip()
+        if block:
+            blocks.append(block)
+    return blocks
+
+
 def detect_images(content, subdir):
     """Find image references in the raw content and rewrite their paths."""
     pattern = re.compile(r'!\[.*?\]\(([^)]+)\)')
@@ -169,6 +179,13 @@ def main():
     # Strip markdown code fences if the model wrapped the output
     result = re.sub(r'^```[^\n]*\n', '', result.strip())
     result = re.sub(r'\n```$', '', result)
+
+    # Append code block diagrams from raw notes so they survive into generate_post
+    code_blocks = extract_code_blocks(content)
+    if code_blocks:
+        diagrams_text = "\n\n".join(code_blocks)
+        result = result.strip() + f"\n\n## Raw Diagrams\n\n{diagrams_text}"
+        print(f"  Preserved {len(code_blocks)} code block diagram(s) from raw notes")
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     Path(output_path).write_text(result.strip() + "\n")
