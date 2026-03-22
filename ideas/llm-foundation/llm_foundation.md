@@ -3,52 +3,50 @@
 ## Bullets
 
 - A word can be multiple tokens, thumb rule: 1 token ~ 0.75 words
-    - whitespace counts
-    - non-english -> less efficient
-    - emojis -> more tokens
+  - whitespace counts
+  - non-english -> less efficient
+  - emojis -> more tokens
 - token limits = tokens(i/p) + tokens(o/p) + tokens(history)
 - Building models stages:
-    - pre training
-        - Edge case: A pre-trained model with no fine-tuning will mimick the question, not answer you.
-    - fine tuning
-        - Edge case: Fine-tuning on a small, biased dataset can hurt a model — it can "forget" broad knowledge and overfit to the narrow examples.
-    - RLHF
-        - Edge case: RLHF can introduce sycophancy: the model learns that agreeable responses get rated higher, so it may tell you what you want to hear.
+  - pre training
+    - Edge case: A pre-trained model with no fine-tuning will mimick the question, not answer you.
+  - fine tuning
+    - Edge case: Fine-tuning on a small, biased dataset can hurt a model — it can "forget" broad knowledge and overfit to the narrow examples.
+  - RLHF
+    - Edge case: RLHF can introduce sycophancy: the model learns that agreeable responses get rated higher, so it may tell you what you want to hear.
 - Settings: Temp, Top-p, Top-k
-    - Most used: Mild temp + High Top-p
-    - Temp: controls creativity
-    - Top-p: cuts the choices using probs
-    - Top-k: simple cut
+  - Most used: Mild temp + High Top-p
+  - Temp: controls creativity
+  - Top-p: cuts the choices using probs
+  - Top-k: simple cut
 - Context windows:
-    - definition: maximum amount of text the model can "see" at once
-    - attention mechanism gave rise to context windows
-    - longer the context -> increased latency, hallucinations creep in because history gets cut short to make way for new tokens
+  - definition: maximum amount of text the model can "see" at once
+  - attention mechanism gave rise to context windows
+  - longer the context -> increased latency, hallucinations creep in because history gets cut short to make way for new tokens
 - Model families: small, mid-tier, flagship
-    - various use cases use diff models
-    - the training data, RLHF approach, and architecture choices all differ
+  - various use cases use diff models
+  - the training data, RLHF approach, and architecture choices all differ
 - 'Attention is all you need' paper
-    - solves RNNs' drawback
-    - RNN: one token at a time, left to right
-    - Transformers: parallelism
-    - for every token, attention asks three questions about every other token: "Is this relevant to me?"
-    - Attention = [Query, Key, Value]
-        - Query: search query - what am I looking for
-        - Key: Index - what do I advertise
-        - Value: content - what do I actually give
-        - Q.K = score -> relevancy
-        - softmax(score)
+  - solves RNNs' drawback
+  - RNN: one token at a time, left to right
+  - Transformers: parallelism
+  - for every token, attention asks three questions about every other token: "Is this relevant to me?"
+  - Attention = [Query, Key, Value]
+    - Query: search query - what am I looking for
+    - Key: Index - what do I advertise
+    - Value: content - what do I actually give
+    - Q.K = score -> relevancy
+    - softmax(score)
 - Multi-Head Attention
-    - Each attention metrics in parallel
-    - The head differ to each other based on weight
-
-
+  - Each attention metrics in parallel
+  - The head differ to each other based on weight
 
 ## Top-p working
 
 Imagine the model is predicting the next word in two different sentences:
 
 "The capital of France is ___" → "Paris" has ~99% probability. The distribution is sharp.
-"She opened the door and saw a ___" → hundreds of words could fit. The distribution is flat.
+"She opened the door and saw a___" → hundreds of words could fit. The distribution is flat.
 
 Top-k treats both situations identically — "keep the top 5 tokens, always." But that's a bad deal:
 
@@ -58,18 +56,20 @@ In the second case, cutting to 5 tokens throws away hundreds of perfectly reason
 Top-p adapts to the shape of the distribution. Instead of a fixed count, it says: "keep however many tokens it takes to cover X% of the total probability mass."
 
 How it works, step by step:
-- Raw probs: The model outputs a raw probability for every token in its vocabulary. 
+
+- Raw probs: The model outputs a raw probability for every token in its vocabulary.
 - Sort: Sort tokens from highest to lowest probability
 - Cumulate: Add up probabilities from the top. The running total is the 'cumulative mass'. We stop when it reaches 0.90.
-- Apply cutoff: Everything after the 0.90 threshold is zeroed out. 
-- Resample: The surviving tokens are renormalized so they sum to 1.0, then sampled. 
-
+- Apply cutoff: Everything after the 0.90 threshold is zeroed out.
+- Resample: The surviving tokens are renormalized so they sum to 1.0, then sampled.
 
 This is what makes Top-p special. With top-p = 0.90:
+
 - On a sharp distribution (one token has 95% probability) → the cutoff is hit after just 1 token. Pool size = 1. The model essentially always picks that token.
 - On a flat distribution (10 tokens each at ~9%) → you need all 10 to reach 90%. Pool size = 10.
 
 Edge cases you should know
+
 - p = 1.0 is NOT the same as "random." It just means "don't cut anything." The model still weights heavily toward probable tokens. Combined with low temperature, p=1.0 is actually quite conservative.
 - The pool can be size 1. If "Paris" has 97% probability and p=0.90, the cutoff is hit after the first token. The model will always say "Paris." Top-p silently collapses to greedy decoding in these moments.
 - Renormalization happens after cutting. Once low-probability tokens are removed, the remaining probabilities are rescaled to sum to 1.0. So "stranger" at 24% in the full distribution might become ~27% in the filtered pool — it gets a slight boost just by being a survivor.
@@ -79,9 +79,9 @@ Edge cases you should know
 ## Attention Is All You Need - In detail
 
 - Drawbacks of RNN
-    - The "One-at-a-Time" Problem (Sequential Processing)
-    - Difficulty Connecting Distant Words (Long-Range Dependencies)
-    - Memory and Scaling Constraints
+  - The "One-at-a-Time" Problem (Sequential Processing)
+  - Difficulty Connecting Distant Words (Long-Range Dependencies)
+  - Memory and Scaling Constraints
 
 ### How attention solved RNN's drawbacks
 
@@ -89,7 +89,8 @@ Edge cases you should know
 
 In an RNN, to understand that "barked" refers to the "dog," the information must travel through every word in between ("which," "was," "brown," etc.). The "signal" often gets lost along the way.
 
-The Q, K, V Solution: 
+The Q, K, V Solution:
+
 - When the model processes the word "barked," it creates a Query that essentially asks: "Who did the barking?"
 - Every other word in the sentence has a Key. The Key for "dog" says, "I am a noun/animal."
 - The model calculates a "compatibility" score (a weight) between the Query ("barked") and all Keys ("the," "dog," "brown," etc.).
@@ -108,7 +109,6 @@ The Q, K, V Solution: In the Transformer, we don't need the previous word to cal
 Result: This removes the sequential bottleneck, allowing models to be trained on massive amounts of data in a fraction of the time.
 
 ![QKV flow](qkv.png)
-
 
 In the Transformer architecture, the process of calculating attention weights is known as Scaled Dot-Product Attention
 . This mechanism determines how much "focus" or "weight" one word should place on every other word in a sequence.
@@ -140,7 +140,7 @@ Example: After softmax, the weights might look like: "The" (0.05), "dog" (0.85),
 Finally, these weights are multiplied by the Value (V) vectors of each word.
 The model takes 85% of the information from the "dog" Value, 5% from "The," and 10% from "barked" to create the final representation for the word "barked" in that layer.
 
-Summary Formula: In practice, the Transformer performs this for the whole sentence at once using matrices: 
+Summary Formula: In practice, the Transformer performs this for the whole sentence at once using matrices:
 
 `Attention(Q,K,V) = softmax(Q * K_t / sqrt(d_k))V`.
 
@@ -175,6 +175,7 @@ The Role of Softmax in Attention
 After the model calculates the compatibility between a Query and all Keys (the dot product) and scales those scores, it uses the softmax function to normalize them.
 
 The process works in three conceptual steps:
+
 - Exponentiation: It takes each score and raises e (the mathematical constant) to the power of that score. This ensures all values are positive and makes larger scores stand out significantly more than smaller ones.
 - Summation: It adds up all these exponentiated values.
 - Normalization: It divides each exponentiated value by the total sum.
@@ -183,21 +184,21 @@ A Concrete Example
 
 Imagine the model is processing the word "barked" in the sentence: "The dog barked."
 Let’s say the scaled dot product scores (the raw compatibility scores) between the Query for "barked" and the Keys for each word are:
+
 - "The": 1.5
 - "dog": 4.0
 - "barked": 0.5
 
 Applying Softmax:
+
 - Step 1: The function calculates e^1.5≈4.48, e^4.0≈54.60, and e^0.5≈1.65.
 - Step 2: It sums them up: 4.48+54.60+1.65=60.73.
 - Step 3: It divides each by the sum to get the final Attention Weights:
-    - "The": 4.48/60.73≈0.07 (7%)
-    - "dog": 54.60/60.73≈0.90 (90%)
-    - "barked": 1.65/60.73≈0.03 (3%)
+  - "The": 4.48/60.73≈0.07 (7%)
+  - "dog": 54.60/60.73≈0.90 (90%)
+  - "barked": 1.65/60.73≈0.03 (3%)
 
 The Result: The softmax function has turned the raw scores into a clear instruction: "To understand 'barked,' give 90% of your attention to 'dog'".
-
-
 
 ### Multi-Head attention
 
@@ -227,7 +228,6 @@ Once all 8 heads have finished their individual calculations, the model has 8 di
 Concatenation: These 8 outputs are "glued" together (concatenated) to form a single long vector.
 Final Projection: This long vector is then multiplied by a final weight matrix (W^O) to bring it back to the original size of d_model=512.
 
-
 - This is the fundamental way heads are distinguished. For each head (i), the model uses a unique set of learned linear projections (weight matrices): WQ_i, WK_i, and WV_i. Because each head starts with different initial weights and is updated independently during training, each one "sees" the input differently. These unique weights allow each head to project the input into a different "representation subspace".
 - The training process decides. No human programmer tells "Head 1" to look at grammar or "Head 2" to look at adjectives. Instead, these roles emerge naturally as the model learns to minimize its error during training. The authors observed that after training, individual heads clearly learned to perform specific tasks. Some heads focused on the syntactic structure (like identifying which noun a verb belongs to), while others focused on semantic relationships. By having multiple heads, the model avoids the problem of "averaging" all these different relationships into one messy signal.
 - The researchers (the model's architects) decide. The number of heads (represented by the variable h) is a hyperparameter, which is a setting chosen before the training starts.
@@ -237,11 +237,13 @@ Final Projection: This long vector is then multiplied by a final weight matrix (
 The Transformer architecture is a system designed to process language "all at once" rather than one word at a time. By removing the old sequential method (RNNs), it allows for massive speed and a better understanding of how distant words in a sentence relate to each other.
 
 The Transformer Framework
+
 - Core Innovation: It relies solely on self-attention to draw global dependencies between inputs and outputs, allowing for significantly more parallelization during training compared to traditional sequential models.
 - Efficiency: Because it reduces the number of operations required to relate distant words to a constant O(1), it is much faster to train and reaches a higher quality state-of-the-art in less time.
 - Positional Encoding: Since the model lacks recurrence, it injects positional encodings into the input and output embeddings to ensure it understands the relative and absolute positions of words in a sequence.
 
 Here is how the architecture fits together:
+
 1. Preparing the Input (Embeddings & Positional Encoding)
     Because the Transformer does not process words in order like an RNN, it would normally "forget" which word comes first
     - To fix this, it takes word vectors (embeddings) and adds Positional Encodings
@@ -266,5 +268,6 @@ Decoder stack:
 ![alt text](decoder-stack.png)
 
 Why this "All-at-Once" structure works:
+
 - Constant Path Length: Unlike RNNs, where a signal must travel word-by-word, the Transformer connects any two words in a constant number of operations (O(1)).
 - Extreme Parallelism: Because there is no waiting for the previous word to finish, the entire sentence can be processed at once by a GPU, making training significantly faster than any model that came before it.

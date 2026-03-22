@@ -1,0 +1,25 @@
+# The Evolution: Beyond Transformers
+
+- type: ai
+- tags: transformers, mamba, ssm, state-space-models, architecture, llm, deep-learning, attention
+- images: /images/llm-foundation/evolution.png, /images/llm-foundation/transformers-vs-SSMs.png, /images/llm-foundation/SSM-example-1.png, /images/llm-foundation/SSM-example-2.png, /images/llm-foundation/SSM-example-3.png, /images/llm-foundation/SSM-example-4.png, /images/llm-foundation/mamba-1.png, /images/llm-foundation/ssm-vs-mamba-1.png, /images/llm-foundation/mamba-1-vs-mamba-2.png, /images/llm-foundation/mamba-3.png, /images/llm-foundation/mamba-versions-comparison.png, /images/llm-foundation/hybrid.png
+- The original Transformer had a clean encoder-decoder split for translation: encoder reads the source sentence and hands its K/V to the decoder; logical for two-language tasks, but redundant when input and output are the same language
+- Decoder-only key insight: predicting the next token doesn't need two halves — understanding and generation are the same operation: predict what comes next given everything before
+- Three concrete changes going decoder-only: (1) cross-attention sub-layer removed entirely, (2) mask becomes causal — every token only attends to itself and what came before it in the full sequence, (3) prompt and response are one continuous stream of tokens with no separation
+- Why decoder-only turned out more powerful: all parameters serve one job, scales better with depth, and makes every task (translation, coding, QA, chat) the same problem — predict next token
+- Three Transformer variants: encoder-only (BERT, RoBERTa — classification, search, embeddings), encoder-decoder (T5, BART — translation, summarization), decoder-only (GPT, Claude, Gemini — general generation)
+- The N² attention bottleneck: attention computes every token against every other — N tokens = N² comparisons; double the sequence length → quadruple the compute; at 1M tokens this is a hard wall
+- KV cache problem compounds it: every generated token stores its Keys and Values in GPU memory; long conversations exhaust memory, making long-context serving expensive
+- SSMs come from control theory (autopilots, cruise control): instead of attending to everything, maintain a single compressed hidden state updated with each new token — like updating a running notebook rather than re-reading the whole book every time
+- SSM formula — h_new = A·h_old + B·x (update state); y = C·h (produce output); A = memory retention rate, B = how much new input to absorb, C = how to read the state for output
+- Fatal flaw of early SSMs like S4 (2022): A and B were fixed constants — the model forgets at the same rate no matter what it reads; "the" and "cried" get processed identically; no selectivity
+- Mamba (Dec 2023) breakthrough: made A and B functions of the current input token x — selective state updates; the model learns during training to absorb emotionally significant tokens and skim filler words
+- Mamba results: 5× higher inference throughput than Transformers of the same size; linear O(N) scaling in sequence length; Mamba-3B outperforms same-size Transformers and matches Transformers twice its size
+- Mamba-2 (2024) solved the training bottleneck: the sequential scan h_new = A·h_old + B·x requires computing tokens one-by-one — GPUs hate sequential work; Mamba-2 introduced Structured State Space Duality (SSD) — chunkwise algorithm that processes tokens in parallel mini-batches
+- Mamba-2 mathematical insight: SSMs and Transformers are both computing the same linear transformation through structured matrices — SSMs through recursive state updates, Transformers through direct attention; Mamba-2 borrows Transformer GPU tricks for training
+- Mamba-2 added Mamba heads analogous to multi-head attention, enabling tensor parallelism and grouped-query-like efficiency; 2–8× faster training while staying competitive with Transformers on language modeling
+- Mamba-3 (March 2026): inference-first design targeting the cold GPU problem — during decoding, hardware waits on memory movement not compute; introduces complex state-space updates for parity and arithmetic reasoning previous Mamba versions couldn't do
+- Mamba-3 specifics: MIMO SSM boosts arithmetic intensity without increasing memory; achieves same perplexity as Mamba-2 at half the state size; completes long-sequence tasks 7× faster than Transformers on H100 GPUs
+- Hybrid architectures are winning in production: pure Mamba has retrieval weaknesses — fixed state size means it can lose specific facts buried in long documents; solution is to interleave Mamba layers (cheap long-range) with Transformer attention layers (precise retrieval)
+- Real production hybrids: NVIDIA Nemotron 3 Super (120B params, Mamba-Transformer hybrid, 1M token context window); IBM Granite 4.0 (hybrid to reduce serving cost)
+- Mamba is not replacing Transformers — it's being absorbed into them; the industry is converging on hybrid architectures that get linear scaling for long sequences without sacrificing the retrieval quality that attention excels at
