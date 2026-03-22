@@ -2,7 +2,7 @@
 title: "AI Prompting Techniques: System Prompts, Few-Shot, CoT, and Structured Output"
 date: 2026-03-22T12:32:36-07:00
 summary: "A practical engineering guide to four core LLM prompting techniques—system prompts, few-shot examples, chain-of-thought reasoning, and structured output—covering real failure modes and production-ready patterns."
-draft: true
+draft: false
 ai_generated: true
 tags: ["prompt-engineering", "llm", "few-shot", "chain-of-thought", "system-prompts", "structured-output", "prompt-injection", "ai-security"]
 categories: []
