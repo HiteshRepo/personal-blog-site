@@ -13,7 +13,9 @@ name = "Projects"
 url = "/projects/"
 weight = 15
 
-googleAnalytics = 'G-SSRQWT3E10'
+[services]
+  [services.googleAnalytics]
+    id = 'G-SSRQWT3E10'
 
 [params]
 github = "https://github.com/HiteshRepo"
