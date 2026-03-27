@@ -13,6 +13,7 @@ import json
 import pathlib
 
 ROOT = pathlib.Path(__file__).parent.parent
+BASE_URL = "https://hiteshpattanayak.info"
 CONTENT_DIRS = [
     ("post", ROOT / "content" / "posts"),
     ("project", ROOT / "content" / "projects"),
@@ -104,7 +105,7 @@ def process_file(filepath, content_type):
             "type": content_type,
             "slug": slug,
             "title": title,
-            "url": f"/{content_type}s/{slug}/",
+            "url": f"{BASE_URL}/{content_type}s/{slug}/",
             "text": chunk_content,
         }
 
@@ -146,7 +147,7 @@ def process_resume(filepath):
             "type": "resume",
             "slug": "resume",
             "title": "Hitesh Pattanayak — Resume",
-            "url": "/resume/Hitesh-Pattanayak-Resume-2024.pdf",
+            "url": f"{BASE_URL}/resume/Hitesh-Pattanayak-Resume-2024.pdf",
             "text": chunk_content,
         })
 
@@ -159,7 +160,7 @@ ABOUT = {
     "type": "about",
     "slug": "about",
     "title": "About Hitesh Pattanayak",
-    "url": "/",
+    "url": f"{BASE_URL}/",
     "text": (
         "Hitesh Pattanayak is a Senior Data Engineer and Senior Software Engineer with "
         "10+ years of professional software engineering experience (career started January 2018). "
