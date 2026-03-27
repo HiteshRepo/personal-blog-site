@@ -204,3 +204,7 @@ But for a personal site with under 100 content chunks, those edge cases are rare
 ## Wrapping Up
 
 If you're building a chat assistant for a small content site, reach for the simple tool first. A flat JSON file and 50 lines of TF-IDF scoring will handle most questions your visitors actually ask. Save the vector database for when you've outgrown it — and with a good local debugging script, you'll know exactly when that is.
+
+---
+
+**Part 2** of this series covers making the chat page-aware — a floating widget on every post and project page, suggested questions per page type, and the `[CURRENT PAGE]` context labelling trick that keeps the model focused on the right content: [Page-Aware AI Chat: Floating Widget and Per-Page Context](/posts/page-aware-ai-chat-floating-widget-and-per-page-context/)
