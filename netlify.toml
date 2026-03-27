@@ -2,6 +2,7 @@
 HUGO_VERSION = "0.134.3"
 TZ = "America/Los_Angeles"
 NODE_VERSION = "20"
+HUGO_ENV = "production"
 
 [build]
 publish = "public"
