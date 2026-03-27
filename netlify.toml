@@ -5,7 +5,7 @@ NODE_VERSION = "20"
 
 [build]
 publish = "public"
-command = "python3 scripts/build-knowledge-base.py && hugo --gc --minify --buildFuture --config hugo.toml,hugo.production.toml"
+command = "python3 scripts/build-knowledge-base.py && hugo --gc --minify --buildFuture"
 ignore = "exit 1"
 
 [functions]

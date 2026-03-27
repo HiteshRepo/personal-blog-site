@@ -13,6 +13,8 @@ name = "Projects"
 url = "/projects/"
 weight = 15
 
+googleAnalytics = 'G-SSRQWT3E10'
+
 [params]
 github = "https://github.com/HiteshRepo"
 linkedin = "https://www.linkedin.com/in/hitesh-pattanayak/"
