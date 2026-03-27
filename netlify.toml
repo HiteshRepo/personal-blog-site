@@ -11,6 +11,7 @@ ignore = "exit 1"
 [functions]
 directory = "netlify/functions"
 node_bundler = "esbuild"
+included_files = ["netlify/functions/knowledge-base.json"]
 
 [dev]
 command = "hugo server -D --port 1313"
