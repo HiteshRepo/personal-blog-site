@@ -139,6 +139,12 @@
     appendMessage("user", message);
     setLoading(true);
 
+    if (typeof gtag === "function") {
+      gtag("event", "chat_message", {
+        page_slug: window.CHAT_PAGE_SLUG || "unknown",
+      });
+    }
+
     var streamBubble = createStreamingBubble();
     var accumulated = "";
     var done = false;
