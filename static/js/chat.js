@@ -139,7 +139,9 @@
     appendMessage("user", message);
     setLoading(true);
 
-    var loadingBubble = createStreamingBubble();
+    var streamBubble = createStreamingBubble();
+    var accumulated = "";
+    var done = false;
 
     fetch("/.netlify/functions/chat", {
       method: "POST",
@@ -152,27 +154,67 @@
     })
       .then(function (res) {
         if (!res.ok) {
-          return res.json().then(function (data) {
-            throw new Error(data.error || "Something went wrong.");
+          return res.text().then(function (text) {
+            try { throw new Error(JSON.parse(text).error || "Something went wrong."); }
+            catch (_) { throw new Error("Chat service unavailable."); }
           });
         }
-        return res.json();
-      })
-      .then(function (data) {
-        if (data.error) {
-          setStatus(data.error);
-          loadingBubble.remove();
-          setLoading(false);
-          return;
+
+        var reader = res.body.getReader();
+        var decoder = new TextDecoder();
+        var buffer = "";
+
+        function read() {
+          return reader.read().then(function (result) {
+            if (result.done) {
+              if (!done) finalizeStreamingBubble(streamBubble, accumulated);
+              setLoading(false);
+              inputEl.focus();
+              return;
+            }
+
+            buffer += decoder.decode(result.value, { stream: true });
+            var lines = buffer.split("\n");
+            buffer = lines.pop();
+
+            for (var i = 0; i < lines.length; i++) {
+              var line = lines[i];
+              if (!line.startsWith("data: ")) continue;
+              var data = line.slice(6).trim();
+
+              if (data === "[DONE]") {
+                done = true;
+                finalizeStreamingBubble(streamBubble, accumulated);
+                history.push({ role: "user", content: message });
+                history.push({ role: "assistant", content: accumulated });
+                setLoading(false);
+                inputEl.focus();
+                return;
+              }
+
+              try {
+                var parsed = JSON.parse(data);
+                if (parsed.error) {
+                  setStatus(parsed.error);
+                  streamBubble.remove();
+                  setLoading(false);
+                  return;
+                }
+                if (parsed.text) {
+                  accumulated += parsed.text;
+                  updateStreamingBubble(streamBubble, accumulated);
+                }
+              } catch (_) {}
+            }
+
+            return read();
+          });
         }
-        finalizeStreamingBubble(loadingBubble, data.text);
-        history.push({ role: "user", content: message });
-        history.push({ role: "assistant", content: data.text });
-        setLoading(false);
-        inputEl.focus();
+
+        return read();
       })
       .catch(function (err) {
-        loadingBubble.remove();
+        streamBubble.remove();
         setStatus(err.message || "Error. Please try again.");
         sendBtn.disabled = false;
         inputEl.disabled = false;

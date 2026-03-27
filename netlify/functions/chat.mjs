@@ -306,21 +306,31 @@ export default async (request) => {
   const provider = (process.env.AI_PROVIDER || "openai").toLowerCase();
   const tokenStream = provider === "anthropic" ? streamAnthropic(messages) : streamOpenAI(messages);
 
-  let fullText = "";
-  try {
-    for await (const text of tokenStream) {
-      fullText += text;
-    }
-  } catch (err) {
-    console.error("Stream error:", err?.message || err);
-    return new Response(
-      JSON.stringify({ error: "Failed to get a response. Please try again." }),
-      { status: 500, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
-    );
-  }
+  const encoder = new TextEncoder();
+  const readable = new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const text of tokenStream) {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
+        }
+        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+      } catch (err) {
+        console.error("Stream error:", err?.message || err);
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify({ error: "Failed to get a response. Please try again." })}\n\n`)
+        );
+      }
+      controller.close();
+    },
+  });
 
-  return new Response(JSON.stringify({ text: fullText }), {
+  return new Response(readable, {
     status: 200,
-    headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+    headers: {
+      ...CORS_HEADERS,
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      "X-Accel-Buffering": "no",
+    },
   });
 };
