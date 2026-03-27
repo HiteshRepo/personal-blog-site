@@ -1,7 +1,7 @@
 ---
 title: "Page-Aware AI Chat: Floating Widget and Per-Page Context"
 date: 2026-03-27T14:48:36-07:00
-summary: "A practical walkthrough of adding per-page context awareness to a floating AI chat widget built with Hugo and Netlify Functions, covering layout overrides, slug injection, priority chunk labeling, and the prompt engineering fix that made "summarise this post" actually work."
+summary: "A practical walkthrough of adding per-page context awareness to a floating AI chat widget built with Hugo and Netlify Functions, covering layout overrides, slug injection, priority chunk labeling, and the prompt engineering fix that made summarise-this-post actually work."
 draft: false
 ai_generated: true
 tags: ["ai", "rag", "netlify", "hugo", "javascript", "serverless", "openai"]
