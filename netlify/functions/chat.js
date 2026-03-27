@@ -140,7 +140,7 @@ function retrieve(query, pageSlug, topK = 5) {
       return b.score - a.score;
     })
     .slice(0, topK)
-    .map((s) => s.chunk);
+    .map((s) => ({ ...s.chunk, _priority: s.isPriority }));
 }
 
 // ---------------------------------------------------------------------------
@@ -149,9 +149,10 @@ function retrieve(query, pageSlug, topK = 5) {
 
 function buildContext(chunks, timeline) {
   const parts = chunks.map((c) => {
-    const lines = [
-      c.type === "project" ? `Project: ${c.title}` : `Post: ${c.title}`,
-    ];
+    const label = c._priority
+      ? (c.type === "project" ? `[CURRENT PAGE] Project: ${c.title}` : `[CURRENT PAGE] Post: ${c.title}`)
+      : (c.type === "project" ? `Project: ${c.title}` : `Post: ${c.title}`);
+    const lines = [label];
     if (c.organization) lines.push(`Organization: ${c.organization}`);
     if (c.role) lines.push(`Role: ${c.role}`);
     if (c.techStack) lines.push(`Tech stack: ${c.techStack.join(", ")}`);
@@ -182,6 +183,7 @@ You have two modes depending on what is asked:
 2. PROFILE/EXPERIENCE questions (e.g. "what projects has Hitesh worked on?", "how to contact?"): answer using the facts, titles, and URLs from the context.
 
 STRICT rules:
+- When a [CURRENT PAGE] section is present in the context, questions like "what tech was used?", "summarise this", "what were the achievements?", "what was the role?" refer to THAT page only. Answer using [CURRENT PAGE] content — do not list other projects or posts unless explicitly asked.
 - NEVER invent, guess, or paraphrase post titles or project names — copy them exactly from the context.
 - NEVER use a URL that is not explicitly listed in the context. Always use the exact URL field from the context.
 - ALWAYS format every post/project reference as a markdown link: [Exact Post Title](url). Never print bare titles, bare URLs, or "URL: ..." labels.
