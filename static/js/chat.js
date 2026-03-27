@@ -43,13 +43,15 @@
         /\[([^\]]+)\]\(((?:https?:\/\/|mailto:|\/)[^\)]+)\)/g,
         function (_, linkText, url) {
           var isMailto = /^mailto:/.test(url);
-          var isExternal = isMailto || /^https?:\/\//.test(url);
-          // For internal paths, strip any injected domain and rebuild from current origin
-          var href = isExternal
+          // Treat any hiteshpattanayak.* or netlify.app URL as our own site
+          var isOwnDomain = /^https?:\/\/[^/]*hiteshpattanayak\.|^https?:\/\/[^/]*\.netlify\.app/.test(url);
+          var isExternal = !isMailto && !isOwnDomain && /^https?:\/\//.test(url);
+          // Normalise own-domain absolute URLs and relative paths to current origin
+          var href = isMailto || isExternal
             ? url
             : window.location.origin + url.replace(/^https?:\/\/[^\/]+/, "");
           return '<a href="' + href + '" class="link blue"'
-            + (isExternal ? ' target="_blank" rel="noopener"' : "")
+            + (isExternal || isMailto ? ' target="_blank" rel="noopener"' : "")
             + ">" + linkText + "</a>";
         }
       )
