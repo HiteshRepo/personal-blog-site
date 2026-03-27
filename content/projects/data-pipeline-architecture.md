@@ -1,6 +1,6 @@
 ---
 title: "Index and Search Petabytes of Data"
-organization: "Current Role"
+organization: "Improving"
 role: "Senior Data Engineer"
 startDate: "2025-07-01"
 techStack: ["Databricks", "Apache Spark", "Delta Lake", "Azure Event Hubs", "Go", "Python", "PySpark", "CosmosDB", "Azure Container Apps", "Elasticsearch", "Kibana", "TypeScript", "Node.js", "Pulumi"]

@@ -118,8 +118,9 @@ Biju Patnaik University of Technology (BPUT), Bhubaneswar
 
 ## Publications & Speaking
 
-### **Book**
+### **Books**
 
+- **"Ultimate Certified Kubernetes Application Developer (CKAD) Certification Guide"** - [OrangeAva](https://orangeava.in/products/ultimate-certified-kubernetes-application-developer-ckad-certification-guide)
 - **"Modern API Design with gRPC"** - [OrangeAva](https://orangeava.com/products/modern-api-design-with-grpc)
 
 ### **Conference Talks**

@@ -1,7 +1,10 @@
 VENV := .venv
 PYTHON := $(VENV)/bin/python3
 
-.PHONY: serve build clean generate diagrams convert venv
+.PHONY: serve build clean generate diagrams convert venv build-kb
+
+build-kb: venv
+	$(PYTHON) scripts/build-knowledge-base.py
 
 serve:
 	hugo server -D

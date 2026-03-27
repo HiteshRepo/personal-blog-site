@@ -1,0 +1,36 @@
+<section id="chat-section" class="pa3 pa4-l mw7 center mt4 bt b--black-10 pt4">
+  <h2 class="f4 fw6 mt0 mb1">Ask me anything</h2>
+  <p class="f6 black-50 mt0 mb3">Ask about my posts, projects, or experience.</p>
+
+  <div
+    id="chat-messages"
+    class="bg-near-white pa3 br2 mb3 f6 lh-copy overflow-y-auto"
+    style="min-height: 100px; max-height: 360px;"
+    aria-live="polite"
+    aria-label="Chat messages"
+  ></div>
+
+  <div class="flex items-center">
+    <input
+      id="chat-input"
+      type="text"
+      placeholder="e.g. What projects use Kubernetes?"
+      class="flex-auto pa2 br2 ba b--black-20 f6 mr2"
+      aria-label="Chat message input"
+      autocomplete="off"
+    />
+    <button
+      id="chat-send"
+      class="pa2 ph3 bg-dark-gray white bn br2 pointer f6 nowrap"
+      aria-label="Send message"
+    >
+      Send
+    </button>
+  </div>
+  <p id="chat-status" class="f7 black-40 mt2 mb0" aria-live="polite"></p>
+</section>
+
+<script>
+  window.CHAT_PAGE_SLUG = {{ with .File }}{{ with .BaseFileName }}"{{ . }}"{{ end }}{{ end }};
+</script>
+<script src="/js/chat.js"></script>

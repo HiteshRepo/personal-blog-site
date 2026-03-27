@@ -1,6 +1,6 @@
 ---
 title: "Enterprise Authentication, Authorization and User Management"
-organization: "Current Role"
+organization: "Improving"
 role: "Senior Software Engineer"
 startDate: "2024-11-01"
 endDate: "2025-06-01"

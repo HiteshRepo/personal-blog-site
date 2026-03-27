@@ -1,0 +1,10 @@
+{
+  "name": "personal-blog-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dependencies for Netlify Functions",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.36.3",
+    "openai": "^4.77.0"
+  }
+}

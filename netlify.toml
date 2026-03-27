@@ -1,8 +1,13 @@
 [build.environment]
 HUGO_VERSION = "0.134.3"
 TZ = "America/Los_Angeles"
+NODE_VERSION = "20"
 
 [build]
 publish = "public"
-command = "hugo --gc --minify --buildFuture"
+command = "python3 scripts/build-knowledge-base.py && hugo --gc --minify --buildFuture"
 ignore = "exit 1"
+
+[functions]
+directory = "netlify/functions"
+node_bundler = "esbuild"
