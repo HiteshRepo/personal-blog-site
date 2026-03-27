@@ -143,8 +143,8 @@ Biju Patnaik University of Technology (BPUT), Bhubaneswar
 
 ### Project AI
 
-- **Semantic Search (RAG)**: Designed RAG pipeline for M365 backup data — CosmosDB hybrid vector search, Azure OpenAI embeddings, natural language to metadata filter conversion via few-shot Chat Completions
-- **Elastic Dashboard Changelog**: Python + Anthropic API tool to generate human-readable diffs of `.ndjson` Kibana dashboard files for code review
+- **Semantic Search (RAG)**: Contributed to designing RAG pipeline for M365 backup data — CosmosDB hybrid vector search, Azure OpenAI embeddings, natural language to metadata filter conversion via few-shot Chat Completions
+- **Elastic Dashboard Changelog**: Python + Anthropic API tool to generate human-readable changelogs of `.ndjson` Kibana dashboard files for code review
 - **Security Fix Automation**: LLM-assisted local skill that reads Cycode security findings and applies targeted fixes with full code context
 
 ### Personal AI Tools
