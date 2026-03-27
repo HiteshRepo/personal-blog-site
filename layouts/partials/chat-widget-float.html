@@ -97,4 +97,8 @@
     });
   })();
 </script>
+<style>
+  @keyframes chat-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .chat-cursor { animation: chat-blink 0.8s step-end infinite; }
+</style>
 <script src="/js/chat.js"></script>

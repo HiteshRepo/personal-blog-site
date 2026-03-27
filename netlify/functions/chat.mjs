@@ -1,18 +1,16 @@
 // ---------------------------------------------------------------------------
-// Knowledge base loader
+// Knowledge base loader — createRequire lets esbuild bundle the JSON at build time
 // ---------------------------------------------------------------------------
+
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
 let _kb;
 try {
-  // require() is resolved by esbuild at bundle time — works in both dev and prod
   _kb = require("./knowledge-base.json");
 } catch (e) {
   console.error("[chat] Failed to load knowledge-base.json:", e.message);
   _kb = { chunks: [], timeline: [] };
-}
-
-function loadKnowledgeBase() {
-  return _kb;
 }
 
 // ---------------------------------------------------------------------------
@@ -29,36 +27,35 @@ const STOP_WORDS = new Set([
   "recent", "latest", "new", "worked", "built", "made", "hitesh",
 ]);
 
-// Common aliases and plural/singular pairs
 const SYNONYMS = {
-  "projects":    "project",
-  "posts":       "post",
-  "blogs":       "blog",
-  "articles":    "article",
-  "k8s":         "kubernetes",
-  "kube":        "kubernetes",
-  "ml":          "learning",
-  "llm":         "language",
-  "llms":        "language",
-  "ai":          "intelligence",
-  "js":          "javascript",
-  "ts":          "typescript",
-  "db":          "database",
-  "grpc":        "grpc",
-  "yoe":         "experience",
-  "exp":         "experience",
-  "years":       "experience",
-  "career":      "experience",
-  "background":  "experience",
-  "reach":       "contact",
-  "touch":       "contact",
-  "contact":     "email",
-  "connect":     "linkedin",
-  "hire":        "email",
-  "employer":    "company",
-  "company":     "organization",
-  "workplace":   "organization",
-  "working":     "organization",
+  "projects":   "project",
+  "posts":      "post",
+  "blogs":      "blog",
+  "articles":   "article",
+  "k8s":        "kubernetes",
+  "kube":       "kubernetes",
+  "ml":         "learning",
+  "llm":        "language",
+  "llms":       "language",
+  "ai":         "intelligence",
+  "js":         "javascript",
+  "ts":         "typescript",
+  "db":         "database",
+  "grpc":       "grpc",
+  "yoe":        "experience",
+  "exp":        "experience",
+  "years":      "experience",
+  "career":     "experience",
+  "background": "experience",
+  "reach":      "contact",
+  "touch":      "contact",
+  "contact":    "email",
+  "connect":    "linkedin",
+  "hire":       "email",
+  "employer":   "company",
+  "company":    "organization",
+  "workplace":  "organization",
+  "working":    "organization",
 };
 
 function tokenize(text) {
@@ -69,7 +66,6 @@ function tokenize(text) {
     .filter((t) => t.length > 1 && !STOP_WORDS.has(t));
 }
 
-// Expand query tokens with synonyms (adds alias alongside original)
 function expandTokens(tokens) {
   const expanded = [];
   for (const t of tokens) {
@@ -79,23 +75,17 @@ function expandTokens(tokens) {
   return expanded;
 }
 
-// Type tokens handled separately — not scored against body text to avoid
-// "post" matching the word "post" in every blog article's body.
 const TYPE_TOKENS = new Set(["post", "posts", "project", "projects", "blog", "blogs", "article", "articles"]);
 
 function scoreChunk(queryTokens, chunk) {
   const expandedTokens = expandTokens(queryTokens);
-
-  // Type-filter boost: if query mentions posts/projects, reward matching chunk type
   const wantsPost    = queryTokens.some((t) => t === "posts"    || t === "post");
   const wantsProject = queryTokens.some((t) => t === "projects" || t === "project");
   const typeBoost =
     (wantsPost    && chunk.type === "post")    ? 0.3 :
     (wantsProject && chunk.type === "project") ? 0.3 : 0;
 
-  // Strip type tokens before content scoring
   const contentTokens = expandedTokens.filter((t) => !TYPE_TOKENS.has(t));
-
   const titleTokens = tokenize(chunk.title || "");
   const bodyFields = [
     chunk.text || "",
@@ -120,10 +110,9 @@ function scoreChunk(queryTokens, chunk) {
 }
 
 function retrieve(query, pageSlug, topK = 5) {
-  const { chunks } = loadKnowledgeBase();
+  const { chunks } = _kb;
   const queryTokens = tokenize(query);
 
-  // Score every chunk, keep only the highest-scoring chunk per slug
   const bestBySlug = new Map();
   for (const chunk of chunks) {
     const score = scoreChunk(queryTokens, chunk);
@@ -164,10 +153,7 @@ function buildContext(chunks, timeline) {
 
   if (timeline && timeline.length > 0) {
     const timelineText = timeline
-      .map(
-        (t) =>
-          `${t.period} — ${t.role}: ${t.summary} (${t.tech.join(", ")})`
-      )
+      .map((t) => `${t.period} — ${t.role}: ${t.summary} (${t.tech.join(", ")})`)
       .join("\n");
     parts.push(`Career Timeline:\n${timelineText}`);
   }
@@ -195,37 +181,65 @@ STRICT rules:
 - Do not answer questions completely unrelated to Hitesh's work, blog, or the technical topics his posts cover.`;
 
 // ---------------------------------------------------------------------------
-// AI provider calls
+// Rate limiting via Upstash Redis REST API
 // ---------------------------------------------------------------------------
 
-async function callOpenAI(messages) {
+async function isRateLimited(ip) {
+  const { UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN } = process.env;
+  if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) return false;
+
+  try {
+    const key = `chat_rl:${ip}`;
+    const res = await fetch(`${UPSTASH_REDIS_REST_URL}/pipeline`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([["INCR", key], ["EXPIRE", key, 3600]]),
+    });
+    const [[{ result: count }]] = await res.json();
+    return count > 20;
+  } catch {
+    return false; // fail open
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Streaming AI providers
+// ---------------------------------------------------------------------------
+
+async function* streamOpenAI(messages) {
   const { OpenAI } = require("openai");
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-  const response = await client.chat.completions.create({
+  const stream = await client.chat.completions.create({
     model: "gpt-4o-mini",
     messages,
+    stream: true,
     temperature: 0.5,
     max_tokens: 800,
   });
-
-  return response.choices[0].message.content;
+  for await (const chunk of stream) {
+    const text = chunk.choices[0]?.delta?.content || "";
+    if (text) yield text;
+  }
 }
 
-async function callAnthropic(messages) {
+async function* streamAnthropic(messages) {
   const Anthropic = require("@anthropic-ai/sdk");
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
   const [systemMsg, ...rest] = messages;
-
-  const response = await client.messages.create({
+  const stream = client.messages.stream({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 800,
     system: systemMsg.content,
     messages: rest,
   });
-
-  return response.content[0].text;
+  for await (const event of stream) {
+    if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
+      yield event.delta.text;
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -239,74 +253,82 @@ const CORS_HEADERS = {
 };
 
 // ---------------------------------------------------------------------------
-// Handler
+// Handler (Netlify Functions v2)
 // ---------------------------------------------------------------------------
 
-exports.handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers: CORS_HEADERS, body: "" };
+export default async (request) => {
+  if (request.method === "OPTIONS") {
+    return new Response("", { status: 200, headers: CORS_HEADERS });
   }
 
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
+  if (request.method !== "POST") {
+    return new Response("Method Not Allowed", { status: 405 });
+  }
+
+  // Rate limiting
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (await isRateLimited(ip)) {
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again in an hour." }),
+      { status: 429, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+    );
   }
 
   let body;
   try {
-    body = JSON.parse(event.body || "{}");
+    body = await request.json();
   } catch {
-    return {
-      statusCode: 400,
-      headers: CORS_HEADERS,
-      body: JSON.stringify({ error: "Invalid JSON body" }),
-    };
+    return new Response(
+      JSON.stringify({ error: "Invalid JSON body" }),
+      { status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+    );
   }
 
   const { message, history = [], page_slug } = body;
-
   if (!message || typeof message !== "string" || !message.trim()) {
-    return {
-      statusCode: 400,
-      headers: CORS_HEADERS,
-      body: JSON.stringify({ error: "message is required" }),
-    };
+    return new Response(
+      JSON.stringify({ error: "message is required" }),
+      { status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" } }
+    );
   }
 
-  const { timeline } = loadKnowledgeBase();
+  const { timeline } = _kb;
   const relevantChunks = retrieve(message.trim(), page_slug || null);
   const context = buildContext(relevantChunks, timeline);
 
   const messages = [
-    {
-      role: "system",
-      content: `${SYSTEM_PROMPT}\n\nContext:\n\n${context}`,
-    },
-    ...history
-      .filter((h) => h.role && h.content)
-      .map((h) => ({ role: h.role, content: h.content })),
+    { role: "system", content: `${SYSTEM_PROMPT}\n\nContext:\n\n${context}` },
+    ...history.filter((h) => h.role && h.content).map((h) => ({ role: h.role, content: h.content })),
     { role: "user", content: message.trim() },
   ];
 
-  try {
-    const provider = (process.env.AI_PROVIDER || "openai").toLowerCase();
-    const reply =
-      provider === "anthropic"
-        ? await callAnthropic(messages)
-        : await callOpenAI(messages);
+  const provider = (process.env.AI_PROVIDER || "openai").toLowerCase();
+  const tokenStream = provider === "anthropic" ? streamAnthropic(messages) : streamOpenAI(messages);
 
-    return {
-      statusCode: 200,
-      headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-      body: JSON.stringify({ reply }),
-    };
-  } catch (err) {
-    console.error("AI provider error:", err?.message || err);
-    return {
-      statusCode: 500,
-      headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        error: "Failed to get a response. Please try again.",
-      }),
-    };
-  }
+  const encoder = new TextEncoder();
+  const readable = new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const text of tokenStream) {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`));
+        }
+        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+      } catch (err) {
+        console.error("Stream error:", err?.message || err);
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify({ error: "Failed to get a response. Please try again." })}\n\n`)
+        );
+      }
+      controller.close();
+    },
+  });
+
+  return new Response(readable, {
+    status: 200,
+    headers: {
+      ...CORS_HEADERS,
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+    },
+  });
 };
