@@ -1,13 +1,16 @@
 // ---------------------------------------------------------------------------
-// Knowledge base loader — createRequire lets esbuild bundle the JSON at build time
+// Knowledge base loader
 // ---------------------------------------------------------------------------
 
 import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
+
+const _require = createRequire(import.meta.url);
 
 let _kb;
 try {
-  _kb = require("./knowledge-base.json");
+  _kb = _require("./knowledge-base.json");
 } catch (e) {
   console.error("[chat] Failed to load knowledge-base.json:", e.message);
   _kb = { chunks: [], timeline: [] };
@@ -210,7 +213,6 @@ async function isRateLimited(ip) {
 // ---------------------------------------------------------------------------
 
 async function* streamOpenAI(messages) {
-  const { OpenAI } = require("openai");
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   const stream = await client.chat.completions.create({
     model: "gpt-4o-mini",
@@ -226,7 +228,6 @@ async function* streamOpenAI(messages) {
 }
 
 async function* streamAnthropic(messages) {
-  const Anthropic = require("@anthropic-ai/sdk");
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
   const [systemMsg, ...rest] = messages;
   const stream = client.messages.stream({
