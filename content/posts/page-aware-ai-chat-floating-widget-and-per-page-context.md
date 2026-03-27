@@ -54,11 +54,13 @@ Same pattern for `layouts/projects/single.html`. The partial gets the current pa
 ### Suggested Questions Per Page Type
 
 Post pages get:
+
 - "Summarise this post"
 - "What are the key takeaways?"
 - "What tech is covered?"
 
 Project pages get:
+
 - "What tech stack was used?"
 - "What were the key achievements?"
 - "What was Hitesh's role?"
@@ -134,7 +136,7 @@ The Phase 1 system prompt was scoped tightly for profile/experience questions: *
 
 Phase 2 adds a two-mode framing:
 
-```
+```text
 You are an AI assistant for Hitesh's personal site.
 
 Context sections labeled [CURRENT PAGE] are the primary source. When a [CURRENT PAGE] section is present, questions like "summarise this", "what tech was used?", "what were the achievements?" refer to THAT page only — do not blend in other projects or posts.

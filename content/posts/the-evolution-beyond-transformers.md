@@ -61,7 +61,7 @@ SSMs come from control theory — the math behind autopilots and cruise control.
 
 The core SSM formula is three lines:
 
-```
+```text
 h_new = A·h_old + B·x   # update the hidden state
 y     = C·h             # read the output from state
 ```

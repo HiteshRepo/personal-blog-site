@@ -121,7 +121,7 @@ Don't use `fs.readFileSync(__dirname + "/knowledge-base.json")`. After esbuild b
 
 A few rules I had to make explicit after the model hallucinated things:
 
-```
+```text
 - Never invent post titles or project names. Only reference content from the context provided.
 - Always copy URLs exactly as they appear in context. Do not construct or guess URLs.
 - Format all links as markdown: [Title](url)
@@ -187,7 +187,7 @@ I keep a `test-retrieval.js` script that mirrors the retrieval logic and prints 
 node test-retrieval.js "how many years of experience do you have"
 ```
 
-```
+```text
 [1] ABOUT (score: 0.047) — about/contact
 [2] resume-chunk-0 (score: 0.031) — resume
 [3] senior-engineer-post (score: 0.008) — posts/...

@@ -61,7 +61,7 @@ Let's dig into TCP specifically.
 
 Before a single byte of your HTTP request is sent, TCP establishes a connection:
 
-```
+```text
 CLIENT                                SERVER
   |                                      |
   |  ——— SYN (seq=100) ————————————→    |   "I want to connect.
@@ -83,7 +83,7 @@ CLIENT                                SERVER
 
 TCP doesn't send your data as one blob. It breaks it into packets, typically 1500 bytes each (the standard MTU — Maximum Transmission Unit):
 
-```
+```text
 Original Data:  "Hello, this is a very long message..."  (5000 bytes)
 
            ┌─────────────────────────────────┐
@@ -98,7 +98,7 @@ Packet 4:  [Header | seq=4500 | "message…" ]   (500 bytes)
 
 Each packet carries a header with everything needed to reconstruct the stream:
 
-```
+```text
 ┌──────────────────────────────────────────┐
 │              TCP PACKET                  │
 ├──────────────────────────────────────────┤
@@ -126,7 +126,7 @@ Each packet carries a header with everything needed to reconstruct the stream:
 
 Individual packets aren't guaranteed to follow the same path through the network:
 
-```
+```text
 [Packet 1] ——→ Router A ——→ Router C ——→ Server
 [Packet 2] ——→ Router B ——→ Router D ——→ Server
 [Packet 3] ——→ Router A ——→ Router D ——→ Server
@@ -134,7 +134,7 @@ Individual packets aren't guaranteed to follow the same path through the network
 
 They can arrive out of order. TCP handles this with a receive buffer and sequence numbers:
 
-```
+```text
 PACKETS ARRIVING (out of order):
 
   Arrives: Packet 3  → Buffer: [_, _, ✅]   "Waiting for 1 and 2"
@@ -152,7 +152,7 @@ REASSEMBLE in sequence order → Original data restored ✅
 
 Every packet starts a timer. If no ACK arrives before the timer expires, the packet is resent:
 
-```
+```text
 CLIENT                              SERVER
   |                                    |
   |  ——— Packet 2 (seq=1500) ——→     |
@@ -169,7 +169,7 @@ CLIENT                              SERVER
 
 Waiting for a timeout is slow. If the receiver gets three identical ACKs, it signals a missing packet immediately — no waiting:
 
-```
+```text
 CLIENT                              SERVER
   |                                    |
   |  ——→ Packet 1 ——→               |  ✅ Received
@@ -192,7 +192,7 @@ CLIENT                              SERVER
 
 The receiver tells the sender how much data it can buffer at once — preventing the sender from overwhelming it:
 
-```
+```text
 Server → Client: "My window is 3 packets"
                   (I can handle 3 at a time)
 
@@ -211,7 +211,7 @@ Client → Server: "Window is now 3 again, send more"
 
 TCP closes gracefully, letting each side finish independently:
 
-```
+```text
 CLIENT                              SERVER
   |                                    |
   |  ——— FIN ——————————————→         |  "I'm done sending"
@@ -229,7 +229,7 @@ CLIENT                              SERVER
 
 UDP skips all of that — no handshake, no ACKs, no retransmits, no ordering. Its entire header is 8 bytes vs TCP's 20–60:
 
-```
+```text
 ┌──────────────────────────────────────┐
 │             UDP PACKET               │
 ├──────────────────────────────────────┤
@@ -243,7 +243,7 @@ UDP skips all of that — no handshake, no ACKs, no retransmits, no ordering. It
 └──────────────────────────────────────┘
 ```
 
-```
+```text
 Feature              TCP                  UDP
 ─────────────────────────────────────────────────────
 Connection           Handshake required   No handshake
@@ -263,7 +263,7 @@ Use case             Accuracy matters     Speed matters
 
 Games often do this — retry only what matters, drop the rest:
 
-```
+```text
 Application Layer:  Custom retry logic  ← You build this
       ↓
 UDP Layer:          Fast, no overhead   ← Protocol handles this
@@ -279,7 +279,7 @@ A player death event gets retried. A particle animation that already played? Sil
 
 QUIC (used by HTTP/3, built by Google) runs over UDP and solves three real TCP problems:
 
-```
+```text
 TCP Problem 1: Head-of-Line Blocking
 ──────────────────────────────────────
 TCP: Packet 2 lost → EVERYTHING waits for packet 2
@@ -310,7 +310,7 @@ QUIC:  Switch WiFi → Mobile data = connection continues ✅
 
 Standard HTTP is request/response — the client always asks first. WebSockets flip that model:
 
-```
+```text
 Normal HTTP:
 Client → "Give me updates"    → Server
 Client ← "Here are updates"   ← Server
@@ -339,7 +339,7 @@ ws.send('Hello server!');
 
 Server-Sent Events are simpler than WebSockets — the client subscribes once, the server streams forever:
 
-```
+```text
 Client → "Subscribe to updates"  → Server
          (connection stays open)
 
@@ -360,7 +360,7 @@ es.onmessage = (e) => console.log(e.data);
 
 gRPC (HTTP/2, built by Google) uses Protobuf instead of JSON — roughly 3× smaller payloads:
 
-```
+```text
 REST API (JSON):
 {
   "userId": 123,
@@ -380,7 +380,7 @@ Used internally at Netflix, Uber, and Google for microservice communication wher
 
 MQTT is designed for constrained devices — low power, low bandwidth, unreliable networks:
 
-```
+```text
 Temperature Sensor  →  [Publish] "temp/room1" = 24°C
                               ↓
 Smart Thermostat    ←  [Subscribed to "temp/room1"] gets 24°C
@@ -393,7 +393,7 @@ Used in smart homes, hospital monitoring, and industrial IoT.
 
 ## Protocol Decision Table
 
-```
+```text
 Need                          Use
 ──────────────────────────────────────────────────────
 Reliable web requests         TCP / HTTP
@@ -409,7 +409,7 @@ File transfer                 TCP
 
 And if you're thinking in terms of the reliability/speed tradeoff:
 
-```
+```text
 RELIABILITY  ←─────────────────────────────→  SPEED
 
     TCP          QUIC        WebSocket        UDP
