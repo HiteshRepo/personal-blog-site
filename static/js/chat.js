@@ -123,9 +123,14 @@
       }),
     })
       .then(function (res) {
-        return res.json().then(function (data) {
-          if (!res.ok) throw new Error(data.error || "Something went wrong.");
-          return data;
+        return res.text().then(function (text) {
+          try {
+            var data = JSON.parse(text);
+            if (!res.ok) throw new Error(data.error || "Something went wrong.");
+            return data;
+          } catch (_) {
+            throw new Error("Chat service unavailable. Use netlify dev to test locally.");
+          }
         });
       })
       .then(function (data) {
