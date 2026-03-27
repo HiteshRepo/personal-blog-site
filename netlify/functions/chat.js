@@ -90,8 +90,8 @@ function scoreChunk(queryTokens, chunk) {
   const wantsPost    = queryTokens.some((t) => t === "posts"    || t === "post");
   const wantsProject = queryTokens.some((t) => t === "projects" || t === "project");
   const typeBoost =
-    (wantsPost    && chunk.type === "post")    ? 0.001 :
-    (wantsProject && chunk.type === "project") ? 0.001 : 0;
+    (wantsPost    && chunk.type === "post")    ? 0.3 :
+    (wantsProject && chunk.type === "project") ? 0.3 : 0;
 
   // Strip type tokens before content scoring
   const contentTokens = expandedTokens.filter((t) => !TYPE_TOKENS.has(t));

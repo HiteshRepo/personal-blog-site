@@ -40,6 +40,10 @@ July 2025 - Present
 - Implemented high-volume streaming data processing with Azure Event Hubs and Container Apps
 - Developed complex Databricks jobs for event processing, indexing, and content enrichment
 - Built Data Ingestion and Discovery services using Go, supporting real-time analytics and AI-enhanced search
+- Implemented RAG pipeline for semantic search over backed-up M365 data using CosmosDB hybrid vector search and Azure OpenAI
+- Translated natural language queries to structured metadata filters using Azure OpenAI Chat Completions with few-shot prompting
+- Built Elastic dashboard changelog tool: diffs unreadable `.ndjson` files and generates human-readable changelogs via Anthropic API
+- Built AI-assisted security fix tool: ingests Cycode findings and applies targeted code fixes using LLM with full finding context
 
 ### **Senior Software Engineer | Current Organization**
 
@@ -132,6 +136,22 @@ Biju Patnaik University of Technology (BPUT), Bhubaneswar
 
 - **"Bare metal K8s cluster provisioning using AWS EKSA"** - [InfraCloud](https://www.infracloud.io/blogs/provisioning-kubernetes-bare-metal-using-aws-eks-anywhere/)
 - **"Understanding gRPC Concepts, Use Cases & Best Practices"** - [InfraCloud](https://www.infracloud.io/blogs/understanding-grpc-concepts-best-practices/)
+
+---
+
+## AI Work
+
+### Project AI
+
+- **Semantic Search (RAG)**: Designed RAG pipeline for M365 backup data — CosmosDB hybrid vector search, Azure OpenAI embeddings, natural language to metadata filter conversion via few-shot Chat Completions
+- **Elastic Dashboard Changelog**: Python + Anthropic API tool to generate human-readable diffs of `.ndjson` Kibana dashboard files for code review
+- **Security Fix Automation**: LLM-assisted local skill that reads Cycode security findings and applies targeted fixes with full code context
+
+### Personal AI Tools
+
+- **Status Updator**: Scans JIRA, Confluence, and GitHub repos to auto-generate weekly work summaries
+- **Blog Generator**: AI-powered blog generation workflow (Claude/OpenAI) from structured idea files — used to author posts on this site
+- **AI Chat Assistant**: RAG-based conversational assistant on personal blog site using TF-IDF retrieval, Netlify Functions, and OpenAI gpt-4o-mini
 
 ---
 

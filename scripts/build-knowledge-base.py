@@ -191,7 +191,13 @@ ABOUT = {
         "External blog post 2: 'Understanding gRPC Concepts, Use Cases & Best Practices' on InfraCloud — "
         "https://www.infracloud.io/blogs/understanding-grpc-concepts-best-practices/. "
         "Open source contributions: AWS EKS Anywhere, Alcionai Corso (Microsoft 365 backup), GPTScript AI. "
-        "Recognition: AWS Community Builder 2023–2024."
+        "Recognition: AWS Community Builder 2023–2024. "
+        "AI work on current project: RAG pipeline for semantic search over M365 backup data using CosmosDB hybrid vector search and Azure OpenAI; "
+        "natural language query to structured metadata filter conversion using few-shot Chat Completions; "
+        "Elastic dashboard changelog tool (Python + Anthropic API); AI-assisted security fix tool using Cycode findings. "
+        "Personal AI tools built: status updator (scans JIRA, Confluence, GitHub for weekly summaries), "
+        "blog generator workflow (Claude/OpenAI from idea files), "
+        "AI chat assistant on personal blog (TF-IDF RAG + Netlify Functions + OpenAI gpt-4o-mini)."
     ),
 }
 
@@ -239,7 +245,7 @@ TIMELINE = [
         "role": "Senior Data Engineer at Improving",
         "organization": "Improving (https://www.improving.com/)",
         "tech": ["Go", "Databricks", "Apache Spark", "Delta Lake", "Azure Event Hubs", "Python"],
-        "summary": "Architecting data pipeline infrastructure processing M365 workload events at Improving.",
+        "summary": "Architecting data pipeline infrastructure processing M365 workload events at Improving; built RAG semantic search pipeline using CosmosDB hybrid vector search and Azure OpenAI with few-shot metadata filter generation.",
     },
 ]
 
