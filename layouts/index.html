@@ -1,8 +1,17 @@
 {{ define "main" }}
-  <article class="pa3 pa5-l mw7 center">
-    <div class="measure-wide lh-copy">
-      {{ .Content }}
-    </div>
-  </article>
-  {{ partial "chat-widget.html" . }}
+  <div class="flex flex-column flex-row-l mw8 center pa3 pa4-l">
+
+    {{/* Left column — page content */}}
+    <article class="w-100 w-60-l pr5-l">
+      <div class="measure-wide lh-copy">
+        {{ .Content }}
+      </div>
+    </article>
+
+    {{/* Right column — sticky chat sidebar */}}
+    <aside class="w-100 w-40-l mt4 mt0-l" style="position: sticky; top: 1.5rem; align-self: flex-start;">
+      {{ partial "chat-widget.html" . }}
+    </aside>
+
+  </div>
 {{ end }}
