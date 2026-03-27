@@ -207,46 +207,98 @@ TIMELINE = [
     {
         "period": "Jan 2018–Jul 2020",
         "role": "Software Developer at Cognizant & Infosys",
-        "tech": ["RPA", "Python", "automation", "web applications"],
-        "summary": "Implemented RPA solutions and web applications for business process optimisation.",
+        "tech": ["RPA", "Python", "UIPath", "automation", "web applications"],
+        "summary": (
+            "Started career building RPA (Robotic Process Automation) bots and web applications "
+            "for enterprise clients. Automated repetitive business processes using UIPath and Python, "
+            "and built supporting web UIs. This phase established a strong foundation in scripting, "
+            "process thinking, and understanding how software solves real business problems. "
+            "The automation mindset from this period has carried through every subsequent role."
+        ),
     },
     {
         "period": "Aug 2020–Sep 2021",
         "role": "Software Engineer at Sureify",
-        "tech": ["React", "Node.js", "microservices"],
-        "summary": "Built visual configuration platform for insurance workflows.",
+        "tech": ["React", "Node.js", "TypeScript", "microservices", "REST APIs"],
+        "summary": (
+            "Transitioned from RPA scripting into full product engineering. Built a visual "
+            "configuration platform that allowed insurance companies to design and deploy "
+            "customer-facing workflows without code. This role introduced microservices architecture, "
+            "REST API design, and working in a product-focused engineering team. "
+            "Marked the shift away from automation tooling toward building scalable software products."
+        ),
     },
     {
         "period": "Oct 2021–Jul 2022",
         "role": "Senior Consultant at Thoughtworks",
-        "tech": ["Go", "TimescaleDB", "PostgreSQL", "Apache Kafka", "gRPC", "Kubernetes"],
-        "summary": "Architected microservices-based cryptocurrency trading platform for Voyager Inc.",
+        "tech": ["Go", "gRPC", "Apache Kafka", "TimescaleDB", "PostgreSQL", "Kubernetes", "microservices"],
+        "summary": (
+            "Major technical leap: adopted Go as the primary language and moved fully into "
+            "distributed backend systems. Architected a high-throughput cryptocurrency trading "
+            "platform for Voyager Inc., handling real-time market data with Kafka, time-series "
+            "storage with TimescaleDB, and inter-service communication via gRPC. "
+            "This was the turning point from generalist engineer to backend/distributed systems specialist. "
+            "Go and Kubernetes became the core of every subsequent role."
+        ),
     },
     {
         "period": "Aug 2022–Dec 2023",
         "role": "Software Engineer at Infracloud Technologies",
-        "tech": ["Go", "Kubernetes", "bare metal provisioning", "DHCP", "TFTP", "Tinkerbell"],
-        "summary": "Built bare metal Kubernetes cluster provisioning platform.",
+        "tech": ["Go", "Kubernetes", "bare metal provisioning", "DHCP", "TFTP", "Tinkerbell", "Terraform", "Pulumi"],
+        "summary": (
+            "Deepened Kubernetes expertise by moving from application-layer to infrastructure-layer work. "
+            "Built a bare metal Kubernetes cluster provisioning platform using Tinkerbell, handling "
+            "low-level network protocols (DHCP, TFTP, iPXE) for automated server bootstrapping. "
+            "Also worked on cloud infrastructure automation with Terraform and Pulumi. "
+            "This role completed the progression from writing application code to owning the "
+            "infrastructure that runs it — a key step toward data and platform engineering."
+        ),
     },
     {
         "period": "Jan 2024–Oct 2024",
         "role": "Core Contributor, Open Source (Canario/Corso)",
-        "tech": ["Go", "Microsoft Graph API", "S3", "CI/CD"],
-        "summary": "Contributed to open-source Microsoft 365 backup solution.",
+        "tech": ["Go", "Microsoft Graph API", "S3", "Azure", "CLI design", "CI/CD"],
+        "summary": (
+            "Contributed to Corso (now Canario), an open-source Microsoft 365 backup and restore solution. "
+            "Built CLI interfaces and backend systems for Exchange, OneDrive, SharePoint, and Teams backup "
+            "via the Microsoft Graph API. Working in a large open-source Go codebase reinforced "
+            "software design principles, API integration patterns, and working with cloud storage at scale. "
+            "This was also the first deep exposure to the Microsoft 365 ecosystem, which directly "
+            "informed the data pipeline and RAG work that followed at Improving."
+        ),
     },
     {
         "period": "Nov 2024–Jun 2025",
         "role": "Senior Software Engineer at Improving",
         "organization": "Improving (https://www.improving.com/)",
-        "tech": ["Go", "Auth0", "CosmosDB", "Kubernetes", "RBAC", "OpenAPI"],
-        "summary": "Built enterprise authentication and user management microservice at Improving.",
+        "tech": ["Go", "Auth0", "CosmosDB", "Kubernetes", "RBAC", "OpenAPI", "Azure Key Vault"],
+        "summary": (
+            "Built an enterprise-grade authentication and user management microservice for a "
+            "multi-tenant SaaS platform. Integrated Auth0 with a custom RBAC system supporting "
+            "100+ permissions across Azure and Kubernetes workloads. Designed the CosmosDB data "
+            "layer with optimised partitioning and comprehensive testing. "
+            "This role added security and identity engineering to the skillset — complementing "
+            "the infrastructure and distributed systems background built at Thoughtworks and Infracloud."
+        ),
     },
     {
         "period": "Jul 2025–present",
         "role": "Senior Data Engineer at Improving",
         "organization": "Improving (https://www.improving.com/)",
-        "tech": ["Go", "Databricks", "Apache Spark", "Delta Lake", "Azure Event Hubs", "Python"],
-        "summary": "Architecting data pipeline infrastructure processing M365 workload events at Improving; built RAG semantic search pipeline using CosmosDB hybrid vector search and Azure OpenAI with few-shot metadata filter generation.",
+        "tech": ["Go", "Python", "Databricks", "Apache Spark", "Delta Lake", "Azure Event Hubs",
+                 "CosmosDB", "Azure OpenAI", "RAG", "vector search"],
+        "summary": (
+            "Current role: architecting data pipeline infrastructure that processes Microsoft 365 "
+            "workload events at petabyte scale using Databricks, Apache Spark, and Delta Lake. "
+            "Built high-volume streaming ingestion with Azure Event Hubs and Container Apps. "
+            "Extended into AI engineering: implemented a RAG (Retrieval-Augmented Generation) "
+            "semantic search pipeline using CosmosDB hybrid vector search and Azure OpenAI, "
+            "and built tooling that uses LLMs to generate human-readable changelogs and apply "
+            "AI-assisted security fixes. "
+            "This role represents the convergence of the full career arc: automation roots, "
+            "Go/distributed systems expertise, Kubernetes infrastructure knowledge, M365 domain "
+            "experience from open source, and now AI/ML applied to real data engineering problems."
+        ),
     },
 ]
 
