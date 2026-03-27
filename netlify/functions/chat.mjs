@@ -329,6 +329,7 @@ export default async (request) => {
       ...CORS_HEADERS,
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
+      "X-Accel-Buffering": "no",
     },
   });
 };
