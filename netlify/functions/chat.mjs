@@ -59,6 +59,12 @@ const SYNONYMS = {
   "company":    "organization",
   "workplace":  "organization",
   "working":    "organization",
+  "repo":       "repository",
+  "repos":      "repository",
+  "codebase":   "repository",
+  "source":     "repository",
+  "opensource": "repository",
+  "oss":        "repository",
 };
 
 function tokenize(text) {
@@ -78,15 +84,17 @@ function expandTokens(tokens) {
   return expanded;
 }
 
-const TYPE_TOKENS = new Set(["post", "posts", "project", "projects", "blog", "blogs", "article", "articles"]);
+const TYPE_TOKENS = new Set(["post", "posts", "project", "projects", "blog", "blogs", "article", "articles", "repo", "repos", "repository", "github"]);
 
 function scoreChunk(queryTokens, chunk) {
   const expandedTokens = expandTokens(queryTokens);
   const wantsPost    = queryTokens.some((t) => t === "posts"    || t === "post");
   const wantsProject = queryTokens.some((t) => t === "projects" || t === "project");
+  const wantsGithub  = queryTokens.some((t) => t === "repo" || t === "repos" || t === "repository" || t === "github" || t === "oss" || t === "opensource");
   const typeBoost =
     (wantsPost    && chunk.type === "post")    ? 0.3 :
-    (wantsProject && chunk.type === "project") ? 0.3 : 0;
+    (wantsProject && chunk.type === "project") ? 0.3 :
+    (wantsGithub  && chunk.type === "github")  ? 0.3 : 0;
 
   const contentTokens = expandedTokens.filter((t) => !TYPE_TOKENS.has(t));
   const titleTokens = tokenize(chunk.title || "");
@@ -94,10 +102,12 @@ function scoreChunk(queryTokens, chunk) {
     chunk.text || "",
     (chunk.tags || []).join(" "),
     (chunk.techStack || []).join(" "),
+    (chunk.topics || []).join(" "),
     chunk.summary || "",
     chunk.description || "",
     chunk.organization || "",
     chunk.role || "",
+    chunk.language || "",
   ];
   const bodyTokens = tokenize(bodyFields.join(" "));
   const allTokens = [...titleTokens, ...bodyTokens];
@@ -141,13 +151,21 @@ function retrieve(query, pageSlug, topK = 5) {
 
 function buildContext(chunks, timeline) {
   const parts = chunks.map((c) => {
-    const label = c._priority
-      ? (c.type === "project" ? `[CURRENT PAGE] Project: ${c.title}` : `[CURRENT PAGE] Post: ${c.title}`)
-      : (c.type === "project" ? `Project: ${c.title}` : `Post: ${c.title}`);
+    let label;
+    if (c.type === "github") {
+      label = `GitHub Repository: ${c.slug}`;
+    } else if (c._priority) {
+      label = c.type === "project" ? `[CURRENT PAGE] Project: ${c.title}` : `[CURRENT PAGE] Post: ${c.title}`;
+    } else {
+      label = c.type === "project" ? `Project: ${c.title}` : `Post: ${c.title}`;
+    }
     const lines = [label];
     if (c.organization) lines.push(`Organization: ${c.organization}`);
     if (c.role) lines.push(`Role: ${c.role}`);
     if (c.techStack) lines.push(`Tech stack: ${c.techStack.join(", ")}`);
+    if (c.language) lines.push(`Primary language: ${c.language}`);
+    if (c.topics && c.topics.length > 0) lines.push(`Topics: ${c.topics.join(", ")}`);
+    if (c.description) lines.push(`Description: ${c.description}`);
     if (c.tags) lines.push(`Tags: ${c.tags.join(", ")}`);
     lines.push(`URL: ${c.url}`);
     lines.push(c.text);
@@ -167,16 +185,18 @@ function buildContext(chunks, timeline) {
 const SYSTEM_PROMPT = `You are a helpful assistant on Hitesh Pattanayak's personal blog and portfolio site.
 Hitesh is a senior software engineer with expertise in Go, Kubernetes, distributed systems, and AI/ML.
 
-You have two modes depending on what is asked:
+You have three modes depending on what is asked:
 1. BLOG/PROJECT CONTENT questions (e.g. "summarise this post", "what is TCP?", "explain DNS"): answer using the full text of the relevant post or project provided in the context. Explain concepts, summarise content, and answer technical questions directly from the post body.
 2. PROFILE/EXPERIENCE questions (e.g. "what projects has Hitesh worked on?", "how to contact?"): answer using the facts, titles, and URLs from the context.
+3. GITHUB REPO questions (e.g. "what repos does Hitesh have?", "tell me about grpc-loadbalancing", "show me his open source work"): answer using the GitHub Repository sections in the context, including description, language, topics, and README content.
 
 STRICT rules:
 - When a [CURRENT PAGE] section is present in the context, questions like "what tech was used?", "summarise this", "what were the achievements?", "what was the role?" refer to THAT page only. Answer using [CURRENT PAGE] content — do not list other projects or posts unless explicitly asked.
 - NEVER invent, guess, or paraphrase post titles or project names — copy them exactly from the context.
 - NEVER use a URL that is not explicitly listed in the context. Always use the exact URL field from the context.
-- ALWAYS format every post/project reference as a markdown link: [Exact Post Title](url). Never print bare titles, bare URLs, or "URL: ..." labels.
-- If multiple posts or projects match, use a bullet list where each item is a markdown link: - [Title](url)
+- ALWAYS format every post/project/repo reference as a markdown link: [Exact Title](url). Never print bare titles, bare URLs, or "URL: ..." labels.
+- For GitHub repos, use the repo name as link text: [repo-name](github-url).
+- If multiple posts, projects, or repos match, use a bullet list where each item is a markdown link: - [Title](url)
 - If the context explicitly says something is not publicly disclosed or not shared, say that clearly — do NOT say you don't have the information.
 - If the exact answer is absent but related content exists in the context, say what IS covered and link to the relevant post/project. Only say "I don't have that information in the blog content." when nothing related exists at all.
 - When asked how to contact or reach someone, list ALL contact methods present in the context (phone, email, LinkedIn, GitHub).

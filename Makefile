@@ -4,7 +4,7 @@ PYTHON := $(VENV)/bin/python3
 .PHONY: serve build clean generate diagrams convert venv build-kb
 
 build-kb: venv
-	$(PYTHON) scripts/build-knowledge-base.py
+	$(PYTHON) scripts/build-knowledge-base.py $(if $(GITHUB_TOKEN),--github-token $(GITHUB_TOKEN),)
 
 serve:
 	hugo server -D

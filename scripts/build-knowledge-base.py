@@ -1,16 +1,27 @@
 #!/usr/bin/env python3
 """
-Build the AI chat knowledge base from all published posts, projects, and resume.
+Build the AI chat knowledge base from all published posts, projects, resume,
+and public GitHub repositories.
 
-Reads content/posts/*.md, content/projects/*.md, and resume.md, chunks the
-content into ~400-word pieces, and writes netlify/functions/knowledge-base.json.
+Reads content/posts/*.md, content/projects/*.md, resume.md, and fetches all
+public repos from GitHub (HiteshRepo), chunking README content into ~400-word
+pieces, and writes netlify/functions/knowledge-base.json.
 
 Uses only stdlib — no pip dependencies required.
+
+GitHub rate limit: 60 req/hr unauthenticated. Pass --github-token or set
+GITHUB_TOKEN env var to raise limit to 5000 req/hr.
 """
 
 import re
 import json
 import pathlib
+import os
+import sys
+import time
+import urllib.request
+import urllib.error
+import base64
 
 ROOT = pathlib.Path(__file__).parent.parent
 BASE_URL = "https://hiteshpattanayak.info"
@@ -21,6 +32,9 @@ CONTENT_DIRS = [
 RESUME_FILE = ROOT / "resume.md"
 OUTPUT = ROOT / "netlify" / "functions" / "knowledge-base.json"
 CHUNK_WORDS = 400
+
+GITHUB_USERNAME = "HiteshRepo"
+GITHUB_API = "https://api.github.com"
 
 
 def parse_frontmatter(text):
@@ -303,7 +317,90 @@ TIMELINE = [
 ]
 
 
-def build():
+def _github_request(url, token=None):
+    """Make a GitHub API request and return parsed JSON, or None on error."""
+    req = urllib.request.Request(url)
+    req.add_header("Accept", "application/vnd.github+json")
+    req.add_header("X-GitHub-Api-Version", "2022-11-28")
+    if token:
+        req.add_header("Authorization", f"Bearer {token}")
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        print(f"  [github] HTTP {e.code} for {url}")
+        return None
+    except Exception as e:
+        print(f"  [github] Error fetching {url}: {e}")
+        return None
+
+
+def fetch_github_repos(username, token=None):
+    """Return list of all public non-fork repos for the given username."""
+    repos = []
+    page = 1
+    while True:
+        url = f"{GITHUB_API}/users/{username}/repos?type=public&per_page=100&page={page}"
+        data = _github_request(url, token)
+        if not data:
+            break
+        page_repos = [r for r in data if not r.get("fork")]
+        repos.extend(page_repos)
+        if len(data) < 100:
+            break
+        page += 1
+        time.sleep(0.2)
+    return repos
+
+
+def fetch_readme(owner, repo_name, token=None):
+    """Fetch and decode the README for a repo. Returns plain text or None."""
+    url = f"{GITHUB_API}/repos/{owner}/{repo_name}/readme"
+    data = _github_request(url, token)
+    if not data or "content" not in data:
+        return None
+    try:
+        return base64.b64decode(data["content"]).decode("utf-8")
+    except Exception:
+        return None
+
+
+def process_github_repo(repo, token=None):
+    """Build knowledge base chunks for a single GitHub repo."""
+    name = repo["name"]
+    full_name = repo.get("full_name", f"{GITHUB_USERNAME}/{name}")
+    html_url = repo.get("html_url", f"https://github.com/{full_name}")
+    description = repo.get("description") or ""
+    topics = repo.get("topics") or []
+    language = repo.get("language") or ""
+
+    readme_raw = fetch_readme(GITHUB_USERNAME, name, token)
+    if readme_raw:
+        readme_text = clean_markdown(readme_raw)
+    else:
+        readme_text = description
+
+    if not readme_text.strip():
+        return []
+
+    text_chunks = chunk_text(readme_text)
+    chunks = []
+    for i, chunk_content in enumerate(text_chunks):
+        chunks.append({
+            "id": f"gh-{name}-{i}",
+            "type": "github",
+            "slug": name,
+            "title": f"GitHub: {name}",
+            "url": html_url,
+            "text": chunk_content,
+            "description": description,
+            "topics": topics,
+            "language": language,
+        })
+    return chunks
+
+
+def build(github_token=None):
     all_chunks = []
 
     for content_type, content_dir in CONTENT_DIRS:
@@ -324,6 +421,18 @@ def build():
     if resume_chunks:
         print(f"  [resume] resume.md → {len(resume_chunks)} chunk(s)")
 
+    print(f"\nFetching public GitHub repos for {GITHUB_USERNAME}...")
+    repos = fetch_github_repos(GITHUB_USERNAME, github_token)
+    print(f"  Found {len(repos)} public non-fork repos")
+    github_chunks = []
+    for repo in repos:
+        chunks = process_github_repo(repo, github_token)
+        github_chunks.extend(chunks)
+        status = f"{len(chunks)} chunk(s)" if chunks else "skipped (no README)"
+        print(f"  [github] {repo['name']} → {status}")
+        time.sleep(0.1)
+    all_chunks.extend(github_chunks)
+
     kb = {"chunks": [ABOUT] + all_chunks, "timeline": TIMELINE}
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
@@ -333,5 +442,20 @@ def build():
 
 
 if __name__ == "__main__":
+    # Resolve GitHub token: --github-token flag takes precedence over env var
+    token = None
+    args = sys.argv[1:]
+    if "--github-token" in args:
+        idx = args.index("--github-token")
+        if idx + 1 < len(args):
+            token = args[idx + 1]
+    if not token:
+        token = os.environ.get("GITHUB_TOKEN")
+    if token:
+        print("GitHub token found — using authenticated requests (5000 req/hr limit)")
+    else:
+        print("No GitHub token — using unauthenticated requests (60 req/hr limit)")
+        print("  Tip: set GITHUB_TOKEN env var or pass --github-token <token>")
+
     print("Building knowledge base...")
-    build()
+    build(github_token=token)
