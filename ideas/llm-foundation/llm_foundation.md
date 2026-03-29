@@ -85,7 +85,7 @@ Edge cases you should know
 
 ### How attention solved RNN's drawbacks
 
-**Solving Long-Range Dependencies (Connecting Distant Words)**
+__Solving Long-Range Dependencies (Connecting Distant Words)__
 
 In an RNN, to understand that "barked" refers to the "dog," the information must travel through every word in between ("which," "was," "brown," etc.). The "signal" often gets lost along the way.
 
@@ -100,7 +100,7 @@ Result: The model connects "barked" to "dog" in one single step (O(1) operations
 
 ![Self Attention](self-attention.png)
 
-**Solving the Speed Problem (Parallelism)**
+__Solving the Speed Problem (Parallelism)__
 
 RNNs must wait for word t−1 to finish before they can start word t, making them very slow.
 
@@ -166,7 +166,7 @@ sqrt(d_k) = 10.
 
 The scaled score is 250/10=25.
 
-**How softmax function works**
+__How softmax function works__
 
 In the Transformer architecture, the softmax function is the mathematical tool used to convert raw, scaled scores into weights (probabilities) that sum to exactly 1
 . This allows the model to decide exactly how much "attention" to pay to each word in a sequence.

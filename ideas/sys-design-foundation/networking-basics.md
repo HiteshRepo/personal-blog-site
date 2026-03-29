@@ -1,22 +1,23 @@
 ## Top level view
+
 - tcp/ip
-    - tcp: it is like reliable delivery guy that ensures data arrives in order
-    - ip: address of the device on the internet
+  - tcp: it is like reliable delivery guy that ensures data arrives in order
+  - ip: address of the device on the internet
 - dns: keeps a map of domain and its corresponding IP address
-    - DNS Lookup Works (Step by step):
-        - You type: google.com
-        - Browser checks its own cache → Not found
-        - Asks your OS cache        → Not found
-        - Asks your Router          → Not found
-        - Asks ISP's DNS Server     → Not found
-        - Asks Root DNS Server      → "Try .com servers"
-        - Asks .com DNS Server      → "Try Google's DNS"
-        - Asks Google's DNS Server  → "It's 142.250.80.46!" ✅
-        - Result is cached at every step for next time
-    - This whole process takes milliseconds.
+  - DNS Lookup Works (Step by step):
+    - You type: google.com
+    - Browser checks its own cache → Not found
+    - Asks your OS cache        → Not found
+    - Asks your Router          → Not found
+    - Asks ISP's DNS Server     → Not found
+    - Asks Root DNS Server      → "Try .com servers"
+    - Asks .com DNS Server      → "Try Google's DNS"
+    - Asks Google's DNS Server  → "It's 142.250.80.46!" ✅
+    - Result is cached at every step for next time
+  - This whole process takes milliseconds.
 - HTTP is the language your browser and the server use to talk, once TCP gives you a connection and DNS gives you the address.
-    - HTTP methods and HTTP status define the protocol
-    - HTTPS adds a TLS/SSL layer that encrypts the conversation so nobody can eavesdrop.
+  - HTTP methods and HTTP status define the protocol
+  - HTTPS adds a TLS/SSL layer that encrypts the conversation so nobody can eavesdrop.
 
 ## Putting It All Together
 
@@ -58,6 +59,7 @@ CLIENT                                SERVER
 ```
 
 What are SEQ and ACK numbers?
+
 - SEQ (Sequence Number) — "This is packet #X I'm sending"
 - ACK (Acknowledge Number) — "I received up to X, send me X+1 next"
 
@@ -121,10 +123,10 @@ PACKETS ARRIVING (out of order):
 REASSEMBLE in sequence order → Original data restored ✅
 ```
 
-
 This is where TCP really shines. It guarantees delivery.
 
 Two mechanisms:
+
 - Mechanism 1 — ACK Timeout: Every packet sent starts a timer. If no ACK comes back before the timer expires → packet is assumed lost → resend.
 
 ```
@@ -141,7 +143,6 @@ CLIENT                              SERVER
 ```
 
 - Mechanism 2 — Triple Duplicate ACK (Faster!): If packets 1, 3, 4, 5 arrive but packet 2 is missing — the receiver keeps sending ACK for 1, hinting that 2 is missing.
-
 
 ```
 CLIENT                              SERVER
@@ -230,6 +231,7 @@ Use case             Accuracy matters     Speed matters
 ```
 
 When to use TCP:
+
 - Web browsing (HTTP)
 - File downloads
 - Emails
@@ -238,6 +240,7 @@ When to use TCP:
 > A single wrong byte in a bank transfer = disaster. Use TCP.
 
 When to use UDP:
+
 - Video calls (Zoom, Meet)
 - Live streaming (YouTube Live, Twitch)
 - Online gaming
@@ -265,6 +268,7 @@ QUIC (Quick UDP Internet Connections) was built by Google and is the foundation 
 > 🚗 TCP is an old highway with tolls at every junction. QUIC is a new expressway — built on UDP but with smart lanes, faster entry, and no unnecessary stops.
 
 Problems QUIC solves:
+
 ```
 TCP Problem 1: Head-of-Line Blocking
 ──────────────────────────────────────

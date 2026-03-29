@@ -1,4 +1,5 @@
 # AI Prompting Techniques: System Prompts, Few-Shot, CoT, and Structured Output
+
 - type: ai
 - tags: prompt-engineering, llm, few-shot, chain-of-thought, system-prompts, structured-output, prompt-injection, ai-security
 - images: /images/ai-prompting-techniques/prompting-techniques.png, /images/ai-prompting-techniques/prompting-techniques-cheatsheet.png

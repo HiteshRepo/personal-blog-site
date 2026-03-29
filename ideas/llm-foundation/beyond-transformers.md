@@ -4,6 +4,7 @@
 
 First — what the encoder was actually for
 In the original paper, the encoder and decoder had a clean division of labour:
+
 - Encoder — read the entire source sentence upfront, build a rich understanding of it, hand it to the decoder as K and V.
 - Decoder — generate the output token by token, reading those K and V at every step via cross-attention.
 
@@ -18,6 +19,7 @@ For a language model — something that just predicts the next word — you don'
 What actually changes going decoder-only
 
 Three concrete things change:
+
 1. Cross-attention is removed. There's no encoder to read from, so the cross-attention sub-layer in each decoder block disappears entirely. Each block now only has masked self-attention + feed-forward. Simpler, fewer parameters per layer.
 2. The mask changes meaning. In the original decoder, the mask prevented peeking at future output tokens. In a decoder-only model, the mask prevents every token from attending to anything that comes after it in the sequence — whether that's prompt or generated text. This is called causal masking, and it's what makes the model always predict left to right.
 3. Prompt and response are treated as one continuous sequence. There's no separation between "source" and "target." Your prompt and the model's response are just tokens in a row. The model sees them all the same way — it just generates whatever comes next.
@@ -27,11 +29,13 @@ Every token can see itself and everything before it. Nothing after. This triangl
 Why decoder-only turned out to be more powerful
 
 This is the non-obvious part. You'd think removing half the architecture would make it worse. It actually made it better — for three reasons:
+
 1. All parameters go toward one job. An encoder-decoder model splits its capacity — half understands, half generates. A decoder-only model puts everything into one stack that does both. For the same parameter budget, you get a deeper, more capable single stack.
 2. It scales better. When researchers started scaling up — more layers, more heads, more parameters — the decoder-only architecture responded better. The encoder-decoder architecture had more moving parts that needed to stay in balance.
 3. Everything becomes the same problem. Translation, summarization, question answering, coding, conversation — in a decoder-only model, all of these are just "predict the next token given what came before." The model doesn't need to know which task it's doing. This is the foundation of the general-purpose assistant — one model, any task.
 
 The three Transformer variants, summarised
+
 ```csv
 Architecture | Used for | Example models
 Encoder only | Understanding tasks — classification, search, embeddings | BERT, RoBERTa
@@ -42,6 +46,7 @@ Decoder onlyGeneration — conversation, coding, reasoning, everything | GPT, Cl
 Encoder-only models are still used today — largely for search and retrieval where you need to embed text into vectors. But for general language generation, decoder-only won. And that's what every frontier model today is built on.
 
 Main points:
+
 - The Original "Dual-Team" Approach: Remind readers that the 2017 paper was built for sequence transduction (translation), which required a specialized Encoder to map the input and a Decoder to generate the output.
 - The Power of the Auto-Regressive Engine: Highlight that the paper introduced the auto-regressive property—generating one element at a time by consuming previous symbols as input—which is exactly how modern LLMs "chat" with us today.
 - The "Vanishing Bridge": Explain that the Encoder-Decoder Attention sub-layer (the "bridge" where the decoder's Query searched the encoder's Key and Values) was the specific part removed to create decoder-only models.
@@ -61,13 +66,16 @@ Researchers asked: can we get Transformer-quality results without the N² cost?
 ![alt text](evolution.png)
 
 ### Step 1 — RNNs (the old way)
+
 You already know this from earlier. Sequential, one token at a time, memory fades over long sequences. Replaced by Transformers in 2017.
 
 ### Step 2 — The problem Transformers left unsolved
+
 Transformers fixed the parallelism and long-range dependency problems. But they introduced the N² cost. And they have another hidden cost: the KV cache.
 Every token you generate, the model stores its Keys and Values in memory so it doesn't have to recompute them. For long conversations this cache grows linearly — eventually consuming enormous GPU memory. This is why long contexts are expensive to serve.
 
 ### Step 3 — SSMs: the idea borrowed from physics
+
 Imagine you're reading a book and someone keeps asking you "what's the mood so far?" You don't re-read the whole book each time. You keep a running impression in your head — and update it as each new sentence comes in.
 That's the core idea of an SSM. One small chunk of memory. Gets updated with each new input. Never looks back at the full history.
 
@@ -87,7 +95,9 @@ We'll track one thing: emotional tone — just to make it tangible.
 ![alt text](SSM-example-4.png)
 
 #### The formula — demystified
+
 Every SSM update follows the same two equations:
+
 ```
 h_new  =  A · h_old  +  B · x       ← update the hidden state
 y      =  C · h                      ← produce an output
@@ -107,9 +117,11 @@ That means the model forgets at the same rate no matter what it's reading. It pa
 Imagine a student who highlights every single word in a textbook with equal intensity. Technically they read it all — but they have no sense of what mattered.
 
 ### Step 4 — Mamba (Dec 2023): the breakthrough
+
 The key problem with ordinary SSMs is that they have fixed dynamics — the rules governing how the hidden state evolves are the same for every input and at every step. Mamba fixed this by making key parameters functions of the current input token.
 In plain terms: the SSM now decides how much to remember and how much to forget based on what it's currently reading. That's the "selective" in Selective State Space Model.
 Think of it like two different readers:
+
 - Old SSM = a reader who highlights every sentence with equal intensity, no matter what
 - Mamba = a reader who pays close attention to important sentences and skims the rest — and decides which is which on the fly
 
@@ -126,6 +138,7 @@ SSM vs Transformer — the fundamental tradeoff
 ![alt text](ssm-vs-mamba-1.png)
 
 ### Step 5 — Mamba-2 (2024): math meets speed
+
 Mamba-2's core layer is a refinement of Mamba's selective SSM that is 2–8× faster, while continuing to be competitive with Transformers on language modeling.
 
 The authors also proved something surprising: Transformers and SSMs are actually quite closely related — these families of models are connected through various decompositions of a well-studied class of structured matrices. Medium Attention and SSMs aren't opposites — they're two points on the same mathematical spectrum.
@@ -143,11 +156,12 @@ In plain terms: instead of processing one token at a time, Mamba-2 processes chu
 ![alt text](mamba-1-vs-mamba-2.png)
 
 The insight Mamba-2 had: both architectures — SSMs and Transformers — create lower triangular matrices that mix information from past positions to current ones. The SSM matrix has the same mathematical structure as linear attention with specific Q, K, V matrices. They're computing the same linear transformation — one through recursive state updates, the other through direct position-to-position attention.
-So Mamba-2 said: if we're mathematically equivalent to attention, let's use attention's faster GPU tricks for training. This efficiency enables Mamba-2 to use much larger hidden state dimensions without slowing the model down, allowing for larger, more powerful, more expressive models. 
+So Mamba-2 said: if we're mathematically equivalent to attention, let's use attention's faster GPU tricks for training. This efficiency enables Mamba-2 to use much larger hidden state dimensions without slowing the model down, allowing for larger, more powerful, more expressive models.
 It also introduced Mamba heads — directly analogous to attention heads. A Mamba block can be split into multiple "Mamba heads" akin to the multiple attention heads in Transformers — one variant, analogous to grouped query attention, enables even more efficiency through tensor parallelism in GPUs.
 
 ### Step 6 — Mamba-3 (March 2026, days ago): inference-first
-While Mamba-2 focused on breaking pretraining bottlenecks, Mamba-3 aims to solve the "cold GPU" problem: during decoding, modern hardware often remains idle, waiting for memory movement rather than performing computation. 
+
+While Mamba-2 focused on breaking pretraining bottlenecks, Mamba-3 aims to solve the "cold GPU" problem: during decoding, modern hardware often remains idle, waiting for memory movement rather than performing computation.
 
 Three specific improvements in Mamba-3:
 Complex State-Space Updates allow the model to track intricate state information, enabling capabilities like parity and arithmetic reasoning that previous Mamba models could not reliably perform. The Multi-Input, Multi-Output (MIMO) SSM boosts inference efficiency by improving arithmetic intensity and hardware utilization without increasing memory demands.
@@ -160,11 +174,11 @@ Mamba-3 was designed specifically to keep GPUs busy during inference. Three conc
 
 ![alt text](mamba-3.png)
 
-
 ![alt text](mamba-versions-comparison.png)
 
 ### The plot twist — Hybrids are winning
-Here's what's actually happening in production right now. Pure Mamba has one weakness: retrieval-based weaknesses of fixed state-size mean linear layers will be predominantly used in hybrid models that mitigate this downside with quadratic self-attention layers. 
+
+Here's what's actually happening in production right now. Pure Mamba has one weakness: retrieval-based weaknesses of fixed state-size mean linear layers will be predominantly used in hybrid models that mitigate this downside with quadratic self-attention layers.
 
 In other words — Mamba is great at flowing through long sequences cheaply, but Transformers are still better at pinpoint retrieval (finding one specific fact buried in a huge document). So the industry has started combining both:
 NVIDIA released Nemotron 3 Super — a 120B parameter hybrid Mamba-Transformer model — which uses SSM layers that read data linearly, with Transformer attention layers interleaved at regular intervals, achieving a 1-million-token context window through SSM efficiency while maintaining strong retrieval performance via the interleaved attention layers. IBM followed a similar path with its Granite 4.0 models, adopting a hybrid Mamba-Transformer architecture to reduce serving costs.
