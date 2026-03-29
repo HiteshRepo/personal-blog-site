@@ -1,0 +1,22 @@
+# Vector Databases, ANN, and Chunking: Storing Knowledge for Retrieval
+
+- type: ai
+- tags: embeddings, rag, vector-database, ann, chunking, nlp, ai
+- The scale problem: you've embedded 100,000 documents, each a 1536-dimension vector — comparing a query against all of them one-by-one (brute force) is too slow at production scale
+- Vector databases are specialized stores built to search millions of vectors fast using Approximate Nearest Neighbor (ANN) algorithms
+- Exact Nearest Neighbor: compare query against every vector, guaranteed correct but O(n) — unusable at millions of records
+- ANN trades a tiny accuracy loss for massive speed gain — in practice the accuracy loss is negligible for RAG use cases
+- ANN data structures: Clustering (group similar vectors, only search relevant clusters), Graph-based search (vectors connect to similar neighbors, walk the graph), LSH / Hashing (similar vectors hash to same bucket)
+- Library analogy: instead of reading every book to find what you need, the library has sections and an index — ANN is that index for vectors
+- Popular vector databases: Pinecone, Weaviate, Qdrant, Chroma, pgvector (Postgres extension)
+- You can't embed an entire 50-page document as one vector: embedding models have token limits, one giant vector loses specificity, and you want to retrieve precise passages not entire books
+- Chunking goal: chunks should be small enough to be specific, large enough to carry context — the Goldilocks problem of RAG
+- Fixed Size Chunking: easiest to implement, but blindly cuts sentences and context mid-thought
+- Fixed Size with Overlap: prevents hard cuts by repeating a window of tokens between chunks, still not semantically aware
+- Sentence / Paragraph Chunking: respects natural language structure, but chunk sizes vary wildly
+- Recursive Character Splitting: smart splitting that tries paragraph → sentence → word boundaries in sequence, widely used in LangChain
+- Semantic Chunking: groups sentences by embedding similarity, splits where meaning shifts — most accurate, slowest to compute
+- Document-Aware / Structural Chunking: uses document structure (headers, sections) to define boundaries — perfect for well-structured docs like technical manuals or legal filings
+- The Chunking + Metadata Trick: always store metadata alongside each chunk — source file, page number, section — so retrieved chunks can be traced and cited
+- Bad chunking → bad retrieval → bad answers, even with an excellent LLM at the end of the pipeline
+- Demo code: https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/03_vector_db.py, 04_enn_vs_ann.py, 05_chunking_strategies.py

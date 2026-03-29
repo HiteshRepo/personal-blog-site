@@ -1,0 +1,27 @@
+# Retrieval Pipelines, Re-Ranking, and Grounding: Building Production RAG
+
+- type: ai
+- tags: rag, retrieval, reranking, grounding, hallucination, hybrid-search, bm25, ai
+- images: /images/embedding-and-rag/hybrid-retrieval.png, /images/embedding-and-rag/full-retrieval-pipeline.png
+- Dense Retrieval (Vector Search): embed the query → find chunks with closest vectors → return top K — works on meaning, not exact words
+- Dense retrieval strength: understands synonyms and paraphrasing, works across languages — "handle null reference error in billing service" matches "NullPointerException in payment module" because meanings align
+- Dense retrieval weakness: can miss exact keyword matches, especially for rare terms, IDs, version numbers, and error codes
+- Sparse Retrieval (BM25 Keyword Search): old-school but powerful — scores documents based on exact word frequency, document length normalization, and inverse document frequency (rare words score higher)
+- BM25 example: query "NullPointerException payment module" scores "NullPointerException occurs in the payment module when..." at 0.91, while "handle null errors in billing" scores 0.21 — exact terminology wins
+- Sparse retrieval strength: precise on exact terms, IDs, error codes, product names — the cases where dense retrieval fails
+- Hybrid Retrieval: run both dense and sparse, then merge and re-score with Reciprocal Rank Fusion (RRF)
+- RRF scoring: each result gets a score based on its rank position in each list — results that rank well in both lists bubble to the top regardless of raw score scale
+- RRF example: Doc A ranks 3rd in dense and 1st in sparse → high combined score; Doc B ranks 1st in dense and 8th in sparse → medium score
+- Re-ranking: retrieval is fast but approximate — the most relevant chunk might be at position 6, not position 1. Re-ranking is a second, slower, more accurate pass.
+- Re-ranking pipeline: millions of chunks → fast retrieval → top 20 candidates → cross-encoder re-ranker → top 3-5 sent to LLM
+- Cross-encoders: take query and chunk together as a single input, output a relevance score 0–1 — more accurate than embedding comparison because they see both texts simultaneously
+- Cross-encoder example: "NullPointerException in payment module?" scored against 4 chunks → correct chunk scores 0.94, wrong chunk that retrieval ranked 2nd scores 0.41 — re-ranking corrects the order
+- Popular re-ranking tools: Cohere Rerank, FlashRank, BGE Reranker
+- Hallucination: LLMs are trained to be helpful and fluent — when they don't know something they pattern-match to what sounds plausible and say it confidently instead of saying "I don't know"
+- RAG is fundamentally a grounding technique: retrieved chunks act as guardrails that anchor the LLM's answer to real source material
+- Grounding prompt pattern: "Answer ONLY using the information provided in the context below. If the answer is not present in the context, say: I don't have enough information to answer this."
+- Citation forcing: ask the model to quote the exact chunk it's answering from — if it can't point to a source, it can't answer
+- Explicitly tell the LLM it's allowed to say "I don't know" — by default, LLMs resist admitting ignorance because they're trained to be helpful
+- Faithfulness check: for high-stakes apps, run a second LLM call after the answer: "Does this answer contain any claims NOT supported by the provided context?" — tools like RAGAS and TruLens automate this with a faithfulness score
+- The full pipeline: embed documents → chunk with metadata → store in vector DB → hybrid retrieval → re-rank → grounded prompt → faithfulness check
+- Demo code: https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/06_retrieval_techniques.py and 07_hallucinations_grounding.py
