@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hitesh Pattanayak — Resume</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 11px;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.4;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #1e293b;
+      color: #fff;
+      padding: 18px 28px 14px;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    header .title {
+      font-size: 11.5px;
+      color: #94a3b8;
+      margin-top: 2px;
+      margin-bottom: 8px;
+    }
+
+    header .contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 10.5px;
+      color: #cbd5e1;
+    }
+
+    header .contact a { color: #93c5fd; text-decoration: none; }
+
+    /* ── Two-column body ── */
+    .body {
+      display: grid;
+      grid-template-columns: 1fr 2.2fr;
+      min-height: calc(100vh - 80px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: #f1f5f9;
+      padding: 16px 14px;
+      border-right: 1px solid #e2e8f0;
+    }
+
+    /* ── Main ── */
+    .main {
+      padding: 16px 20px;
+    }
+
+    /* ── Section titles ── */
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #475569;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+      margin-top: 14px;
+    }
+
+    .sidebar .section-title:first-child,
+    .main .section-title:first-child { margin-top: 0; }
+
+    /* ── Skills ── */
+    .skill-row { margin-bottom: 5px; }
+    .skill-label {
+      font-weight: 600;
+      font-size: 10px;
+      color: #334155;
+    }
+    .skill-values {
+      font-size: 10px;
+      color: #475569;
+    }
+
+    /* ── Education ── */
+    .edu-degree { font-weight: 600; font-size: 10.5px; }
+    .edu-school { font-size: 10px; color: #475569; }
+    .edu-date { font-size: 10px; color: #64748b; font-style: italic; }
+
+    /* ── Publications ── */
+    .pub-sub { font-weight: 600; font-size: 10px; color: #334155; margin: 6px 0 3px; }
+    .pub-item { font-size: 10px; margin-bottom: 3px; }
+    .pub-item a { color: #2563eb; text-decoration: none; }
+
+    /* ── Projects / AI ── */
+    .proj-item { margin-bottom: 5px; font-size: 10px; }
+    .proj-item strong { color: #1e293b; }
+
+    /* ── Community ── */
+    .community-item { font-size: 10px; margin-bottom: 4px; }
+    .community-item strong { color: #1e293b; }
+
+    /* ── Summary ── */
+    .summary { font-size: 10.5px; color: #334155; line-height: 1.5; margin-bottom: 2px; }
+
+    /* ── Experience ── */
+    .company-block { margin-bottom: 12px; }
+
+    .company-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1px;
+    }
+
+    .company-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .company-tenure {
+      font-size: 9.5px;
+      color: #64748b;
+      white-space: nowrap;
+    }
+
+    .company-note {
+      font-size: 9.5px;
+      color: #94a3b8;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+
+    .role-block { margin-bottom: 8px; padding-left: 8px; border-left: 2px solid #e2e8f0; }
+
+    .role-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3px;
+    }
+
+    .role-title {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #1e40af;
+    }
+
+    .role-date {
+      font-size: 9.5px;
+      color: #64748b;
+      white-space: nowrap;
+    }
+
+    .role-block ul {
+      padding-left: 12px;
+      list-style: disc;
+    }
+
+    .role-block ul li {
+      font-size: 10px;
+      color: #334155;
+      margin-bottom: 2px;
+      line-height: 1.4;
+    }
+
+    /* standalone company (non-Improving) */
+    .solo-company { margin-bottom: 10px; }
+
+    .solo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+
+    .solo-company-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .solo-date {
+      font-size: 9.5px;
+      color: #64748b;
+      white-space: nowrap;
+    }
+
+    .solo-role-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 3px;
+    }
+
+    .solo-company ul {
+      padding-left: 12px;
+      list-style: disc;
+    }
+
+    .solo-company ul li {
+      font-size: 10px;
+      color: #334155;
+      margin-bottom: 2px;
+      line-height: 1.4;
+    }
+
+    /* ── Open Source ── */
+    .oss-item { font-size: 10px; margin-bottom: 4px; }
+    .oss-item a { color: #2563eb; text-decoration: none; font-weight: 600; }
+
+    /* ── Print ── */
+    @media print {
+      body { font-size: 10.5px; }
+      @page { margin: 0; size: A4; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Hitesh Pattanayak</h1>
+  <div class="title">Senior Software Engineer &nbsp;|&nbsp; Backend Systems, Data Engineering &amp; AI</div>
+  <div class="contact">
+    <span>📧 <a href="mailto:pattanayak.hitesh03@gmail.com">pattanayak.hitesh03@gmail.com</a></span>
+    <span>📱 +91 9503955631</span>
+    <span>📍 Bhubaneswar, Odisha, India</span>
+    <span><a href="https://github.com/HiteshRepo">GitHub</a></span>
+    <span><a href="https://www.linkedin.com/in/hitesh-pattanayak/">LinkedIn</a></span>
+    <span><a href="https://hiteshpattanayak.info/">Portfolio</a></span>
+  </div>
+</header>
+
+<div class="body">
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar">
+
+    <div class="section-title">Technical Skills</div>
+
+    <div class="skill-row">
+      <div class="skill-label">Languages</div>
+      <div class="skill-values">Go, Python, TypeScript</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-label">Data Engineering</div>
+      <div class="skill-values">Databricks, Apache Spark, Delta Lake</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-label">Cloud &amp; Infrastructure</div>
+      <div class="skill-values">Kubernetes, Docker, Azure, AWS</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-label">Databases</div>
+      <div class="skill-values">CosmosDB (vector + relational), PostgreSQL, Elasticsearch</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-label">Protocols &amp; APIs</div>
+      <div class="skill-values">gRPC, REST, GraphQL, OpenAPI</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-label">Monitoring</div>
+      <div class="skill-values">OpenTelemetry, Kibana, Elastic Stack</div>
+    </div>
+    <div class="skill-row">
+      <div class="skill-label">AI &amp; LLM Integration</div>
+      <div class="skill-values">Azure OpenAI, Anthropic Claude API, RAG Pipelines, Vector Search, Embeddings, Few-Shot Prompting</div>
+    </div>
+
+    <div class="section-title">Education</div>
+    <div class="edu-degree">B.Tech — Electrical &amp; Electronics Engineering</div>
+    <div class="edu-school">GITA, Biju Patnaik University of Technology</div>
+    <div class="edu-date">March 2015</div>
+
+    <div class="section-title">Publications &amp; Speaking</div>
+
+    <div class="pub-sub">Books</div>
+    <div class="pub-item">
+      <a href="https://orangeava.in/products/ultimate-certified-kubernetes-application-developer-ckad-certification-guide">Ultimate CKAD Certification Guide</a>
+    </div>
+    <div class="pub-item">
+      <a href="https://orangeava.com/products/modern-api-design-with-grpc">Modern API Design with gRPC</a>
+    </div>
+
+    <div class="pub-sub">Conference Talks</div>
+    <div class="pub-item"><a href="https://www.youtube.com/watch?v=X8b-cxR-FxY">gRPC Load Balancing</a> — GopherCon 2023</div>
+    <div class="pub-item"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7078232488233373696">Microservice Communication using gRPC</a></div>
+
+    <div class="pub-sub">Technical Blogs</div>
+    <div class="pub-item"><a href="https://www.infracloud.io/blogs/provisioning-kubernetes-bare-metal-using-aws-eks-anywhere/">Bare metal K8s provisioning using AWS EKSA</a></div>
+    <div class="pub-item"><a href="https://www.infracloud.io/blogs/understanding-grpc-concepts-best-practices/">Understanding gRPC Concepts &amp; Best Practices</a></div>
+
+    <div class="section-title">Personal AI Projects</div>
+    <div class="proj-item"><strong>Status Updator</strong> — Scans JIRA, Confluence &amp; GitHub to auto-generate weekly summaries</div>
+    <div class="proj-item"><strong>Blog Generator</strong> — AI-powered workflow (Claude/OpenAI) from structured idea files</div>
+    <div class="proj-item"><strong>AI Chat Assistant</strong> — RAG-based assistant on personal blog using TF-IDF, Netlify Functions &amp; GPT-4o-mini</div>
+
+    <div class="section-title">Recognition</div>
+    <div class="community-item"><strong>AWS Community Builder</strong> (2023–2024)</div>
+
+    <div class="section-title">Open Source Contributions</div>
+    <div class="oss-item"><a href="https://github.com/aws/eks-anywhere/commits?author=HiteshRepo">AWS EKS Anywhere</a> — Kubernetes cluster lifecycle management</div>
+    <div class="oss-item"><a href="https://github.com/alcionai/corso/commits?author=HiteshRepo">Corso</a> — Microsoft 365 data protection</div>
+    <div class="oss-item"><a href="https://github.com/gptscript-ai/gptscript/pulls/HiteshRepo">GPTScript AI</a> — AI automation framework</div>
+
+  </aside>
+
+  <!-- ══════════════ MAIN ══════════════ -->
+  <main class="main">
+
+    <div class="section-title">Professional Summary</div>
+    <p class="summary">
+      Senior Software Engineer with 10+ years of experience building production-grade backend systems, data pipelines, and AI-integrated services across cloud-native and enterprise environments. Recent work bridges deep backend expertise with applied AI engineering — designing RAG pipelines, building LLM-powered developer tools, and processing petabyte-scale M365 data for an enterprise data protection platform. Core stack: Go, Python, Kubernetes, Azure.
+    </p>
+
+    <div class="section-title">Professional Experience</div>
+
+    <!-- Improving -->
+    <div class="company-block">
+      <div class="company-header">
+        <span class="company-name">Improving <span style="font-weight:400;font-size:10px;color:#64748b;">(formerly Infracloud Technologies)</span></span>
+        <span class="company-tenure">Aug 2022 – Present</span>
+      </div>
+      <div class="company-note">Infracloud Technologies was acquired by Improving in May 2025.</div>
+
+      <div class="role-block">
+        <div class="role-header">
+          <span class="role-title">Senior Data Engineer | M365 Data Intelligence Platform</span>
+          <span class="role-date">Jul 2025 – Present</span>
+        </div>
+        <ul>
+          <li>Architected end-to-end data pipeline infrastructure processing petabyte-scale M365 workload events using Databricks, Apache Spark, and Delta Lake</li>
+          <li>Implemented high-volume streaming data processing with Azure Event Hubs and Container Apps</li>
+          <li>Built Data Ingestion and Discovery services in Go, enabling real-time analytics and AI-enhanced search over M365 backup data</li>
+          <li>Designed RAG pipeline for semantic search — CosmosDB hybrid vector search, Azure OpenAI embeddings, and NL-to-metadata filter conversion via few-shot Chat Completions</li>
+          <li>Built Elastic dashboard changelog tool: diffs <code>.ndjson</code> files and generates human-readable changelogs via Anthropic API</li>
+          <li>Built AI-assisted security fix tool: reads Cycode findings and applies targeted, context-aware code fixes using LLMs</li>
+        </ul>
+      </div>
+
+      <div class="role-block">
+        <div class="role-header">
+          <span class="role-title">Senior Software Engineer | Enterprise Authentication &amp; User Management</span>
+          <span class="role-date">Nov 2024 – Jun 2025</span>
+        </div>
+        <ul>
+          <li>Developed user management microservice for an enterprise multi-tenant SaaS platform</li>
+          <li>Built REST APIs in Go (Chi + OpenAPI) serving thousands of users across multiple organizations</li>
+          <li>Integrated Auth0 with custom RBAC supporting 100+ permissions across Azure and Kubernetes workloads</li>
+          <li>Designed CosmosDB data layer with optimized partitioning strategies for query performance at scale</li>
+        </ul>
+      </div>
+
+      <div class="role-block">
+        <div class="role-header">
+          <span class="role-title">Software Engineer | M365 Data Protection SaaS (Corso)</span>
+          <span class="role-date">Jan 2024 – Oct 2024</span>
+        </div>
+        <ul>
+          <li>Engineered backend systems for a commercial SaaS control plane on the open-source Corso engine, serving enterprise customers with M365 backup, restore, and export</li>
+          <li>Developed CLI tooling and backend services for Exchange, OneDrive, SharePoint, and Teams</li>
+          <li>Implemented Microsoft Graph API integration and multi-backend storage support (S3, filesystem)</li>
+          <li>Built CI/CD pipeline and comprehensive test coverage for a production SaaS with paying enterprise customers</li>
+        </ul>
+      </div>
+
+      <div class="role-block">
+        <div class="role-header">
+          <span class="role-title">Software Engineer | Kubernetes Infrastructure &amp; Platform Engineering</span>
+          <span class="role-date">Aug 2022 – Dec 2023</span>
+        </div>
+        <ul>
+          <li>Built bare metal Kubernetes cluster provisioning platform with custom controllers and reconciliation logic</li>
+          <li>Developed bootstrap service for private client networks with centralized SaaS integration</li>
+          <li>Implemented bare metal provisioning using DHCP, TFTP, and Tinkerbell framework</li>
+          <li>Designed agent-based architecture for distributed bare metal cluster management</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Thoughtworks -->
+    <div class="solo-company">
+      <div class="solo-header">
+        <span class="solo-company-name">Thoughtworks</span>
+        <span class="solo-date">Oct 2021 – Jul 2022</span>
+      </div>
+      <div class="solo-role-label">Senior Consultant | High-Performance Financial Trading Platform</div>
+      <ul>
+        <li>Architected microservices-based cryptocurrency trading platform for Voyager Inc.</li>
+        <li>Engineered time-series data management with TimescaleDB and PostgreSQL for sub-millisecond query performance</li>
+        <li>Built event-driven architecture with Apache Kafka for real-time market data and order processing</li>
+        <li>Deployed production-grade observability with Datadog, achieving 99.9% uptime</li>
+      </ul>
+    </div>
+
+    <!-- Sureify -->
+    <div class="solo-company">
+      <div class="solo-header">
+        <span class="solo-company-name">Sureify</span>
+        <span class="solo-date">Aug 2020 – Sep 2021</span>
+      </div>
+      <div class="solo-role-label">Software Engineer | Visual Platform Development</div>
+      <ul>
+        <li>Developed visual configuration platform for insurance workflows with drag-and-drop functionality</li>
+        <li>Built responsive React frontend and Node.js backend APIs for workflow management</li>
+        <li>Implemented microservices architecture for scalability and enhanced user experience</li>
+      </ul>
+    </div>
+
+    <!-- Cognizant & Infosys -->
+    <div class="solo-company">
+      <div class="solo-header">
+        <span class="solo-company-name">Cognizant &amp; Infosys</span>
+        <span class="solo-date">Jan 2018 – Jul 2020</span>
+      </div>
+      <div class="solo-role-label">Software Developer</div>
+      <ul>
+        <li>Implemented RPA solutions and web applications for business process optimization</li>
+        <li>Built automated workflows for legacy enterprise system integration</li>
+      </ul>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
