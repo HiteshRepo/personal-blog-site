@@ -6,7 +6,7 @@ Senior Software Engineer | Data Engineering & Backend Systems
 📱 +91 9503955631  
 📍 Bhubaneswar, Odisha, India  
 🔗 [GitHub](https://github.com/HiteshRepo) | [LinkedIn](https://www.linkedin.com/in/hitesh-pattanayak/)  
-🌐 [Portfolio](https://hiteshpattanayak.info/)
+🌐 [Portfolio](https://hiteshpattanayak.com/)
 
 ---
 

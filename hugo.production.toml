@@ -1,4 +1,4 @@
-baseURL = 'https://hitesh-pattanayak.netlify.app/'
+baseURL = 'https://hiteshpattanayak.com/'
 languageCode = 'en-us'
 title = 'Hitesh Pattanayak'
 author = 'Hitesh Pattanayak'
@@ -17,7 +17,7 @@ weight = 15
 [params]
 pagetitle = "Portfolio"
 copyright = "© 2024-2026"
-copyrightUrl = "https://hitesh-pattanayak.netlify.app/"
+copyrightUrl = "https://hiteshpattanayak.com/"
 faviconfile = "image/favicon.png"
 logofile = "image/avatar.png"
 posts_navigation = true

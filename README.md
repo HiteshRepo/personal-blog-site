@@ -1,4 +1,4 @@
-# hiteshpattanayak.info
+# hiteshpattanayak.com
 
 Personal blog and portfolio site built with [Hugo](https://gohugo.io/), themed with
 [gohugo-theme-ananke](https://github.com/theNewDynamic/gohugo-theme-ananke), deployed on Netlify.

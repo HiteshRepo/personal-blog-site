@@ -24,7 +24,7 @@ import urllib.error
 import base64
 
 ROOT = pathlib.Path(__file__).parent.parent
-BASE_URL = "https://hiteshpattanayak.info"
+BASE_URL = "https://hiteshpattanayak.com"
 CONTENT_DIRS = [
     ("post", ROOT / "content" / "posts"),
     ("project", ROOT / "content" / "projects"),
