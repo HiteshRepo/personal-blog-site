@@ -32,9 +32,15 @@ def parse_ideas_file(filepath):
     images = []
     bullets = []
 
+    in_code_block = False
     for line in lines:
         stripped = line.strip()
-        if stripped.startswith("# "):
+        if stripped.startswith("```"):
+            in_code_block = not in_code_block
+            continue
+        if in_code_block:
+            continue
+        if stripped.startswith("# ") and title is None:
             title = stripped[2:].strip()
         elif re.match(r"^[-*]\s+type\s*:", stripped, re.IGNORECASE):
             post_type = stripped.split(":", 1)[1].strip().lower()
