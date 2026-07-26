@@ -140,6 +140,7 @@ Biju Patnaik University of Technology (BPUT), Bhubaneswar
 
 ## Personal AI Projects
 
+- **On-call Copilot**: Claude Code plugin system automating cloud infrastructure alert investigation — 30+ alert types, root cause analysis with evidence chain and remediation in under 2 minutes; two-layer architecture (platform data tools + domain investigation skills) over Elasticsearch, Databricks, Azure Data Explorer, and EventHub
 - **Status Updator**: Scans JIRA, Confluence, and GitHub repos to auto-generate weekly work summaries
 - **Blog Generator**: AI-powered blog generation workflow (Claude/OpenAI) from structured idea files
 - **AI Chat Assistant**: RAG-based conversational assistant on personal blog using TF-IDF retrieval, Netlify Functions, and OpenAI gpt-4o-mini
