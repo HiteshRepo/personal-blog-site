@@ -46,6 +46,7 @@ July 2025 - Present
 - Designed RAG pipeline for semantic search over M365 backup data — CosmosDB hybrid vector search, Azure OpenAI embeddings, and natural language to metadata filter conversion via few-shot Chat Completions
 - Built Elastic dashboard changelog tool: diffs unreadable `.ndjson` files and generates human-readable changelogs via Anthropic API
 - Built AI-assisted security fix tool: reads Cycode security findings and applies targeted, context-aware code fixes using LLMs
+- Built On-call Copilot — a Claude Code plugin system covering 30+ alert types across data pipeline services; an engineer pastes an alert URL and gets root cause analysis with remediation in under 2 minutes; achieved 100% team adoption
 
 #### Senior Software Engineer | Enterprise Authentication & User Management
 
@@ -140,7 +141,6 @@ Biju Patnaik University of Technology (BPUT), Bhubaneswar
 
 ## Personal AI Projects
 
-- **On-call Copilot**: Claude Code plugin system automating cloud infrastructure alert investigation — 30+ alert types, root cause analysis with evidence chain and remediation in under 2 minutes; two-layer architecture (platform data tools + domain investigation skills) over Elasticsearch, Databricks, Azure Data Explorer, and EventHub
 - **Status Updator**: Scans JIRA, Confluence, and GitHub repos to auto-generate weekly work summaries
 - **Blog Generator**: AI-powered blog generation workflow (Claude/OpenAI) from structured idea files
 - **AI Chat Assistant**: RAG-based conversational assistant on personal blog using TF-IDF retrieval, Netlify Functions, and OpenAI gpt-4o-mini
