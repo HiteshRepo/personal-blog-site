@@ -44,6 +44,7 @@ The standard merging strategy is **Reciprocal Rank Fusion (RRF)**. Instead of tr
 The formula is simple: for each document, sum `1 / (k + rank)` across all lists, where `k` is a constant (usually 60) that dampens the influence of top ranks.
 
 A concrete example:
+
 - **Doc A**: ranked 3rd in dense, ranked 1st in sparse → high combined RRF score
 - **Doc B**: ranked 1st in dense, ranked 8th in sparse → medium combined RRF score
 
@@ -97,6 +98,7 @@ Example with the query `"NullPointerException in payment module?"`:
 Re-ranking corrected the order. The chunk that actually answers the question was buried at position 3 after retrieval — after re-ranking, it's first.
 
 Popular tools for re-ranking:
+
 - **Cohere Rerank** — hosted API, easy to drop in
 - **FlashRank** — lightweight, runs locally, good for cost-sensitive setups
 - **BGE Reranker** — open-source, strong performance on technical content

@@ -112,6 +112,7 @@ The demo at [02_why_cosine.py](https://github.com/HiteshRepo/ai-practice-project
 ## Step-by-Step Intuition: Zero Words in Common, High Similarity
 
 Consider these two sentences:
+
 - "The dog ran"
 - "A canine was running"
 

@@ -19,4 +19,4 @@
 - Document-Aware / Structural Chunking: uses document structure (headers, sections) to define boundaries — perfect for well-structured docs like technical manuals or legal filings
 - The Chunking + Metadata Trick: always store metadata alongside each chunk — source file, page number, section — so retrieved chunks can be traced and cited
 - Bad chunking → bad retrieval → bad answers, even with an excellent LLM at the end of the pipeline
-- Demo code: https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/03_vector_db.py, 04_enn_vs_ann.py, 05_chunking_strategies.py
+- Demo code: <https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/03_vector_db.py>, 04_enn_vs_ann.py, 05_chunking_strategies.py

@@ -15,4 +15,4 @@
 - Real-world numbers: similarity between "I love dogs" and "I love dogs" = 1.0000, "I love dogs" and "I adore puppies" = 0.6831, "I love dogs" and "Stock markets fell" = 0.0197
 - In RAG systems, cosine similarity is used to compare a user's query vector against every stored document vector to find the most relevant chunks
 - Why this matters for RAG: the entire retrieval step depends on this similarity score being accurate — bad embeddings produce irrelevant retrievals regardless of how good the LLM is
-- Demo code: https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/01_cosine_similarity.py and 02_why_cosine.py
+- Demo code: <https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/01_cosine_similarity.py> and 02_why_cosine.py

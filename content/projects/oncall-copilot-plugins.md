@@ -1,7 +1,7 @@
 ---
 title: "On-call Copilot — Automated Alert Investigation with Claude Code Plugins"
-organization: "Personal Project"
-role: "AI Engineering"
+organization: "Improving"
+role: "Senior Data Engineer"
 startDate: "2026-04-01"
 techStack: ["Claude Code", "Anthropic Claude API", "Elasticsearch", "Databricks", "Azure Data Explorer", "Azure Event Hubs", "Pulumi ESC", "Go", "Python", "Shell", "incident.io"]
 featured: true
@@ -11,7 +11,7 @@ weight: 5
 
 ## Project Overview
 
-Built a two-layer Claude Code plugin system that automates on-call alert investigation for cloud data pipeline services. An on-call engineer pastes an incident.io alert URL into Claude Code and receives a complete investigation report — root cause, evidence chain, and recommended remediation — in under 2 minutes, without manually querying dashboards or log systems.
+Built as part of on-call operations for a cloud data pipeline platform, this two-layer Claude Code plugin system automates alert investigation end-to-end. An on-call engineer pastes an incident.io alert URL into Claude Code and receives a complete investigation report — root cause, evidence chain, and recommended remediation — in under 2 minutes, without manually querying dashboards or log systems. Achieved **100% adoption** within the team.
 
 The system covers 30+ distinct alert types across distributed data pipeline services including streaming ingestion, indexing jobs, REST APIs, EventHub, and Azure Data Explorer.
 

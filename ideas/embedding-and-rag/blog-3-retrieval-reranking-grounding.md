@@ -24,4 +24,4 @@
 - Explicitly tell the LLM it's allowed to say "I don't know" — by default, LLMs resist admitting ignorance because they're trained to be helpful
 - Faithfulness check: for high-stakes apps, run a second LLM call after the answer: "Does this answer contain any claims NOT supported by the provided context?" — tools like RAGAS and TruLens automate this with a faithfulness score
 - The full pipeline: embed documents → chunk with metadata → store in vector DB → hybrid retrieval → re-rank → grounded prompt → faithfulness check
-- Demo code: https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/06_retrieval_techniques.py and 07_hallucinations_grounding.py
+- Demo code: <https://github.com/HiteshRepo/ai-practice-projects/blob/main/embedding-and-rag/snippets/06_retrieval_techniques.py> and 07_hallucinations_grounding.py
