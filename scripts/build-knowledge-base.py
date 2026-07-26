@@ -161,7 +161,7 @@ def process_resume(filepath):
             "type": "resume",
             "slug": "resume",
             "title": "Hitesh Pattanayak — Resume",
-            "url": f"{BASE_URL}/resume/Hitesh-Pattanayak-Resume-2024.pdf",
+            "url": f"{BASE_URL}/resume/Hitesh-Pattanayak-Resume-2026.pdf",
             "text": chunk_content,
         })
 
