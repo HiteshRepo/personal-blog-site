@@ -11,7 +11,7 @@ I've been building [divvy-forge](https://github.com/HiteshRepo/divvy-forge) — 
 
 This post is a record of that setup — specifically the parts that aren't obvious from the docs.
 
-Demo video: *(coming soon)*
+Demo video: [Watch on YouTube](https://youtu.be/G1Mk_h8Cr9A)
 
 ---
 
