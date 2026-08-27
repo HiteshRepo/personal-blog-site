@@ -45,7 +45,7 @@ config/prompts/
     generate_diff.md             ← diff generation rules
 ```
 
-![config/prompts/ directory in the file tree](/images/divvy-forge-coordinator-evals/prompts-dir.png)
+![config/prompts/ directory showing all five prompt files alongside the evals/ directory structure](/images/divvy-forge-coordinator-evals/prompts-dir.png)
 
 The Python module (`coordinator_prompts.py`) is just a loader:
 
@@ -321,7 +321,7 @@ The test data was `[24, 22, 20, 18, 14]` — oldest first, latest last. The mode
 
 The prompt said "compare the most recent value against the 3-period average" — but said nothing about array order. The model's assumption (newest-first) is reasonable. The ambiguity was in the prompt.
 
-![promptfoo showing Case 2 failing with yield_trend=improving](/images/divvy-forge-coordinator-evals/eval-failure-dps-ordering.png)
+![promptfoo results table — ZEEL row shows yield_trend: "improving" where deteriorating was expected](/images/divvy-forge-coordinator-evals/eval-failure-dps-ordering.png)
 
 Fix: added one sentence to `fundamentals_subagent.md`:
 
@@ -349,9 +349,9 @@ makes the conclusion undetermined.
 
 After all three fixes: 5/5 on both suites.
 
-![promptfoo showing 5/5 pass on fundamentals subagent](/images/divvy-forge-coordinator-evals/eval-pass-fundamentals.png)
+![promptfoo showing 5 passed (100%) for the fundamentals subagent after all fixes](/images/divvy-forge-coordinator-evals/eval-pass-fundamentals.png)
 
-![promptfoo showing 5/5 pass on risk subagent](/images/divvy-forge-coordinator-evals/eval-pass-risk.png)
+![promptfoo showing 5 passed (100%) for the risk subagent](/images/divvy-forge-coordinator-evals/eval-pass-risk.png)
 
 ---
 
