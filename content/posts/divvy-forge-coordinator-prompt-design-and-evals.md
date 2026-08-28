@@ -2,7 +2,7 @@
 title: "Coordinator Prompt Design and Eval-Driven Verification (divvy-forge Part 3)"
 date: 2026-08-27
 summary: "How I designed the coordinator and subagent prompts for divvy-forge as versioned markdown files, embedded subagent instructions inline, defined strict output contracts, and used promptfoo evals to catch three real prompt bugs before a single live agent run."
-draft: true
+draft: false
 tags: ["ai-agents", "prompt-engineering", "promptfoo", "trueforge", "python", "divvy-forge", "llm-evals"]
 categories: []
 ---
@@ -11,7 +11,7 @@ This is part 3 of the divvy-forge series.
 [Part 1](https://hiteshpattanayak.com/posts/trueforge-daytona-setup-what-the-docs-miss/) covered TrueForge + Daytona setup.
 [Part 2](https://hiteshpattanayak.com/posts/building-mcp-tool-servers-for-a-dividend-review-agent-divvy-forge-part-2/) covered the MCP tool servers.
 
-Demo video: [Watch on YouTube](https://youtu.be/PLACEHOLDER)
+Demo video: [Watch on YouTube](https://youtu.be/wesYxuzt0h0)
 
 ---
 
