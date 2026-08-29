@@ -2,7 +2,7 @@
 title: "End-to-End Deployment and Live PR Generation (divvy-forge Part 4)"
 date: 2026-08-29T18:00:00-07:00
 summary: "The final part of the divvy-forge series: wiring TrueForge deployment, discovering the real agent manifest API through trial and error, fixing coordinator prompt flow so subagents run silently, and watching the agent open a real GitHub PR with coordinator reasoning, a unified diff, and subagent findings."
-draft: true
+draft: false
 ai_generated: true
 tags: ["ai-agents", "trueforge", "mcp", "python", "divvy-forge", "daytona", "prompt-engineering", "github"]
 categories: []
