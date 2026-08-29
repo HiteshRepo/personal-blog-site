@@ -81,7 +81,7 @@ And MCP server references are objects too, not strings:
 
 Once I had the right shapes, `make deploy` went green:
 
-<img src="/images/divvy-forge-e2e/trueforge-connectors.png" alt="TrueForge Connectors UI showing divvy-reader, github-pr-opener, and market-data-fetcher all Connected" style="max-width:100%; border-radius:6px; margin:1rem 0;">
+![TrueForge Connectors UI showing divvy-reader, github-pr-opener, and market-data-fetcher all Connected](/images/divvy-forge-e2e/trueforge-connectors.png)
 
 ## The Subagent Question
 
@@ -136,17 +136,17 @@ Each agent run creates a Daytona sandbox for code execution. The sandbox is wher
 
 The Daytona dashboard shows the sandboxes spinning up per run, auto-stopping after 5 minutes of inactivity:
 
-<img src="/images/divvy-forge-e2e/daytona-sandboxes.png" alt="Daytona dashboard showing multiple TrueForge-provisioned sandboxes in Stopped state" style="max-width:100%; border-radius:6px; margin:1rem 0;">
+![Daytona dashboard showing multiple TrueForge-provisioned sandboxes in Stopped state](/images/divvy-forge-e2e/daytona-sandboxes.png)
 
 Each sandbox is a container with 1 vCPU, 1 GiB RAM, and 3 GiB storage — just enough to run a Python script:
 
-<img src="/images/divvy-forge-e2e/daytona-sandbox-1.png" alt="Daytona sandbox details: 1 vCPU, 1 GiB RAM, 3 GiB, auto-stop 5m, python label" style="max-width:100%; border-radius:6px; margin:1rem 0;">
+![Daytona sandbox details: 1 vCPU, 1 GiB RAM, 3 GiB, auto-stop 5m, python label](/images/divvy-forge-e2e/daytona-sandbox-1.png)
 
 ## The Agent Flow
 
 With everything wired, a `make single TICKER=INFY` run produces this in TrueForge's UI:
 
-<img src="/images/divvy-forge-e2e/trueforge-agent-flow.png" alt="TrueForge agent steps: read_ticker, get_fundamentals, Sub-agent fundamentals-analysis, Sub-agent dividend-cut-risk, get_current_datetime — with coordinator-output JSON below" style="max-width:100%; border-radius:6px; margin:1rem 0;">
+![TrueForge agent steps: read_ticker, get_fundamentals, Sub-agent fundamentals-analysis, Sub-agent dividend-cut-risk, get_current_datetime — with coordinator-output JSON below](/images/divvy-forge-e2e/trueforge-agent-flow.png)
 
 Nine tool calls in total:
 
@@ -161,15 +161,15 @@ Nine tool calls in total:
 
 The batch runner parses the `coordinator-output` block and hands it to `github-pr-opener`. The result:
 
-<img src="/images/divvy-forge-e2e/pr-opened.png" alt="GitHub PR list showing 'Divvy Review: INFY (2026-08-29)' open" style="max-width:100%; border-radius:6px; margin:1rem 0;">
+![GitHub PR list showing Divvy Review: INFY (2026-08-29) open](/images/divvy-forge-e2e/pr-opened.png)
 
 The PR body has the coordinator's reasoning, the diff, and collapsed sections for each subagent's findings:
 
-<img src="/images/divvy-forge-e2e/pr-body.png" alt="PR body: Proposed Changes (Yield %, Date), Coordinator Reasoning citing payout ratio and FCF numbers, unified diff, Fundamentals Analysis, Dividend-Cut Risk Assessment sections" style="max-width:100%; border-radius:6px; margin:1rem 0;">
+![PR body showing Proposed Changes, Coordinator Reasoning, unified diff, and collapsed Fundamentals and Risk sections](/images/divvy-forge-e2e/pr-body.png)
 
 The diff itself is minimal — only the yield and date changed:
 
-<img src="/images/divvy-forge-e2e/pr-files-changed.png" alt="GitHub Files Changed: INFY yield updated from 3.50 to 4.50, date updated from 2025-08-25 to 2026-08-29" style="max-width:100%; border-radius:6px; margin:1rem 0;">
+![GitHub Files Changed: INFY yield updated from 3.50 to 4.50, date updated from 2025-08-25 to 2026-08-29](/images/divvy-forge-e2e/pr-files-changed.png)
 
 The coordinator's reasoning is traceable: "Dividend per share rose to 25.0 from a 3-period prior average of 22.0, which is +13.6% and meets the improving threshold. Payout ratio is 64.6% and free cash flow is positive at 3733000000.0, supporting a safe classification."
 
