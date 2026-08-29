@@ -21,6 +21,8 @@ The previous three posts built all the pieces: TrueForge and Daytona running loc
 
 It took more iteration than I expected. The TrueForge API has a few surprises.
 
+![divvy-forge architecture: batch_runner triggers a TrueForge session, the coordinator spawns two parallel subagents, merges their findings into a diff, and opens a GitHub PR](/images/divvy-forge-e2e/architecture.svg)
+
 ## What Deployment Means Here
 
 divvy-forge has no Kubernetes, no Docker Compose, no cloud deployment. "Deploy" means:
