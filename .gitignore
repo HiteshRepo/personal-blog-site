@@ -29,8 +29,6 @@ node_modules/
 resources/_gen/assets/ananke/css/main.css_*
 resources/_gen/assets/ananke/css/main.css_*.json
 
-# Generated knowledge base (built at deploy time)
-netlify/functions/knowledge-base.json
 
 # Archive directory for removed content
 archive/
