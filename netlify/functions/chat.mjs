@@ -263,6 +263,61 @@ async function* streamAnthropic(messages) {
   }
 }
 
+async function* streamGroq(messages) {
+  const client = new OpenAI({
+    apiKey: process.env.GROQ_API_KEY,
+    baseURL: "https://api.groq.com/openai/v1",
+  });
+  const stream = await client.chat.completions.create({
+    model: "llama-3.1-8b-instant",
+    messages,
+    stream: true,
+    temperature: 0.5,
+    max_tokens: 800,
+  });
+  for await (const chunk of stream) {
+    const text = chunk.choices[0]?.delta?.content || "";
+    if (text) yield text;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Provider cascade (primary → Groq fallback on billing/quota errors)
+// ---------------------------------------------------------------------------
+
+function isBillingError(err) {
+  const msg = (err?.message || err?.error?.message || String(err)).toLowerCase();
+  const status = err?.status ?? err?.statusCode ?? err?.response?.status;
+  return (
+    status === 402 ||
+    status === 529 ||
+    (status === 429 && (msg.includes("quota") || msg.includes("billing") || msg.includes("credit") || msg.includes("insufficient"))) ||
+    msg.includes("quota") ||
+    msg.includes("billing") ||
+    msg.includes("insufficient_quota") ||
+    msg.includes("credit balance")
+  );
+}
+
+async function* streamWithFallback(messages, provider) {
+  const primary = provider === "anthropic" ? streamAnthropic(messages) : streamOpenAI(messages);
+  try {
+    for await (const text of primary) {
+      yield text;
+    }
+    return;
+  } catch (err) {
+    const isQuota = isBillingError(err);
+    console.warn(`[chat] Primary provider (${provider}) failed — billing=${isQuota}:`, err?.message || err);
+    if (!isQuota || !process.env.GROQ_API_KEY) throw err;
+  }
+
+  console.info("[chat] Falling back to Groq");
+  for await (const text of streamGroq(messages)) {
+    yield text;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // CORS headers
 // ---------------------------------------------------------------------------
@@ -324,7 +379,7 @@ export default async (request) => {
   ];
 
   const provider = (process.env.AI_PROVIDER || "openai").toLowerCase();
-  const tokenStream = provider === "anthropic" ? streamAnthropic(messages) : streamOpenAI(messages);
+  const tokenStream = streamWithFallback(messages, provider);
 
   const encoder = new TextEncoder();
   const readable = new ReadableStream({
