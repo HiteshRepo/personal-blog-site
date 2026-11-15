@@ -2,7 +2,7 @@
 title: "Migrating from Google Photos to Self-Hosted Immich"
 date: 2026-11-15T16:30:00+05:30
 summary: "How to export your entire Google Photos library, import it into self-hosted Immich with automatic deduplication, and safely delete from Google — including the CLI version gotcha that silently fails all uploads."
-draft: true
+draft: false
 ai_generated: true
 tags: ["immich", "google-photos", "self-hosted", "privacy", "photo-management", "google-takeout"]
 categories: []
