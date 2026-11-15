@@ -166,6 +166,7 @@ function buildContext(chunks, timeline) {
     if (c.language) lines.push(`Primary language: ${c.language}`);
     if (c.topics && c.topics.length > 0) lines.push(`Topics: ${c.topics.join(", ")}`);
     if (c.description) lines.push(`Description: ${c.description}`);
+    if (c.date) lines.push(`Published: ${c.date}`);
     if (c.tags) lines.push(`Tags: ${c.tags.join(", ")}`);
     lines.push(`URL: ${c.url}`);
     lines.push(c.text);

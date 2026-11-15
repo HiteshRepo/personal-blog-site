@@ -124,6 +124,8 @@ def process_file(filepath, content_type):
         }
 
         if content_type == "post":
+            if meta.get("date"):
+                chunk["date"] = meta["date"][:10]  # keep YYYY-MM-DD only
             if meta.get("tags"):
                 chunk["tags"] = meta["tags"]
             if meta.get("categories"):
