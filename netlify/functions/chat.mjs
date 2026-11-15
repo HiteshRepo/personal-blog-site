@@ -391,8 +391,11 @@ export default async (request) => {
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
       } catch (err) {
         console.error("Stream error:", err?.message || err);
+        const userMsg = isBillingError(err)
+          ? "The AI assistant is temporarily unavailable (service limit reached). Please try again later."
+          : "Something went wrong. Please try again in a moment.";
         controller.enqueue(
-          encoder.encode(`data: ${JSON.stringify({ error: "Failed to get a response. Please try again." })}\n\n`)
+          encoder.encode(`data: ${JSON.stringify({ error: userMsg })}\n\n`)
         );
       }
       controller.close();

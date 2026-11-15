@@ -201,9 +201,10 @@
               try {
                 var parsed = JSON.parse(data);
                 if (parsed.error) {
-                  setStatus(parsed.error);
-                  streamBubble.remove();
+                  var errBubble = streamBubble.querySelector("span");
+                  errBubble.innerHTML = '<span style="color:#dc2626;">&#9888; ' + parsed.error + '</span>';
                   setLoading(false);
+                  inputEl.focus();
                   return;
                 }
                 if (parsed.text) {
