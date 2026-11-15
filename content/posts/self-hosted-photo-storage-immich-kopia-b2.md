@@ -2,7 +2,7 @@
 title: "The Complete Self-Hosted Photo Storage Stack: Immich + Kopia + Backblaze B2"
 date: 2026-11-15T17:30:00+05:30
 summary: "Replace Google Photos and iCloud with a fully self-hosted photo library on your own hardware — private, properly backed up, and feature-complete. This covers the full stack: Immich for the library, Kopia for backups, and Backblaze B2 for offsite storage."
-draft: true
+draft: false
 ai_generated: true
 tags: ["immich", "kopia", "backblaze", "self-hosted", "homelab", "k3s", "kubernetes", "photo-management", "backup", "privacy"]
 categories: []
