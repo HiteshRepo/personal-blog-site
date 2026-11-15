@@ -2,7 +2,7 @@
 title: "Self-Hosting Immich on K3s — The Hard Parts Nobody Talks About"
 date: 2026-11-15T16:00:00+05:30
 summary: "A practical guide to deploying Immich on a single-node k3s cluster with ArgoCD GitOps — covering six real production gotchas including AppArmor signal blocking, postgres initdb permissions, and MetalLB subnet mismatches."
-draft: true
+draft: false
 ai_generated: true
 tags: ["immich", "k3s", "kubernetes", "homelab", "self-hosted", "argocd", "postgres", "apparmor", "traefik", "metallb"]
 categories: []
