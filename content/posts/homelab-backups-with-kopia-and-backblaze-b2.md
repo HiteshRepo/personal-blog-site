@@ -2,7 +2,7 @@
 title: "Homelab Backups with Kopia and Backblaze B2"
 date: 2026-11-15T17:00:00+05:30
 summary: "Implementing a 3-2-1 backup strategy for a k3s homelab using Kopia for encryption and deduplication, Backblaze B2 for offsite storage, and a USB pendrive for local backup — including the gotchas around B2 free tier limits and the wrong way to sync repositories."
-draft: true
+draft: false
 ai_generated: true
 tags: ["kopia", "backblaze", "b2", "backup", "homelab", "kubernetes", "k3s", "self-hosted"]
 categories: []
