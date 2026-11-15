@@ -111,18 +111,37 @@ function scoreChunk(queryTokens, chunk) {
   return score;
 }
 
+const RECENCY_RE = /\b(latest|newest|recent|last|most recent)\b/i;
+
 const query = process.argv[2] || "what posts talk about ai?";
 const queryTokens = tokenize(query);
+const isRecencyQuery = RECENCY_RE.test(query);
 
 console.log(`Query: "${query}"`);
-console.log(`Tokens after stop-word filter: [${queryTokens.join(", ")}]\n`);
+console.log(`Tokens after stop-word filter: [${queryTokens.join(", ")}]`);
+console.log(`Recency query: ${isRecencyQuery}\n`);
 
-const scored = kb.chunks
-  .map((chunk) => ({ chunk, score: scoreChunk(queryTokens, chunk) }))
-  .sort((a, b) => b.score - a.score)
+const bestBySlug = new Map();
+for (const chunk of kb.chunks) {
+  const score = scoreChunk(queryTokens, chunk);
+  const existing = bestBySlug.get(chunk.slug);
+  if (!existing || score > existing.score) {
+    bestBySlug.set(chunk.slug, { chunk, score });
+  }
+}
+
+const scored = Array.from(bestBySlug.values())
+  .sort((a, b) => {
+    if (isRecencyQuery) {
+      const aDate = a.chunk.date || "";
+      const bDate = b.chunk.date || "";
+      if (aDate || bDate) return bDate.localeCompare(aDate);
+    }
+    return b.score - a.score;
+  })
   .slice(0, 8);
 
 console.log("Top 8 chunks:");
 scored.forEach(({ chunk, score }, i) => {
-  console.log(`  ${i + 1}. [score=${score.toFixed(5)}] [${chunk.type}] "${chunk.title}" (${chunk.url})`);
+  console.log(`  ${i + 1}. [score=${score.toFixed(5)}] [${chunk.type}] [date=${chunk.date || "none"}] "${chunk.title}"`);
 });

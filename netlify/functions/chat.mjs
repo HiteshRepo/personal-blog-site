@@ -122,9 +122,12 @@ function scoreChunk(queryTokens, chunk) {
   return score;
 }
 
+const RECENCY_RE = /\b(latest|newest|recent|last|most recent)\b/i;
+
 function retrieve(query, pageSlug, topK = 5) {
   const { chunks } = _kb;
   const queryTokens = tokenize(query);
+  const isRecencyQuery = RECENCY_RE.test(query);
 
   const bestBySlug = new Map();
   for (const chunk of chunks) {
@@ -139,6 +142,11 @@ function retrieve(query, pageSlug, topK = 5) {
   return Array.from(bestBySlug.values())
     .sort((a, b) => {
       if (a.isPriority !== b.isPriority) return a.isPriority ? -1 : 1;
+      if (isRecencyQuery) {
+        const aDate = a.chunk.date || "";
+        const bDate = b.chunk.date || "";
+        if (aDate || bDate) return bDate.localeCompare(aDate);
+      }
       return b.score - a.score;
     })
     .slice(0, topK)
